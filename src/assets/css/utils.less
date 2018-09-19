@@ -1,0 +1,17 @@
+.border-1px {
+  position: relative;
+}
+
+.border-1px:after {
+  content: '';
+  width: 200%;
+  height: 200%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid #dddddd;
+  border-radius: 4px;
+  -webkit-transform: scale(0.5,0.5);
+  transform: scale(0.5,0.5);
+  -webkit-transform-origin: top left;
+}
