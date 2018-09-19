@@ -37,6 +37,7 @@
     watch: {
       '$route' () {
         this.$nextTick(() => {
+
           // 重新计算容器内子元素的高度
           this.scroll.refresh();
         });

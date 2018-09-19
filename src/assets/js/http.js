@@ -4,7 +4,7 @@
  */
 import axios from 'axios';
 import NProgress from 'nprogress';
-const Notification = require('izitoast');
+import Notification from './notification';
 
 // 请求发送拦截
 axios.interceptors.request.use(function (config) {
@@ -39,26 +39,22 @@ export default function http (config) {
 
     axios(axiosConfig).then(function (response) {
 
+      const data = response.data;
+
       NProgress.done();
 
-      if (response.data.code !== 0) {
+      if (data.code !== 0) {
         if (config.hasWarning) {
-          Notification.show({
-            title: 'Error',
-            message: response.data.message
-          });
+          Notification.error(data.message);
         }
-        reject(response.data.error_message);
+        reject(data.message);
       } else {
-        resolve(response.data);
+        resolve(data);
       }
     }).catch(function (error) {
 
       if (config.hasWarning) {
-        Notification.show({
-          title: 'Hey',
-          message: 'What would you like to add?'
-        });
+        Notification.error(error.message);
       }
       reject(error);
     });

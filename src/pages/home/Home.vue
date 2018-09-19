@@ -15,6 +15,12 @@
     export default {
       components: {
         LinkItem
+      },
+      mounted () {
+        this.http({
+          url: '/dvfdb',
+          hasWarning: true
+        });
       }
     };
 </script>
