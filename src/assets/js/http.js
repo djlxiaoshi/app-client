@@ -31,7 +31,6 @@ export default function http (config) {
   // 设置请求参数
   axiosConfig.method === 'get' ? axiosConfig.params = config.data : axiosConfig.data = config.data;
 
-  console.log(axiosConfig);
   return new Promise((resolve, reject) => {
 
     // 开启滚动条
@@ -49,7 +48,7 @@ export default function http (config) {
         }
         reject(data.message);
       } else {
-        resolve(data);
+        resolve(data.data);
       }
     }).catch(function (error) {
 

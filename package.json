@@ -16,6 +16,7 @@
     "amfe-flexible": "^2.2.1",
     "axios": "^0.18.0",
     "better-scroll": "^1.12.6",
+    "cube-ui": "^1.10.14",
     "izitoast": "^1.4.0",
     "nprogress": "^0.2.0",
     "px2rem-loader": "^0.1.9",
@@ -71,7 +72,11 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^2.1.1",
+    "webpack-post-compile-plugin": "^0.4.1",
+    "webpack-transform-modules-plugin": "^0.3.5"
   },
   "engines": {
     "node": ">= 6.0.0",
@@ -81,5 +86,11 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "transformModules": {
+    "cube-ui": {
+      "transform": "cube-ui/src/modules/${member}",
+      "kebabCase": true
+    }
+  }
 }
