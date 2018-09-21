@@ -25,11 +25,14 @@ export default function http (config) {
   const axiosConfig = {
     method: config.method || 'get',
     url: config.url,
-    withCredentials: config.withCredentials || true
+    withCredentials: config.withCredentials || true,
+    headers: {'Content-Type': 'application/json'}
   };
 
   // 设置请求参数
-  axiosConfig.method === 'get' ? axiosConfig.params = config.data : axiosConfig.data = config.data;
+  axiosConfig.method === 'get'
+    ? axiosConfig.params = JSON.stringify(config.data)
+    : axiosConfig.data = config.data;
 
   return new Promise((resolve, reject) => {
 

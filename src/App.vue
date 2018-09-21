@@ -36,8 +36,7 @@
     flex-direction: column;
     .app-body-wrap {
       box-sizing: border-box;
-      margin-top: 40px;
-      height: calc(100vh - 100px);
+      height: calc(100vh - 60px);
     }
     .app-footer-wrap {
       height: 60px;

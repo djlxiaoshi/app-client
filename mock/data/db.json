@@ -6,9 +6,7 @@
       "url": "http://djl.pub",
       "source": "个人网站",
       "time": "2018-9-19",
-      "tags": [
-        "Javascript"
-      ]
+      "tags": ["Javascript"]
     },
     {
       "id": "3646653878",
@@ -16,9 +14,7 @@
       "url": "http://djl.pub",
       "source": "个人网站",
       "time": "2018-9-19",
-      "tags": [
-        "Javascript"
-      ]
+      "tags": ["Javascript"]
     },
     {
       "id": "3646653577",
@@ -26,9 +22,7 @@
       "url": "http://djl.pub",
       "source": "个人网站",
       "time": "2018-9-19",
-      "tags": [
-        "Javascript"
-      ]
+      "tags": ["Javascript"]
     },
     {
       "id": "3646653857",
@@ -36,9 +30,7 @@
       "url": "http://djl.pub",
       "source": "个人网站",
       "time": "2018-9-19",
-      "tags": [
-        "Javascript"
-      ]
+      "tags": ["Javascript"]
     },
     {
       "id": "3646453877",
@@ -46,22 +38,7 @@
       "url": "http://djl.pub",
       "source": "个人网站",
       "time": "2018-9-19",
-      "tags": [
-        "Javascript"
-      ]
-    },
-    {
-      "id": "95ciynX"
-    },
-    {
-      "title": "json-server",
-      "url": "http://djl.pub",
-      "source": "个人网站",
-      "time": "2018-9-19",
-      "tags": [
-        "Javascript"
-      ],
-      "id": "QwBrqVg"
+      "tags": ["Javascript"]
     }
   ]
 }

@@ -1,6 +1,9 @@
 <template>
     <section class="home-page">
-      <header class="home-header border-1px">我的书签</header>
+      <header class="home-header">
+        <span>我的书签</span>
+        <div class="add-btn" @click="addItem">添加</div>
+      </header>
       <div class="home-body">
         <cube-scroll
           ref="scroll">
@@ -23,23 +26,29 @@
         </cube-scroll>
 
       </div>
+
+      <add-item @swipe-back="back" v-show="showSwipePage"></add-item>
     </section>
 </template>
 
 <script>
   import LinkItem from './link-item/LinkItem';
+  import AddItem from './swipe-page/AddSwipePage';
+
     export default {
       components: {
-        LinkItem
+        LinkItem,
+        AddItem
       },
       data () {
         return {
           favoriteList: [],
           activeIndex: -1,
+          showSwipePage: false,
           btns: [
             {
-              action: 'clear',
-              text: '不再关注',
+              action: 'share',
+              text: '分享',
               color: '#c8c7cd'
             },
             {
@@ -62,6 +71,7 @@
         }
       },
       methods: {
+
         /**
          * 获取收藏的链接列表
          */
@@ -73,8 +83,22 @@
             this.favoriteList = data;
           });
         },
+        deleteItem (id) {
+          this.$http({
+            url: '/favorite/' + id,
+            method: 'delete',
+            hasWarning: true
+          }).then(result => {
+            this.getData();
+          });
+        },
+        addItem () {
+          this.showSwipePage = true;
+        },
+        back () {
+          this.showSwipePage = false;
+        },
         onItemClick (item) {
-          debugger;
           console.log('click item:', item);
         },
         onBtnClick (btn, index) {
@@ -86,7 +110,7 @@
                 {content: '删除'}
               ],
               onSelect: () => {
-                this.favoriteList.splice(index, 1);
+                this.deleteItem(this.favoriteList[index].id);
               }
             }).show();
           } else {
@@ -109,17 +133,23 @@
 
 <style scoped lang="less">
   .home-page {
+    position: relative;
     .home-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      display: flex;
+      align-items: center;
+      margin: 0 10px;
       height: 40px;
-      z-index: 1000;
       text-align: center;
-      line-height: 40px;
       font-size: 20px;
       font-weight: 700;
+      .add-btn {
+        margin-left: auto;
+        padding: 5px 10px;
+        line-height: 1;
+        border-radius: 30px;
+        border: 1px solid #dddddd;
+        font-size: 14px;
+      }
     }
     .home-body {
       height: calc(100vh - 100px);

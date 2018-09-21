@@ -10,4 +10,4 @@ export function formatData (params) {
     queryStrArr.push(queryStr);
   });
   return queryStrArr.join('&');
-};
+}
