@@ -5,6 +5,8 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 var PostCompilePlugin = require('webpack-post-compile-plugin')
 var TransformModulesPlugin = require('webpack-transform-modules-plugin')
+var DashboardPlugin = require('webpack-dashboard/plugin');
+var webpack = require('webpack');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -28,13 +30,17 @@ module.exports = {
   },
   output: {
     path: config.build.assetsRoot,
-    filename: '[name].js',
+    filename: '[name].[hash].js',
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
+    modules: [
+      resolve('src'),
+      resolve('node_modules')
+    ],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
@@ -42,7 +48,12 @@ module.exports = {
   },
   plugins: [
     new PostCompilePlugin(),
-    new TransformModulesPlugin()
+    new TransformModulesPlugin(),
+    new DashboardPlugin(),
+    new webpack.DllReferencePlugin({
+      context: './',
+      manifest: require('./lib-manifest.json')
+    })
   ],
   module: {
     rules: [
@@ -50,7 +61,8 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        options: vueLoaderConfig,
+        include: [resolve('src'), resolve('test')]
       },
       {
         test: /\.js$/,
@@ -63,7 +75,8 @@ module.exports = {
         options: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
-        }
+        },
+        include: [resolve('src')]
       },
       {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
@@ -71,7 +84,8 @@ module.exports = {
         options: {
           limit: 10000,
           name: utils.assetsPath('media/[name].[hash:7].[ext]')
-        }
+        },
+        include: [resolve('src')]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
@@ -85,7 +99,8 @@ module.exports = {
         test: /\.css$/,
         include: [
           /src/,//表示在src目录下的css需要编译
-          '/node_modules/izitoast/dist/css'   //增加此项
+          '/node_modules/izitoast/dist/css',   //增加此项
+          // '/node_modules/element-ui/lib/theme-chalk/index.css'
         ],
         loader: 'style-loader!css-loader'
       }

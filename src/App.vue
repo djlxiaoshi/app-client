@@ -1,17 +1,20 @@
 <template>
   <div id="app">
+    <div class="app-header-wrap">
+      <app-header></app-header>
+    </div>
     <div class="app-body-wrap">
         <router-view></router-view>
     </div>
     <div class="app-footer-wrap">
-      <app-footer></app-footer>
+
     </div>
   </div>
 </template>
 
 <script>
-  import AppHeader from './components/core/header/AppHeader';
-  import AppFooter from './components/core/footer/AppFooter';
+  import AppHeader from './pages/core/header/AppHeader';
+  import AppFooter from './pages/core/footer/AppFooter';
 
   export default {
     name: 'App',
@@ -21,7 +24,6 @@
     },
     data () {
       return {
-        scroll
       };
     },
     mounted () {
@@ -34,14 +36,16 @@
   #app {
     display: flex;
     flex-direction: column;
-    .app-body-wrap {
-      box-sizing: border-box;
-      height: calc(100vh - 60px);
-    }
-    .app-footer-wrap {
+    .app-header-wrap {
       height: 60px;
       box-sizing: border-box;
-      border-top: 1px solid #dddddd;
+      background: #545c64; // 主题
+    }
+    .app-body-wrap {
+
+    }
+    .app-footer-wrap {
+
     }
   }
 </style>

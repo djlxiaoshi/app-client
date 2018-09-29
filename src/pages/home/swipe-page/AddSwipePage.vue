@@ -2,14 +2,7 @@
   <transition name="page-move">
     <cube-page title="添加" v-on="$listeners">
       <div slot="content">
-        <cube-form :model="model" @validate="validateHandler" @submit="submitHandler">
-          <cube-form-group>
-            <cube-form-item v-for="(field, index) in fields" :field="field" :key="index"></cube-form-item>
-          </cube-form-group>
-          <cube-form-group>
-            <cube-button type="submit">Submit</cube-button>
-          </cube-form-group>
-        </cube-form>
+
       </div>
     </cube-page>
   </transition>

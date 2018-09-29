@@ -59,8 +59,6 @@
     }
     > .page-body {
       height: calc(100vh - 40px);
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
     }
   }
 </style>

@@ -28,5 +28,9 @@ export default [
     icon: 'icon-wo',
     label: '我',
     component: AboutMe
+  },
+  {
+    path: '**',
+    redirect: '/home'
   }
 ];

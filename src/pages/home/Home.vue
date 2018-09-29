@@ -5,46 +5,31 @@
         <div class="add-btn" @click="addItem">添加</div>
       </header>
       <div class="home-body">
-        <cube-scroll
-          ref="scroll">
-          <div class="link-wrap">
-            <cube-swipe @item-click="onItemClick">
-              <transition-group name="swipe" tag="ul">
-                <li class="swipe-item-wrapper" v-for="(data,index) in favoriteList" :key="data.id">
-                  <cube-swipe-item
-                    ref="swipeItem"
-                    :btns="btns"
-                    :index="index"
-                    @btn-click="onBtnClick"
-                    @active="onItemActive">
-                    <link-item :data="data" :key="index"></link-item>
-                  </cube-swipe-item>
-                </li>
-              </transition-group>
-            </cube-swipe>
-          </div>
-        </cube-scroll>
-
+        <link-item></link-item>
       </div>
 
-      <add-item @swipe-back="back" v-show="showSwipePage"></add-item>
+      <swipe-page @swipe-back="back" v-show="showSwipePage"></swipe-page>
+
     </section>
 </template>
 
 <script>
   import LinkItem from './link-item/LinkItem';
-  import AddItem from './swipe-page/AddSwipePage';
+  import SwipePage from './swipe-page/AddSwipePage';
+  import PreviewPage from '@/components/common/preview-page/PreviewPage';
 
     export default {
       components: {
         LinkItem,
-        AddItem
+        SwipePage,
+        PreviewPage
       },
       data () {
         return {
           favoriteList: [],
           activeIndex: -1,
           showSwipePage: false,
+          previewUrl: '',
           btns: [
             {
               action: 'share',
@@ -98,8 +83,8 @@
         back () {
           this.showSwipePage = false;
         },
-        onItemClick (item) {
-          console.log('click item:', item);
+        onItemClick (item, index) {
+          window.location.href = item.url;
         },
         onBtnClick (btn, index) {
           if (btn.action === 'delete') {
@@ -116,16 +101,6 @@
           } else {
             this.$refs.swipeItem[index].shrink();
           }
-        },
-        onItemActive (index) {
-          if (index === this.activeIndex) {
-            return;
-          }
-          if (this.activeIndex !== -1) {
-            const activeItem = this.$refs.swipeItem[this.activeIndex];
-            activeItem.shrink();
-          }
-          this.activeIndex = index;
         }
       }
     };

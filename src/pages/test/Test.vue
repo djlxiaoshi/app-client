@@ -1,40 +1,27 @@
 <template>
-  <div class="wrapper">
-    <div class="box1"></div>
-    <div class="box2"></div>
-    <div class="box3"></div>
-    <div class="box4"></div>
-    <div class="box5"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-sm-12">
+        One of three columns
+      </div>
+      <div class="col-lg-3 col-sm-12">
+        One of three columns
+      </div>
+      <div class="col-lg-6 col-sm-12">
+        One of three columns
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-    export default {
-    };
+  export default {
+
+  };
 </script>
 
-<style scoped>
-  .wrapper div {
-    height: 1rem;
-  }
-  .box1 {
-    width: 2rem;
-    background-color: coral;
-  }
-  .box2 {
-    width: 4rem;
-    background-color: skyblue;
-  }
-  .box3 {
-    width: 6rem;
-    background-color: palegreen;
-  }
-  .box4 {
-    width: 8rem;
-    background-color: wheat;
-  }
-  .box5 {
-    width: 10rem;
-    background-color: darkred;
+<style scoped lang="less">
+  .wrapper {
+
   }
 </style>
