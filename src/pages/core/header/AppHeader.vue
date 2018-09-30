@@ -35,31 +35,47 @@
     <el-row type="flex" align="middle" class="hidden-sm-and-up">
       <el-col :span="6">
         <div class="menu-col">
-          <i class="iconfont icon-menu"></i>
+          <i class="iconfont icon-menu" @click="showSideMenu"></i>
         </div>
       </el-col>
       <el-col :span="12">
-        dfh
+        <div class="app-name">
+          简藏
+        </div>
       </el-col>
       <el-col :span="6">
-        dhf
+        <div class="header-login">
+          <a>登录</a>
+          <a>注册</a>
+        </div>
       </el-col>
     </el-row>
+
+    <side-menu ref="sideMenu" v-if="sideMenuVisible"></side-menu>
   </header>
+
 
 </template>
 
 <script>
+  import SideMenu from '../side-menu/SideMenu';
   export default {
+    components: {
+      SideMenu
+    },
     data () {
       return {
         activeIndex: '1',
-        searchText: ''
+        searchText: '',
+        sideMenuVisible: false
       };
     },
     methods: {
       handleSelect (key, keyPath) {
         console.log(key, keyPath);
+      },
+      showSideMenu () {
+        this.sideMenuVisible  = true;
       }
     }
   };
@@ -94,6 +110,13 @@
           font-size: 24px !important;
           cursor: pointer;
         }
+      }
+      .app-name {
+        text-align: center;
+      }
+      .header-login {
+        text-align: center;
+        cursor: pointer;
       }
     }
   }
