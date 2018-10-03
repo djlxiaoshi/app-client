@@ -1,35 +1,49 @@
 <template>
   <transition name="page-move">
     <el-menu
-      :default-active="activeIndex"
+      :router="true"
+      :default-active="activeMenu"
       class="side-menu"
       @select="handleSelect"
-      background-color="#545c64"
-      text-color="#fff"
       active-text-color="#ffd04b">
-      <el-menu-item index="1">我的书签</el-menu-item>
-      <el-menu-item index="2">热门收藏</el-menu-item>
+      <el-menu-item :index="menu.path" v-for="(menu, index) in menuConfig" :key="index">
+        {{ menu.label }}
+      </el-menu-item>
     </el-menu>
   </transition>
 </template>
 
 <script>
-    export default {
+  import { mapState, mapMutations } from 'vuex';
+  import { ACTIVE_MENU } from '../../../store/mutation-types';
+  import menuConfig from '../../../router/menu';
+
+  export default {
       name: 'side-menu',
       data () {
         return {
-          activeIndex: '1'
+          menuConfig
         };
       },
-      methods: {
-        handleSelect () {}
+    computed: {
+      ...mapState([
+        'activeMenu'
+      ])
+    },
+    methods: {
+      ...mapMutations({
+        'setActiveMenu': ACTIVE_MENU
+      }),
+      handleSelect (key) {
+        this.setActiveMenu(key);
       }
+    }
     };
 </script>
 
 <style scoped lang="less">
   .page-move-enter, .page-move-leave-active {
-    transform: translate( 0, 100%)
+    transform: translate(-100%, 0 )
   }
   .page-move-enter-active, .page-move-leave-active {
     transition: transform .3s

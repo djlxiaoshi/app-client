@@ -3,15 +3,17 @@
     <el-row type="flex" align="middle" class="hidden-xs-only">
       <el-col  :span="14">
         <el-menu
-          :default-active="activeIndex"
+          :router="true"
+          :default-active="activeMenu"
           class="header-menu"
           mode="horizontal"
           @select="handleSelect"
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b">
-          <el-menu-item index="1">我的书签</el-menu-item>
-          <el-menu-item index="2">热门收藏</el-menu-item>
+          <el-menu-item :index="menu.path" v-for="(menu, index) in menuConfig" :key="index">
+            {{ menu.label }}
+          </el-menu-item>
         </el-menu>
       </el-col>
       <el-col :span="8">
@@ -35,7 +37,7 @@
     <el-row type="flex" align="middle" class="hidden-sm-and-up">
       <el-col :span="6">
         <div class="menu-col">
-          <i class="iconfont icon-menu" @click="showSideMenu"></i>
+          <i class="iconfont" :class="menuClass" @click="toggleSideMenu"></i>
         </div>
       </el-col>
       <el-col :span="12">
@@ -50,32 +52,45 @@
         </div>
       </el-col>
     </el-row>
-
-    <side-menu ref="sideMenu" v-if="sideMenuVisible"></side-menu>
   </header>
-
 
 </template>
 
 <script>
-  import SideMenu from '../side-menu/SideMenu';
+  import { mapState, mapMutations } from 'vuex';
+  import { TOGGLE_SIDE_MENU_VISIBLE, ACTIVE_MENU } from '../../../store/mutation-types';
+  import menuConfig from '../../../router/menu';
   export default {
     components: {
-      SideMenu
     },
     data () {
       return {
-        activeIndex: '1',
         searchText: '',
-        sideMenuVisible: false
+        menuConfig
       };
     },
+    created () {
+
+    },
+    computed: {
+      ...mapState([
+        'sideMenuVisible',
+        'activeMenu'
+      ]),
+      menuClass () {
+        return this.sideMenuVisible ? 'icon-x' : 'icon-menu';
+      }
+    },
     methods: {
-      handleSelect (key, keyPath) {
-        console.log(key, keyPath);
+      ...mapMutations({
+        'toggleSideMenuVisible': TOGGLE_SIDE_MENU_VISIBLE,
+        'setActiveMenu': ACTIVE_MENU
+      }),
+      handleSelect (key) {
+        this.setActiveMenu(key);
       },
-      showSideMenu () {
-        this.sideMenuVisible  = true;
+      toggleSideMenu () {
+        this.toggleSideMenuVisible(!this.sideMenuVisible);
       }
     }
   };

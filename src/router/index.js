@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import FooterRoute from './footer.route';
+import MenuRoute from './menu';
 import Test from '@/pages/test/Test';
 
 Vue.use(Router);
@@ -12,8 +12,13 @@ const commonRoute = [
     component: Test
   }
 ];
-const routes = commonRoute.concat(FooterRoute);
+const routes = commonRoute.concat(MenuRoute);
 
-export default new Router({
+const router = new Router({
   routes: routes
 });
+
+// router.beforeEach((to, from, next) => {
+// });
+
+export default router;
