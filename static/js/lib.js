@@ -25696,7 +25696,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 	// Default settings
 	var defaults = {
-		id: null, 
+		id: null,
 		class: '',
 		title: '',
 		titleColor: '',
@@ -25881,16 +25881,16 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 	 * @private
 	 */
 	var drag = function() {
-	    
+
 	    return {
 	        move: function(toast, instance, settings, xpos) {
 
 	        	var opacity,
 	        		opacityRange = 0.3,
 	        		distance = 180;
-	            
+
 	            if(xpos !== 0){
-	            	
+
 	            	toast.classList.add(PLUGIN_NAME+'-dragged');
 
 	            	toast.style.transform = 'translateX('+xpos + 'px)';
@@ -25907,7 +25907,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 						}
 		            }
 					toast.style.opacity = opacity;
-			
+
 					if(opacity < opacityRange){
 
 						if(ISCHROME || ISFIREFOX)
@@ -25919,7 +25919,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 					}
 	            }
 
-				
+
 	        },
 	        startMoving: function(toast, instance, settings, e) {
 
@@ -25968,7 +25968,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 				toast.style.transform = '';
 
 	            if(toast.classList.contains(PLUGIN_NAME+'-dragged')){
-	            	
+
 	            	toast.classList.remove(PLUGIN_NAME+'-dragged');
 
 					toast.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
@@ -26103,7 +26103,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 							}
 						}
 
-					}, settings.timeout);			
+					}, settings.timeout);
 		        	that.setSetting(ref, 'time', settings.time);
 	        	}
 	        },
@@ -26124,12 +26124,12 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 							propertyWidth = computedStyle.getPropertyValue('width');
 
 						$elem.style.transition = 'none';
-						$elem.style.width = propertyWidth;					
+						$elem.style.width = propertyWidth;
 					}
 
 					if(typeof callback === 'function'){
 						setTimeout(function() {
-							callback.apply(that);						
+							callback.apply(that);
 						}, 10);
 					}
         		}
@@ -26186,7 +26186,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 				if(typeof callback === 'function'){
 					setTimeout(function() {
-						callback.apply(that);						
+						callback.apply(that);
 					}, 10);
 				}
 	        }
@@ -26204,7 +26204,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 		if(typeof $toast != 'object'){
 			$toast = document.querySelector($toast);
-		}		
+		}
 
 		var that = this,
 			settings = extend(this.children[$toast.getAttribute('data-iziToast-ref')], options || {});
@@ -26219,12 +26219,12 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 			var $overlay = document.querySelector('.'+PLUGIN_NAME+'-overlay');
 			if($overlay !== null){
-				var refs = $overlay.getAttribute('data-iziToast-ref');		
+				var refs = $overlay.getAttribute('data-iziToast-ref');
 					refs = refs.split(',');
 				var index = refs.indexOf(String(settings.ref));
 
 				if(index !== -1){
-					refs.splice(index, 1);			
+					refs.splice(index, 1);
 				}
 				$overlay.setAttribute('data-iziToast-ref', refs.join());
 
@@ -26241,7 +26241,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 		if(settings.transitionIn){
 			$toast.classList.remove(settings.transitionIn);
-		} 
+		}
 
 		if(settings.transitionInMobile){
 			$toast.classList.remove(settings.transitionInMobile);
@@ -26257,7 +26257,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 		var H = $toast.parentNode.offsetHeight;
 				$toast.parentNode.style.height = H+'px';
 				$toast.style.pointerEvents = 'none';
-		
+
 		if(!ISMOBILE || window.innerWidth > MOBILEWIDTH){
 			$toast.parentNode.style.transitionDelay = '0.2s';
 		}
@@ -26270,12 +26270,12 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 		}
 
 		setTimeout(function() {
-			
+
 			$toast.parentNode.style.height = '0px';
 			$toast.parentNode.style.overflow = '';
 
 			setTimeout(function(){
-				
+
 				delete that.children[settings.ref];
 
 				$toast.parentNode.remove();
@@ -26409,7 +26409,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 			}
 
 			if(settings.color) { //#, rgb, rgba, hsl
-				
+
 				if( isColor(settings.color) ){
 					$DOM.toast.style.background = settings.color;
 				} else {
@@ -26420,7 +26420,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 			if(settings.backgroundColor) {
 				$DOM.toast.style.background = settings.backgroundColor;
 				if(settings.balloon){
-					$DOM.toast.style.borderColor = settings.backgroundColor;				
+					$DOM.toast.style.borderColor = settings.backgroundColor;
 				}
 			}
 		})();
@@ -26440,7 +26440,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 				if(settings.rtl){
 					$DOM.toastBody.style.marginRight = (settings.imageWidth + 10) + 'px';
 				} else {
-					$DOM.toastBody.style.marginLeft = (settings.imageWidth + 10) + 'px';				
+					$DOM.toastBody.style.marginLeft = (settings.imageWidth + 10) + 'px';
 				}
 				$DOM.toast.appendChild($DOM.cover);
 			}
@@ -26449,7 +26449,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 		// Button close
 		(function(){
 			if(settings.close){
-				
+
 				$DOM.buttonClose = document.createElement('button');
 				$DOM.buttonClose.type = 'button';
 				$DOM.buttonClose.classList.add(PLUGIN_NAME + '-close');
@@ -26482,7 +26482,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 			if(settings.timeout) {
 
 				if(settings.pauseOnHover && !settings.resetOnHover){
-					
+
 					$DOM.toast.addEventListener('mouseenter', function (e) {
 						that.progress(settings, $DOM.toast).pause();
 					});
@@ -26513,14 +26513,14 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 			} else if(settings.icon) {
 				$DOM.icon.setAttribute('class', PLUGIN_NAME + '-icon ' + settings.icon);
-				
+
 				if(settings.iconText){
 					$DOM.icon.appendChild(document.createTextNode(settings.iconText));
 				}
-				
+
 				if(settings.iconColor){
 					$DOM.icon.style.color = settings.iconColor;
-				}				
+				}
 			}
 
 			if(settings.icon || settings.iconUrl) {
@@ -26528,7 +26528,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 				if(settings.rtl){
 					$DOM.toastBody.style.paddingRight = '33px';
 				} else {
-					$DOM.toastBody.style.paddingLeft = '33px';				
+					$DOM.toastBody.style.paddingLeft = '33px';
 				}
 
 				$DOM.toastBody.appendChild($DOM.icon);
@@ -26582,7 +26582,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 					}
 				}
 				if(settings.messageLineHeight) {
-					
+
 					if( !isNaN(settings.titleSize) ){
 						$DOM.p.style.lineHeight = settings.messageLineHeight+'px';
 					} else {
@@ -26595,7 +26595,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 				if(settings.rtl){
 					$DOM.strong.style.marginLeft = '10px';
 				} else if(settings.layout !== 2 && !settings.rtl) {
-					$DOM.strong.style.marginRight = '10px';	
+					$DOM.strong.style.marginRight = '10px';
 				}
 			}
 		})();
@@ -26800,14 +26800,14 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 				} else {
 					$DOM.overlay.removeEventListener('click', {});
 				}
-			}			
+			}
 		})();
 
 		// Inside animations
 		(function(){
 			if(settings.animateInside){
 				$DOM.toast.classList.add(PLUGIN_NAME+'-animateInside');
-			
+
 				var animationTimes = [200, 100, 300];
 				if(settings.transitionIn == 'bounceInLeft' || settings.transitionIn == 'bounceInRight'){
 					animationTimes = [400, 200, 400];
@@ -26925,9 +26925,9 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 			});
 		}
 
-		that.toast = $DOM.toast;		
+		that.toast = $DOM.toast;
 	};
-	
+
 
 	return $iziToast;
 });
@@ -28210,16 +28210,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
 
       if (n === 1) {
         // Fade out
-        css(progress, { 
-          transition: 'none', 
-          opacity: 1 
+        css(progress, {
+          transition: 'none',
+          opacity: 1
         });
         progress.offsetWidth; /* Repaint */
 
         setTimeout(function() {
-          css(progress, { 
-            transition: 'all ' + speed + 'ms linear', 
-            opacity: 0 
+          css(progress, {
+            transition: 'all ' + speed + 'ms linear',
+            opacity: 0
           });
           setTimeout(function() {
             NProgress.remove();
@@ -28347,7 +28347,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
     if (NProgress.isRendered()) return document.getElementById('nprogress');
 
     addClass(document.documentElement, 'nprogress-busy');
-    
+
     var progress = document.createElement('div');
     progress.id = 'nprogress';
     progress.innerHTML = Settings.template;
@@ -28356,7 +28356,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
         perc     = fromStart ? '-100' : toBarPerc(NProgress.status || 0),
         parent   = document.querySelector(Settings.parent),
         spinner;
-    
+
     css(bar, {
       transition: 'all 0 linear',
       transform: 'translate3d(' + perc + '%,0,0)'
@@ -28467,7 +28467,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
 
   var queue = (function() {
     var pending = [];
-    
+
     function next() {
       var fn = pending.shift();
       if (fn) {
@@ -28482,10 +28482,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
   })();
 
   /**
-   * (Internal) Applies css properties to an element, similar to the jQuery 
+   * (Internal) Applies css properties to an element, similar to the jQuery
    * css method.
    *
-   * While this helper does assist with vendor prefixed property names, it 
+   * While this helper does assist with vendor prefixed property names, it
    * does not perform any manipulation of values prior to setting styles.
    */
 
@@ -28526,7 +28526,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
 
     return function(element, properties) {
       var args = arguments,
-          prop, 
+          prop,
           value;
 
       if (args.length == 2) {
@@ -28557,7 +28557,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
     var oldList = classList(element),
         newList = oldList + name;
 
-    if (hasClass(oldList, name)) return; 
+    if (hasClass(oldList, name)) return;
 
     // Trim the opening space.
     element.className = newList.substring(1);
@@ -28581,8 +28581,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/* NProgress, 
   }
 
   /**
-   * (Internal) Gets a space separated list of the class names on the element. 
-   * The list is wrapped with a single space on each end to facilitate finding 
+   * (Internal) Gets a space separated list of the class names on the element.
+   * The list is wrapped with a single space on each end to facilitate finding
    * matches within the list.
    */
 
@@ -30299,7 +30299,7 @@ function setStateKey (key) {
 function pushState (url, replace) {
   saveScrollPosition();
   // try...catch the pushState call to get around Safari
-  // DOM Exception 18 where it limits to 100 pushState calls
+  // DOM exception 18 where it limits to 100 pushState calls
   var history = window.history;
   try {
     if (replace) {
