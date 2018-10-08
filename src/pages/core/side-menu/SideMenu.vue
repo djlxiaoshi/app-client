@@ -6,7 +6,11 @@
       class="side-menu"
       @select="handleSelect"
       active-text-color="#ffd04b">
-      <el-menu-item :index="menu.path" v-for="(menu, index) in menuConfig" :key="index">
+      <el-menu-item
+        v-if="!menu.hidden"
+        :index="menu.path"
+        v-for="(menu, index) in menuConfig"
+        :key="index">
         {{ menu.label }}
       </el-menu-item>
     </el-menu>

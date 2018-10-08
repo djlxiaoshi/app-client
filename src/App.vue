@@ -48,13 +48,17 @@
     flex-direction: column;
     position: relative;
     .app-header-wrap {
+      position: fixed;
+      left: 0;
+      right: 0;
       height: 60px;
       box-sizing: border-box;
       background: #545c64; // 主题
     }
     .app-body-wrap {
+      width: 80%;
       max-width: 960px;
-      margin: 0 auto;
+      margin: 60px  auto 0 auto;
     }
     .app-footer-wrap {
 

@@ -11,7 +11,11 @@
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b">
-          <el-menu-item :index="menu.path" v-for="(menu, index) in menuConfig" :key="index">
+          <el-menu-item
+            v-if="!menu.hidden"
+            :index="menu.path"
+            v-for="(menu, index) in menuConfig"
+            :key="index">
             {{ menu.label }}
           </el-menu-item>
         </el-menu>
@@ -107,6 +111,11 @@
     .header-search {
 
     }
+    .iconfont {
+      font-size: 24px !important;
+      cursor: pointer;
+      color: #ffffff;
+    }
     .avatar-wrap {
       .user-avatar {
         display: inline-block;
@@ -121,10 +130,7 @@
       height: 100%;
       color: #ffffff;
       .menu-col {
-        .iconfont {
-          font-size: 24px !important;
-          cursor: pointer;
-        }
+        text-align: center;
       }
       .app-name {
         text-align: center;

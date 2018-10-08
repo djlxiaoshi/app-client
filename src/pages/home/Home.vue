@@ -1,6 +1,10 @@
 <template>
   <section class="home-page">
-    <link-item v-for="(item, index) in favoriteList" :data="item" :key="index"></link-item>
+    <link-item
+      v-for="(item, index) in favoriteList"
+      :data="item"
+      :key="index"
+      @delete="deleteItem"></link-item>
   </section>
 </template>
 
@@ -36,16 +40,24 @@
         });
       },
       deleteItem (id) {
-        this.$http({
-          url: '/favorite/' + id,
-          method: 'delete',
-          hasWarning: true
-        }).then(result => {
-          this.getData();
+        this.$confirm('确定要删除该收藏吗？', '警告', {
+          type: 'warning'
+        }).then(() => {
+          this.$http({
+            url: '/favorite/' + id,
+            method: 'delete',
+            hasWarning: true
+          }).then(() => {
+            this.getData();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          });
+        }).catch(() => {
+
         });
-      },
-      addItem () {
-        this.showSwipePage = true;
+
       },
       back () {
         this.showSwipePage = false;

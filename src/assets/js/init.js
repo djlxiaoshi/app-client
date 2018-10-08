@@ -1,9 +1,14 @@
 import Vue from 'vue';
 import http from './http';
-import { Button, Menu, MenuItem, Submenu, Input, Dropdown, DropdownMenu, DropdownItem, Row, Col } from 'element-ui';
+import { Button, Menu, MenuItem, Submenu, Input,
+  Dropdown, DropdownMenu, DropdownItem, Row, Col,
+  Form, FormItem,
+  MessageBox, Notification, Message, Loading
+} from 'element-ui';
+
+import InputTag from 'vue-input-tag';
 
 import './resize';
-
 import 'izitoast/dist/css/iziToast.css';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
@@ -19,5 +24,14 @@ Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Row);
 Vue.use(Col);
+Vue.use(Form);
+Vue.use(FormItem);
+
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$notify = Notification;
+Vue.prototype.$message = Message;
+
+Vue.component('input-tag', InputTag);
 
 Vue.prototype.$http = http;

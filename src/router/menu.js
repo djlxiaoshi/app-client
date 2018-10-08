@@ -2,7 +2,7 @@
 import Home from '../pages/home/Home';
 import Explore from '../pages/explore/Explore';
 import Attention from '../pages/attention/Attention';
-import AboutMe from '../pages/about-me/AboutMe';
+import ItemSettings from '../pages/item-setting/ItemSettings';
 
 import { ACTIVE_MENU } from '../store/mutation-types';
 import store from '../store/index';
@@ -38,10 +38,10 @@ export default [
     }
   },
   {
-    path: '/about-me',
-    icon: 'icon-wo',
-    label: '我',
-    component: AboutMe,
+    path: '/item-setting',
+    icon: 'icon-add',
+    label: '添加收藏',
+    component: ItemSettings,
     beforeEnter: (to, from, next) => {
       store.commit(ACTIVE_MENU, to.fullPath);
       next();
@@ -49,6 +49,7 @@ export default [
   },
   {
     path: '**',
-    redirect: '/home'
+    redirect: '/home',
+    hidden: true
   }
 ];

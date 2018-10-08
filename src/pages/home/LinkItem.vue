@@ -12,6 +12,20 @@
           {{ data.tags }}
         </span>
       </div>
+      <div class="item-operate">
+        <el-button
+          @click="editItem(data.id)"
+          class="edit-button operate-button"
+          type="primary"
+          icon="el-icon-edit"
+          size="mini" plain></el-button>
+        <el-button
+          @click="deleteItem(data.id)"
+          class="delete-button operate-button"
+          type="danger"
+          icon="el-icon-delete"
+          size="mini" plain></el-button>
+      </div>
     </div>
 </template>
 
@@ -21,6 +35,14 @@
       props: {
         data: {
           type: Object
+        }
+      },
+      methods: {
+        deleteItem (id) {
+          this.$emit('delete', id);
+        },
+        editItem (id) {
+          this.$emit('edit', id);
         }
       }
     };
@@ -41,6 +63,13 @@
       font-size: 13px;
       line-height: 24px;
       color: #999;
+    }
+    .item-operate {
+      display: flex;
+      justify-content: flex-end;
+      .operate-button {
+
+      }
     }
   }
 
