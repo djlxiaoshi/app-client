@@ -2,7 +2,7 @@ import Vue from 'vue';
 import http from './http';
 import { Button, Menu, MenuItem, Submenu, Input,
   Dropdown, DropdownMenu, DropdownItem, Row, Col,
-  Form, FormItem,
+  Form, FormItem, Card,
   MessageBox, Notification, Message, Loading
 } from 'element-ui';
 
@@ -26,6 +26,7 @@ Vue.use(Row);
 Vue.use(Col);
 Vue.use(Form);
 Vue.use(FormItem);
+Vue.use(Card);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$confirm = MessageBox.confirm;
