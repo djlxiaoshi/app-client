@@ -51,6 +51,9 @@ export default function http (config) {
         }
         reject(data.message);
       } else {
+        if (config.showSuccessMsg) {
+          Notification.success(data.message);
+        }
         resolve(data.data);
       }
     }).catch(function (error) {

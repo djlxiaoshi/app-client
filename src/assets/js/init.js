@@ -13,6 +13,7 @@ import 'izitoast/dist/css/iziToast.css';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import '../css/common.less';
+import 'nprogress/nprogress.css';
 
 Vue.use(Button);
 Vue.use(Menu);
