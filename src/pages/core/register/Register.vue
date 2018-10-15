@@ -45,7 +45,18 @@
       },
       methods: {
         register () {
+          this.$http({
+            method: 'post',
+            url: '/user',
+            data: {
+              username: this.form.username,
+              password: this.form.password,
+              email: this.form.email
+            },
+            hasWarning: true
+          }).then(() => {
 
+          });
         },
         goToLogin () {
           this.$router.push('/login');

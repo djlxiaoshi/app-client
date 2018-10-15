@@ -51,9 +51,11 @@
               password: this.form.password
             },
             method: 'post',
-            showSuccessMsg: true
+            showSuccessMsg: true,
+            hasWarning: true
           }).then(() => {
-          });
+            this.$router.push('/app/home');
+          }, () => {});
         },
         goToRegister () {
           this.$router.push('/register');

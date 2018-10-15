@@ -5,6 +5,7 @@
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Notification from './notification';
+import { SERVER_ADRESS } from './config';
 
 // 请求发送拦截
 axios.interceptors.request.use(function (config) {
@@ -24,7 +25,7 @@ axios.interceptors.response.use((response) => {
 export default function http (config) {
   const axiosConfig = {
     method: config.method || 'get',
-    url: config.url,
+    url: SERVER_ADRESS + config.url,
     withCredentials: config.withCredentials || true,
     headers: {'Content-Type': 'application/json'}
   };
@@ -43,8 +44,6 @@ export default function http (config) {
 
       const data = response.data;
 
-      NProgress.done();
-
       if (data.code !== 0) {
         if (config.hasWarning) {
           Notification.error(data.message);
@@ -62,6 +61,8 @@ export default function http (config) {
         Notification.error(error.message);
       }
       reject(error);
+    }).finally(() => {
+      NProgress.done();
     });
   });
 }

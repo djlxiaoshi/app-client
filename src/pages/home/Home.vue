@@ -4,7 +4,7 @@
       v-for="(item, index) in favoriteList"
       :data="item"
       :key="index"
-      @delete="deleteItem"></link-item>
+      @delete="onBtnClick(index)"></link-item>
   </section>
 </template>
 
@@ -33,31 +33,24 @@
        */
       getData () {
         this.$http({
-          url: '/favorite',
+          url: '/collection',
           hasWarning: true
         }).then(data => {
           this.favoriteList = data;
-        });
+        }, () => {});
       },
       deleteItem (id) {
-        this.$confirm('确定要删除该收藏吗？', '警告', {
-          type: 'warning'
+        this.$http({
+          url: '/collection/' + id,
+          method: 'delete',
+          hasWarning: true
         }).then(() => {
-          this.$http({
-            url: '/favorite/' + id,
-            method: 'delete',
-            hasWarning: true
-          }).then(() => {
-            this.getData();
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            });
+          this.getData();
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
           });
-        }).catch(() => {
-
         });
-
       },
       back () {
         this.showSwipePage = false;
@@ -65,21 +58,14 @@
       onItemClick (item, index) {
         window.location.href = item.url;
       },
-      onBtnClick (btn, index) {
-        if (btn.action === 'delete') {
-          this.$createActionSheet({
-            title: '确认要删除吗',
-            active: 0,
-            data: [
-              {content: '删除'}
-            ],
-            onSelect: () => {
-              this.deleteItem(this.favoriteList[index].id);
-            }
-          }).show();
-        } else {
-          this.$refs.swipeItem[index].shrink();
-        }
+      onBtnClick (index) {
+        this.$confirm('确定要删除该收藏吗？', '警告', {
+          type: 'warning'
+        }).then(() => {
+          this.deleteItem(this.favoriteList[index]._id);
+        }).catch(() => {
+
+        });
       }
     }
   };

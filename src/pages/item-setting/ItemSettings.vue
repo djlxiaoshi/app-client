@@ -48,16 +48,12 @@
         Object.assign(data, this.form);
 
         this.$http({
-          url: '/favorite',
+          url: '/collection',
           method: 'post',
           hasWarning: true,
+          showSuccessMsg: true,
           data: data
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '添加成功，前往‘我的书签查看’!'
-          });
-
           this.reset();
         });
       },
