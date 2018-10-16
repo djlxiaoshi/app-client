@@ -10,21 +10,21 @@
 
       </div>
 
-      <side-menu ref="sideMenu" v-if="sideMenuVisible"></side-menu>
+      <side-bar v-if="sideMenuVisible"></side-bar>
     </div>
 </template>
 
 <script>
-  import AppHeader from './core/header/AppHeader';
-  import AppFooter from './core/footer/AppFooter';
-  import SideMenu from './core/side-menu/SideMenu';
+  import AppHeader from 'components/core/header/AppHeader';
+  import AppFooter from 'components/core/footer/AppFooter';
+  import SideBar from 'components/core/side-bar/SideBar';
   import { mapState } from 'vuex';
 
     export default {
       components: {
         AppHeader,
         AppFooter,
-        SideMenu
+        SideBar
       },
       computed: {
         ...mapState([

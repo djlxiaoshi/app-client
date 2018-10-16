@@ -22562,7 +22562,7 @@ var isHTMLTag = makeMap(
   'caption,col,colgroup,table,thead,tbody,td,th,tr,' +
   'button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,' +
   'output,progress,select,textarea,' +
-  'details,dialog,menu,menuitem,summary,' +
+  'details,dialog,side-bar,menuitem,summary,' +
   'content,element,shadow,template,blockquote,iframe,tfoot'
 );
 

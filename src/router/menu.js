@@ -8,7 +8,8 @@ import { ACTIVE_MENU } from '../store/mutation-types';
 import store from '../store/index';
 export default [
   {
-    path: '/app/home',
+    path: 'home',
+    alias: '/home',
     icon: 'icon-36',
     label: '我的书签',
     component: Home,
@@ -18,7 +19,8 @@ export default [
     }
   },
   {
-    path: '/app/explore',
+    path: 'explore',
+    alias: '/explore',
     icon: 'icon-yduifaxian',
     label: '发现',
     component: Explore,
@@ -28,7 +30,8 @@ export default [
     }
   },
   {
-    path: '/app/favorite',
+    path: 'favorite',
+    alias: '/favorite',
     icon: 'icon-faxian-yanjing',
     label: '关注',
     component: Attention,
@@ -38,8 +41,9 @@ export default [
     }
   },
   {
-    path: '/app/item-setting',
+    path: 'item-setting',
     icon: 'icon-add',
+    alias: '/item-setting',
     label: '添加收藏',
     component: ItemSettings,
     beforeEnter: (to, from, next) => {
@@ -49,12 +53,12 @@ export default [
   },
   {
     path: '',
-    redirect: '/app/home',
+    redirect: '/home',
     hidden: true
   },
   {
     path: '**',
-    redirect: '/app/home',
+    redirect: '/home',
     hidden: true
   }
 ];
