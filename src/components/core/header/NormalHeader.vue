@@ -15,12 +15,12 @@
     </el-col>
     <el-col :span="2">
       <div class="avatar-wrap">
-        <el-dropdown>
+        <el-dropdown @command="eventHandler" trigger="click">
           <a class="user-avatar"></a>
 
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>导出</el-dropdown-item>
-            <el-dropdown-item>退出登录</el-dropdown-item>
+            <el-dropdown-item>用户信息</el-dropdown-item>
+            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -32,7 +32,7 @@
   import HeaderMenu from 'components/core/menu/Menu';
   import menuConfig from 'router/menu';
   import { mapState, mapMutations } from 'vuex';
-  import { ACTIVE_MENU } from 'store/mutation-types';
+  import { ACTIVE_MENU, SET_USER_MSG } from 'store/mutation-types';
 
   export default {
     components: {
@@ -46,15 +46,43 @@
     },
     computed: {
       ...mapState([
-        'activeMenu'
+        'activeMenu',
+        'user'
       ])
     },
     methods: {
       ...mapMutations({
-        'setActiveMenu': ACTIVE_MENU
+        'setActiveMenu': ACTIVE_MENU,
+        'setUserMsg': SET_USER_MSG
       }),
       handleSelect (key) {
         this.setActiveMenu(key);
+      },
+      eventHandler (event) {
+        if (event === 'logout') {
+          this.logout();
+        }
+      },
+      logout () {
+        if (this.user) {
+          this.$http({
+            url: '/logout',
+            data: {
+              id: this.user._id
+            }
+          }).then(() => {
+
+            this.clearUserMsg();
+            this.goToLoginPage();
+
+          });
+        }
+      },
+      clearUserMsg () {
+        this.setUserMsg(null);
+      },
+      goToLoginPage () {
+        this.$router.push('/login');
       }
     }
   };

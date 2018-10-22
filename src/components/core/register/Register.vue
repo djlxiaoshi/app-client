@@ -55,11 +55,14 @@
             },
             hasWarning: true
           }).then(() => {
-
-          });
+            this.goToHomePage();
+          }, () => {});
         },
         goToLogin () {
           this.$router.push('/login');
+        },
+        goToHomePage () {
+          this.$router.push('/home');
         }
       }
     };

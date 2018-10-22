@@ -32,7 +32,7 @@ export default function http (config) {
 
   // 设置请求参数
   axiosConfig.method === 'get'
-    ? axiosConfig.params = JSON.stringify(config.data)
+    ? axiosConfig.params = config.data
     : axiosConfig.data = config.data;
 
   return new Promise((resolve, reject) => {

@@ -20,7 +20,7 @@
             </el-form>
           </div>
           <div class="card-footer">
-            <span class="go-register" @click="goToRegister">注册账户</span>
+            <span class="go-register" @click="goToRegisterPage">注册账户</span>
             <a href="javascript:void(0)" class="">忘记密码</a>
           </div>
         </el-card>
@@ -30,7 +30,10 @@
 </template>
 
 <script>
-    export default {
+  import { mapMutations } from 'vuex';
+  import { SET_USER_MSG } from 'store/mutation-types';
+
+  export default {
         name: 'app-login',
       components: {
       },
@@ -43,6 +46,9 @@
           };
       },
       methods: {
+        ...mapMutations({
+          'setUserMsg': SET_USER_MSG
+        }),
         login () {
           this.$http({
             url: '/login',
@@ -53,11 +59,17 @@
             method: 'post',
             showSuccessMsg: true,
             hasWarning: true
-          }).then(() => {
-            this.$router.push('/app/home');
+          }).then((user) => {
+
+            this.setUserMsg(user);
+            this.goToHomePage();
+
           }, () => {});
         },
-        goToRegister () {
+        goToHomePage () {
+          this.$router.push('/home');
+        },
+        goToRegisterPage () {
           this.$router.push('/register');
         }
       }
