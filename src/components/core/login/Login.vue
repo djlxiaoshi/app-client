@@ -1,27 +1,27 @@
 <template>
   <section class="app-login">
-    <el-row type="flex" justify="center">
-      <el-col :xs="20" :sm="16" :md="12" :lg="10" :xl="8">
+    <el-row type="flex" justify="center" align="middle">
+      <el-col :xs="20" :sm="16" :md="12" :lg="8" :xl="6">
         <el-card class="box-card">
           <div slot="header" class="card-header">
             <span>登录</span>
           </div>
           <div class="card-body">
-            <el-form ref="form" :model="form" label-width="80px">
-              <el-form-item label="用户名">
+            <el-form ref="form" :model="form" label-width="0px">
+              <el-form-item>
                 <el-input v-model="form.username"></el-input>
               </el-form-item>
-              <el-form-item label="密码">
+              <el-form-item>
                 <el-input v-model="form.password"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="login">登录</el-button>
+                <el-button type="primary" @click="login" class="login-btn" size="medium">登录</el-button>
               </el-form-item>
             </el-form>
           </div>
           <div class="card-footer">
             <span class="go-register" @click="goToRegisterPage">注册账户</span>
-            <a href="javascript:void(0)" class="">忘记密码</a>
+            <span class="forget-password">忘记密码</span>
           </div>
         </el-card>
       </el-col>
@@ -78,15 +78,36 @@
 
 <style scoped lang="less">
   .app-login {
+    position: relative;
+    height: 100vh;
+    background: rgba(144, 238, 144, 0.3);
+    /deep/ .el-row {
+      height: 100%;
+    }
     .box-card {
-      margin-top: 50px;
+      .login-btn {
+        width: 100%;
+      }
       .card-footer {
         display: flex;
         justify-content: space-around;
-        .go-register {
+        .forget-password, .go-register {
+          font-size: 14px;
           cursor: pointer;
+          color: #dddddd;
+        }
+        .go-register {
+
         }
       }
+    }
+    /deep/ .el-form-item {
+      .el-input__inner {
+        border-radius: 50px;
+      }
+    }
+    /deep/ .el-card {
+      border-radius: 20px;
     }
   }
 </style>
