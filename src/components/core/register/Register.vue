@@ -1,29 +1,29 @@
 <template>
   <section class="app-register">
-    <el-row type="flex" justify="center">
-      <el-col :xs="20" :sm="16" :md="12" :lg="10" :xl="8">
+    <el-row type="flex" justify="center" align="middle">
+      <el-col :xs="20" :sm="16" :md="12" :lg="8" :xl="6">
         <el-card class="box-card">
           <div slot="header" class="card-header">
             <span>注册</span>
           </div>
           <div class="card-body">
-            <el-form ref="form" :model="form" label-width="80px">
-              <el-form-item label="用户名">
+            <el-form ref="form" :model="form">
+              <el-form-item>
                 <el-input v-model="form.username"></el-input>
               </el-form-item>
-              <el-form-item label="密码">
+              <el-form-item>
                 <el-input v-model="form.password" type="password"></el-input>
               </el-form-item>
-              <el-form-item label="邮件">
+              <el-form-item>
                 <el-input v-model="form.email"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="register">注册</el-button>
+                <el-button type="primary" @click="register" class="register-btn">注册</el-button>
               </el-form-item>
             </el-form>
           </div>
           <div class="card-footer">
-            <span>已有账户，直接<span @click="goToLogin" class="go-login">登录</span></span>
+            <span class="login-text">已有账户，直接<span @click="goToLogin" class="go-login">登录</span></span>
           </div>
         </el-card>
       </el-col>
@@ -72,10 +72,31 @@
   .app-register {
     .box-card {
       margin-top: 50px;
+      border-radius: 20px;
 
+      /deep/ .el-form-item {
+        .el-input__inner {
+          border-radius: 50px;
+        }
+      }
+      .register-btn {
+        width: 100%;
+        border-radius: 20px;
+      }
+
+      .card-footer {
+        display: flex;
+
+        .login-text {
+          margin-left: auto;
+          color: #999;
+        }
+        .go-login {
+          cursor: pointer;
+          color: #66b1ff;
+        }
+      }
     }
-    .go-login {
-      cursor: pointer;
-    }
+
   }
 </style>

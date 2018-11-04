@@ -85,8 +85,11 @@
       height: 100%;
     }
     .box-card {
+      border-radius: 20px;
+
       .login-btn {
         width: 100%;
+        border-radius: 20px;
       }
       .card-footer {
         display: flex;
@@ -94,7 +97,7 @@
         .forget-password, .go-register {
           font-size: 14px;
           cursor: pointer;
-          color: #dddddd;
+          color: #999;
         }
         .go-register {
 
@@ -105,9 +108,6 @@
       .el-input__inner {
         border-radius: 50px;
       }
-    }
-    /deep/ .el-card {
-      border-radius: 20px;
     }
   }
 </style>
