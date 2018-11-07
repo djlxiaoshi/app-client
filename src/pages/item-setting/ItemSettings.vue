@@ -1,51 +1,107 @@
 <template>
   <div class="add-page">
-    <el-form ref="form" :model="form" label-width="80px">
-      <el-form-item label="链接地址">
-        <el-input v-model="form.url"></el-input>
-      </el-form-item>
+    <el-row type="flex" justify="center">
+      <el-col :xs="24" :sm="14" :md="12" :lg="12" :xl="15"s>
+        <el-card class="box-card">
+          <div slot="header" class="card-header">
+            {{ isAddMode ? '添加收藏' : '修改收藏' }}
+          </div>
+          <div class="card-body">
+            <el-form ref="form" :model="$route.params" label-width="80px">
+              <el-form-item label="链接地址">
+                <el-input v-model="$route.params.url"></el-input>
+              </el-form-item>
 
-      <el-form-item label="标题">
-        <el-input v-model="form.title"></el-input>
-      </el-form-item>
+              <el-form-item label="标题">
+                <el-input v-model="$route.params.title"></el-input>
+              </el-form-item>
 
-      <el-form-item label="分类">
-        <input-tag :tags.sync="form.tags"></input-tag>
-      </el-form-item>
+              <el-form-item label="分类">
+                <input-tag :tags.sync="$route.params.tags"></input-tag>
+              </el-form-item>
 
-      <el-form-item label="概括">
-        <el-input v-model="form.abstract"></el-input>
-      </el-form-item>
+              <el-form-item label="概括">
+                <el-input v-model="$route.params.abstract"></el-input>
+              </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
-      </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="onSubmit" class="create-btn">
+                  {{ isAddMode ? '立即创建' : '保存修改' }}
+                </el-button>
+              </el-form-item>
 
-    </el-form>
+            </el-form>
+          </div>
+          <div class="card-footer"></div>
+        </el-card>
+      </el-col>
+
+      <el-col :xs="0" :sm="2" :md="2" :lg="1" :xl="1"></el-col>
+
+      <el-col :xs="0" :sm="4" :md="4" :lg="5" :xl="5" style="border: 1px solid red;">
+        待续
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
   import dayjs from 'dayjs';
   export default {
+    props: {
+      mode: {
+        type: String,
+        default: 'add'
+      },
+      data: {
+        type: Object,
+        default () {
+          return {
+            url: '',
+            title: '',
+            tags: [],
+            abstract: ''
+          };
+        }
+      }
+    },
     data () {
       return {
-        form: {
-          url: '',
-          title: '',
-          tags: [],
-          abstract: ''
-        }
+
       };
     },
     mounted () {
     },
+    computed: {
+      isAddMode () {
+        return this.mode === 'add';
+      }
+    },
     methods: {
       onSubmit () {
+
+      },
+      edit () {
         const data = {
           time: dayjs().format('YYYY-MM-DD HH:MM:ss')
         };
-        Object.assign(data, this.form);
+        Object.assign(data, this.$route.params.data);
+
+        this.$http({
+          url: '/collection' + this.data.id,
+          method: 'put',
+          hasWarning: true,
+          showSuccessMsg: true,
+          data: data
+        }).then(() => {
+
+        });
+      },
+      add () {
+        const data = {
+          time: dayjs().format('YYYY-MM-DD HH:MM:ss')
+        };
+        Object.assign(data, this.$route.params.data);
 
         this.$http({
           url: '/collection',
@@ -58,10 +114,10 @@
         });
       },
       reset () {
-        this.form.url = '';
-        this.form.title = '';
-        this.form.tags = [];
-        this.form.abstract = '';
+        this.data.url = '';
+        this.data.title = '';
+        this.data.tags = [];
+        this.data.abstract = '';
       }
     }
   };
@@ -71,6 +127,12 @@
 <style lang="less" scoped>
   .add-page {
     margin: 40px auto;
+    .box-card {
+      border-radius: 20px;
+      .create-btn {
+        width: 100%;
+      }
+    }
     /deep/ .vue-input-tag-wrapper {
       box-sizing: border-box;
       padding-left: 15px;

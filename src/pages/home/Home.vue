@@ -1,15 +1,23 @@
 <template>
   <section class="home-page">
-    <link-item
-      v-for="(item, index) in favoriteList"
-      :data="item"
-      :key="index"
-      @delete="onBtnClick(index)"></link-item>
+    <el-row type="flex" justify="center" class="mini-header">
+      <el-col :span="18">
+        <link-item
+          v-for="(item, index) in favoriteList"
+          :data="item"
+          :key="index"
+          @delete="onBtnClick(index)"
+          @edit="edit(item)"
+        ></link-item>
+      </el-col>
+    </el-row>
+
   </section>
 </template>
 
 <script>
   import LinkItem from './LinkItem';
+
   export default {
     components: {
       LinkItem
@@ -39,17 +47,14 @@
           this.favoriteList = data;
         }, () => {});
       },
+      edit (item) {
+
+      },
       deleteItem (id) {
-        this.$http({
+        return this.$http({
           url: '/collection/' + id,
           method: 'delete',
           hasWarning: true
-        }).then(() => {
-          this.getData();
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
         });
       },
       back () {
@@ -59,12 +64,13 @@
         window.location.href = item.url;
       },
       onBtnClick (index) {
-        this.$confirm('确定要删除该收藏吗？', '警告', {
-          type: 'warning'
-        }).then(() => {
-          this.deleteItem(this.favoriteList[index]._id);
-        }).catch(() => {
-
+        this.$alert.warning('确定要删除该收藏吗？').then((willDone) => {
+          if (willDone) {
+            this.deleteItem(this.favoriteList[index]._id).then(() => {
+              this.getData();
+              this.$alert.success('删除成功');
+            });
+          }
         });
       }
     }

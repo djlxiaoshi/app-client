@@ -45,6 +45,7 @@ export default [
     icon: 'icon-add',
     alias: '/item-setting',
     label: '添加收藏',
+    name: 'itemSetting',
     component: ItemSettings,
     beforeEnter: (to, from, next) => {
       store.commit(ACTIVE_MENU, to.fullPath);

@@ -7,12 +7,14 @@ const COLOR_CONFIG = {
   success: 'green'
 };
 
+const position = 'topRight';
+
 class Notification {
   message (message, title, pos) {
     izitoast.show({
       title: title || 'Message',
       message: message || '',
-      position: pos || 'topCenter',
+      position: pos || position,
       color: COLOR_CONFIG.message
     });
   }
@@ -21,7 +23,7 @@ class Notification {
     izitoast.success({
       title: title || 'Success',
       message: message || '',
-      position: pos || 'topCenter',
+      position: pos || position,
       color: COLOR_CONFIG.success
     });
   }
@@ -30,7 +32,7 @@ class Notification {
     izitoast.warning({
       title: title || 'Warning',
       message: message || '',
-      position: pos || 'topCenter',
+      position: pos || position,
       color: COLOR_CONFIG.warning
     });
   }
@@ -39,7 +41,7 @@ class Notification {
     izitoast.error({
       title: title || 'Error',
       message: message || '',
-      position: pos || 'topCenter',
+      position: pos || position,
       color: COLOR_CONFIG.error
     });
   }

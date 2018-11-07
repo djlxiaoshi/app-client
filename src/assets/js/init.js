@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import http from './http';
+import sweetAlert from 'assets/js/utils/alert.js';
 import { Button, Menu, MenuItem, Submenu, Input,
   Dropdown, DropdownMenu, DropdownItem, Row, Col,
   Form, FormItem, Card,
@@ -37,3 +38,4 @@ Vue.prototype.$message = Message;
 Vue.component('input-tag', InputTag);
 
 Vue.prototype.$http = http;
+Vue.prototype.$alert = sweetAlert;

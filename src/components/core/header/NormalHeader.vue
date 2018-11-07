@@ -2,7 +2,6 @@
   <el-row type="flex" align="middle" class="normal-header">
     <el-col  :span="14">
       <header-menu
-        background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
         mode="horizontal"
@@ -89,9 +88,13 @@
 </script>
 
 <style scoped lang="less">
+  @import "../../../assets/css/theme";
   .normal-header {
     height: 100%;
     color: #ffffff;
+    /deep/ .el-menu {
+      background: @pageHeaderBg;
+    }
     .menu-col {
       text-align: center;
     }

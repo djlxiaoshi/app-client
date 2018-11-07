@@ -21,6 +21,7 @@
     "izitoast": "^1.4.0",
     "moment": "^2.22.2",
     "nprogress": "^0.2.0",
+    "sweetalert": "^2.1.2",
     "vue": "^2.5.2",
     "vue-input-tag": "^1.0.6",
     "vue-router": "^3.0.1",

@@ -29,10 +29,10 @@
 </script>
 
 <style scoped lang="less">
+  @import "../../../assets/css/theme";
   .app-header {
     height: 100%;
-    max-width: 960px;
-    margin: 0 auto;
+    background: @pageHeaderBg;
     /deep/ .el-col {
       padding: 0 20px;
     }

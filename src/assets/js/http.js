@@ -4,7 +4,7 @@
  */
 import axios from 'axios';
 import NProgress from 'nprogress';
-import Notification from './notification';
+import Notification from './utils/notification';
 import { SERVER_ADRESS } from './config';
 
 // 请求发送拦截

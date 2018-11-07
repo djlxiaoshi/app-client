@@ -36,6 +36,7 @@
 </script>
 
 <style scoped lang="less">
+  @import "../assets/css/theme.less";
   .app-main {
     display: flex;
     flex-direction: column;
@@ -45,13 +46,13 @@
       left: 0;
       right: 0;
       height: 60px;
+      z-index: 1000;
       box-sizing: border-box;
-      background: #545c64; // 主题
+      background: @pageBodyBg; // 主题
     }
     .app-body-wrap {
-      width: 80%;
-      max-width: 960px;
-      margin: 60px  auto 0 auto;
+      margin-top: 60px;
+      background: #f3f4f4;
     }
     .app-footer-wrap {
 
