@@ -1,47 +1,46 @@
 <template>
   <div class="add-page">
-    <el-row type="flex" justify="center">
-      <el-col :xs="24" :sm="14" :md="12" :lg="12" :xl="15"s>
-        <el-card class="box-card">
-          <div slot="header" class="card-header">
-            {{ isAddMode ? '添加收藏' : '修改收藏' }}
-          </div>
-          <div class="card-body">
-            <el-form ref="form" :model="$route.params" label-width="80px">
-              <el-form-item label="链接地址">
-                <el-input v-model="$route.params.url"></el-input>
-              </el-form-item>
+        <el-row type="flex" justify="center">
+          <el-col :xs="24" :sm="14" :md="14" :lg="13" :xl="14">
+            <el-card class="box-card">
+              <div slot="header" class="card-header">
+                {{ isAddMode ? '添加收藏' : '修改收藏' }}
+              </div>
+              <div class="card-body">
+                <el-form ref="form" :model="$route.params" label-width="80px">
+                  <el-form-item label="链接地址">
+                    <el-input v-model="$route.params.url"></el-input>
+                  </el-form-item>
 
-              <el-form-item label="标题">
-                <el-input v-model="$route.params.title"></el-input>
-              </el-form-item>
+                  <el-form-item label="标题">
+                    <el-input v-model="$route.params.title"></el-input>
+                  </el-form-item>
 
-              <el-form-item label="分类">
-                <input-tag :tags.sync="$route.params.tags"></input-tag>
-              </el-form-item>
+                  <el-form-item label="分类">
+                    <input-tag :tags.sync="$route.params.tags"></input-tag>
+                  </el-form-item>
 
-              <el-form-item label="概括">
-                <el-input v-model="$route.params.abstract"></el-input>
-              </el-form-item>
+                  <el-form-item label="概括">
+                    <el-input v-model="$route.params.abstract"></el-input>
+                  </el-form-item>
 
-              <el-form-item>
-                <el-button type="primary" @click="onSubmit" class="create-btn">
-                  {{ isAddMode ? '立即创建' : '保存修改' }}
-                </el-button>
-              </el-form-item>
+                  <el-form-item>
+                    <el-button type="primary" @click="onSubmit" class="create-btn">
+                      {{ isAddMode ? '立即创建' : '保存修改' }}
+                    </el-button>
+                  </el-form-item>
 
-            </el-form>
-          </div>
-          <div class="card-footer"></div>
-        </el-card>
-      </el-col>
+                </el-form>
+              </div>
+              <div class="card-footer"></div>
+            </el-card>
+          </el-col>
 
-      <el-col :xs="0" :sm="2" :md="2" :lg="1" :xl="1"></el-col>
+          <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4" style="border: 1px solid red;" :offset="1">
+            待续
+          </el-col>
+        </el-row>
 
-      <el-col :xs="0" :sm="4" :md="4" :lg="5" :xl="5" style="border: 1px solid red;">
-        待续
-      </el-col>
-    </el-row>
   </div>
 </template>
 

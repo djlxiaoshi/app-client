@@ -1,5 +1,5 @@
 <template>
-  <el-row type="flex" align="middle" class="mini-header">
+  <el-row type="flex" align="middle" justify="center" class="mini-header">
     <el-col :span="6">
       <div class="menu-col">
         <i class="iconfont" :class="menuClass" @click="toggleSideMenu"></i>
@@ -51,6 +51,9 @@
       font-size: 18px !important;
       cursor: pointer;
       color: #ffffff;
+    }
+    .app-name {
+      text-align: center;
     }
   }
 </style>

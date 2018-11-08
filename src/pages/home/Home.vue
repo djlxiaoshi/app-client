@@ -1,7 +1,7 @@
 <template>
   <section class="home-page">
     <el-row type="flex" justify="center" class="mini-header">
-      <el-col :span="18">
+      <el-col :xs="24" :sm="14" :md="14" :lg="13" :xl="14">
         <link-item
           v-for="(item, index) in favoriteList"
           :data="item"
@@ -9,6 +9,10 @@
           @delete="onBtnClick(index)"
           @edit="edit(item)"
         ></link-item>
+      </el-col>
+
+      <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4" style="border: 1px solid red;" :offset="1">
+        标签
       </el-col>
     </el-row>
 

@@ -4,7 +4,7 @@
         <app-header></app-header>
       </div>
       <div class="app-body-wrap">
-        <router-view></router-view>
+          <router-view></router-view>
       </div>
       <div class="app-footer-wrap">
 
