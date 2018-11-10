@@ -7,21 +7,21 @@
             编辑收藏
           </div>
           <div class="card-body">
-            <el-form ref="form" :model="data" label-width="80px" label-position="left">
+            <el-form ref="form" :model="formData" label-width="80px" label-position="left">
               <el-form-item label="链接地址">
-                <el-input v-model="data.url"></el-input>
+                <el-input v-model="formData.url"></el-input>
               </el-form-item>
 
               <el-form-item label="标题">
-                <el-input v-model="data.title"></el-input>
+                <el-input v-model="formData.title"></el-input>
               </el-form-item>
 
               <el-form-item label="分类">
-                <input-tag :tags.sync="data.tags"></input-tag>
+                <input-tag :tags.sync="formData.tags"></input-tag>
               </el-form-item>
 
               <el-form-item label="概括">
-                <el-input v-model="data.abstract"></el-input>
+                <el-input v-model="formData.abstract"></el-input>
               </el-form-item>
 
               <el-form-item>
@@ -49,13 +49,24 @@
   export default {
     data () {
       return {
-        data: {
+        formData: {
           url: '',
           title: '',
           tags: [],
           abstract: ''
         }
       };
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.$http({
+          url: '/collection/' + vm.$route.params.id,
+          method: 'get',
+          hasWarning: true
+        }).then(data => {
+          vm.formData = data;
+        });
+      });
     },
     mounted () {
 
@@ -65,7 +76,7 @@
         const data = {
           time: dayjs().format('YYYY-MM-DD HH:MM:ss')
         };
-        Object.assign(data, this.data);
+        Object.assign(data, this.formData);
 
         this.$http({
           url: '/collection',
@@ -74,14 +85,8 @@
           showSuccessMsg: true,
           data: data
         }).then(() => {
-          this.reset();
+         
         });
-      },
-      reset () {
-        this.data.url = '';
-        this.data.title = '';
-        this.data.tags = [];
-        this.data.abstract = '';
       }
     }
   };

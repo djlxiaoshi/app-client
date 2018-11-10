@@ -52,7 +52,7 @@
         }, () => {});
       },
       edit (item) {
-
+        this.$router.push('/edit/' + item._id);
       },
       deleteItem (id) {
         return this.$http({
