@@ -11,7 +11,7 @@
       <el-menu-item
         v-if="!menu.hidden"
         v-for="(menu, index) in menuConfig"
-        :index="menu.alias"
+        :index="menu.path"
         :key="index">
         {{ menu.label }}
       </el-menu-item>

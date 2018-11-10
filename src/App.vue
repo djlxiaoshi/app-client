@@ -1,23 +1,61 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div class="app-header-wrap">
+      <app-header></app-header>
+    </div>
+    <div class="app-body-wrap">
+      <router-view></router-view>
+    </div>
+    <div class="app-footer-wrap">
+
+    </div>
+
+    <side-bar v-if="sideMenuVisible"></side-bar>
   </div>
 </template>
 
 <script>
+  import AppHeader from 'components/core/header/AppHeader';
+  import AppFooter from 'components/core/footer/AppFooter';
+  import SideBar from 'components/core/side-bar/SideBar';
+  import { mapState } from 'vuex';
+
   export default {
-    name: 'App',
-    data () {
-      return {
-      };
+    components: {
+      AppHeader,
+      AppFooter,
+      SideBar
     },
-    mounted () {
+    computed: {
+      ...mapState([
+        'sideMenuVisible'
+      ])
     }
+
   };
 </script>
 
-<style lang="less">
+<style scoped lang="less">
+  @import "./assets/css/theme.less";
   #app {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .app-header-wrap {
+      position: fixed;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 1000;
+      box-sizing: border-box;
+      background: @pageBodyBg; // 主题
+    }
+    .app-body-wrap {
+      margin-top: 60px;
+      background: #f3f4f4;
+    }
+    .app-footer-wrap {
 
+    }
   }
 </style>

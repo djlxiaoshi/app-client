@@ -2,14 +2,14 @@
 import Home from '../pages/home/Home';
 import Explore from '../pages/explore/Explore';
 import Attention from '../pages/attention/Attention';
-import ItemSettings from '../pages/item-setting/ItemSettings';
+import Add from '../pages/add/Add';
+import Edit from '../pages/edit/Edit';
 
 import { ACTIVE_MENU } from '../store/mutation-types';
 import store from '../store/index';
 export default [
   {
-    path: 'home',
-    alias: '/home',
+    path: '/home',
     icon: 'icon-36',
     label: '我的书签',
     component: Home,
@@ -19,8 +19,7 @@ export default [
     }
   },
   {
-    path: 'explore',
-    alias: '/explore',
+    path: '/explore',
     icon: 'icon-yduifaxian',
     label: '发现',
     component: Explore,
@@ -30,8 +29,7 @@ export default [
     }
   },
   {
-    path: 'favorite',
-    alias: '/favorite',
+    path: '/favorite',
     icon: 'icon-faxian-yanjing',
     label: '关注',
     component: Attention,
@@ -41,25 +39,18 @@ export default [
     }
   },
   {
-    path: 'item-setting',
+    path: '/add',
     icon: 'icon-add',
-    alias: '/item-setting',
     label: '添加收藏',
-    name: 'itemSetting',
-    component: ItemSettings,
+    component: Add,
     beforeEnter: (to, from, next) => {
       store.commit(ACTIVE_MENU, to.fullPath);
       next();
     }
   },
   {
-    path: '',
-    redirect: '/home',
-    hidden: true
-  },
-  {
-    path: '**',
-    redirect: '/home',
+    path: '/edit/:id',
+    component: Edit,
     hidden: true
   }
 ];

@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Router from 'vue-router';
 import http from './http';
 import sweetAlert from 'assets/js/utils/alert.js';
 import { Button, Menu, MenuItem, Submenu, Input,
@@ -29,6 +30,8 @@ Vue.use(Col);
 Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Card);
+
+Vue.use(Router);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$confirm = MessageBox.confirm;
