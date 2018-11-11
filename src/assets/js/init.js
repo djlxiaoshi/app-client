@@ -9,6 +9,7 @@ import { Button, Menu, MenuItem, Submenu, Input,
 } from 'element-ui';
 
 import InputTag from 'vue-input-tag';
+// import Loading from 'components/common/loading/Loading';
 
 import './resize';
 import 'izitoast/dist/css/iziToast.css';
@@ -32,6 +33,8 @@ Vue.use(FormItem);
 Vue.use(Card);
 
 Vue.use(Router);
+
+// Vue.component('Loading', Loading);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$confirm = MessageBox.confirm;
