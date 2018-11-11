@@ -7,12 +7,17 @@
                 添加收藏
               </div>
               <div class="card-body">
-                <el-form ref="form" :model="data" label-width="80px" label-position="left">
-                  <el-form-item label="链接地址">
+                <el-form
+                  ref="form"
+                  :rules="rules"
+                  :model="data"
+                  label-width="80px"
+                  label-position="left">
+                  <el-form-item label="链接地址" prop="url">
                     <el-input v-model="data.url"></el-input>
                   </el-form-item>
 
-                  <el-form-item label="标题">
+                  <el-form-item label="标题" prop="title">
                     <el-input v-model="data.title"></el-input>
                   </el-form-item>
 
@@ -20,12 +25,12 @@
                     <input-tag :tags.sync="data.tags"></input-tag>
                   </el-form-item>
 
-                  <el-form-item label="概括">
+                  <el-form-item label="概括" prop="abstract">
                     <el-input v-model="data.abstract"></el-input>
                   </el-form-item>
 
                   <el-form-item>
-                    <el-button type="primary" @click="add" class="create-btn">
+                    <el-button type="primary" @click="formValidate" class="create-btn">
                       立即创建
                     </el-button>
                   </el-form-item>
@@ -52,12 +57,49 @@
   import dayjs from 'dayjs';
   export default {
     data () {
+      const checkUrl = (rule, value, callback) => {
+        if (value === '' || value.trim() === '') {
+          callback(new Error('url地址不能为空'));
+        } else if (!(/^(http|https):\/\//.test(value))) {
+          callback(new Error('请输入正确的url地址'));
+        } else {
+          callback();
+        }
+      };
+
+      const checkAbstract = (rule, value, callback) => {
+        if (value === '' || value.trim() === '') {
+          callback(new Error('概述不能为空'));
+        } else {
+          callback();
+        }
+      };
+
+      const checkTitle = (rule, value, callback) => {
+        if (value === '' || value.trim() === '') {
+          callback(new Error('标题不能为空'));
+        } else {
+          callback();
+        }
+      };
+
       return {
         data: {
           url: '',
           title: '',
           tags: [],
           abstract: ''
+        },
+        rules: {
+          url: [
+            { required: true, trigger: 'blur', validator: checkUrl }
+          ],
+          title: [
+            { required: true, trigger: 'blur', validator: checkTitle }
+          ],
+          abstract: [
+            { required: true, trigger: 'blur', validator: checkAbstract }
+          ]
         }
       };
     },
@@ -79,14 +121,15 @@
           loading: true,
           loadingTarget: this.$refs.form.$el
         }).then(() => {
-          this.reset();
+
         });
       },
-      reset () {
-        this.data.url = '';
-        this.data.title = '';
-        this.data.tags = [];
-        this.data.abstract = '';
+      formValidate () {
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            this.add();
+          }
+        });
       }
     }
   };

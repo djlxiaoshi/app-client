@@ -88,7 +88,7 @@
         next();
         return;
       }
-      this.$alert.warning('此时离开，编辑内容将不会被保存').then((confirm) => {
+      this.$alert.warning('客官，您不打算保存了吗？').then((confirm) => {
         if (confirm) {
           next();
         }
