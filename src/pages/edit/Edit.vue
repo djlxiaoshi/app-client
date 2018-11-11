@@ -57,7 +57,8 @@
           title: '',
           tags: [],
           abstract: ''
-        }
+        },
+        prevFormData: ''
       };
     },
     beforeRouteEnter (to, from, next) {
@@ -68,11 +69,30 @@
           hasWarning: true
         }).then(data => {
           vm.formData = data;
+
+          vm.prevFormData = JSON.stringify({
+            url: data.url,
+            title: data.title,
+            tags: data.tags,
+            abstract: data.abstract
+          });
         });
       });
     },
     mounted () {
 
+    },
+    beforeRouteLeave (to, from, next) {
+      // 离开时做保存提示，通过比较内容是否更改，判断是否弹出提示框
+      if (this.contentStringify(this.formData) === this.prevFormData) {
+        next();
+        return;
+      }
+      this.$alert.warning('此时离开，编辑内容将不会被保存').then((confirm) => {
+        if (confirm) {
+          next();
+        }
+      });
     },
     methods: {
       save () {
@@ -90,7 +110,15 @@
           loading: true,
           loadingTarget: this.$refs.form.$el
         }).then(() => {
-
+          this.prevFormData = this.contentStringify(this.formData);
+        });
+      },
+      contentStringify (formData) {
+        return JSON.stringify({
+          url: formData.url,
+          title: formData.title,
+          tags: formData.tags,
+          abstract: formData.abstract
         });
       }
     }
