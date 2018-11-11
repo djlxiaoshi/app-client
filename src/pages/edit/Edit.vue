@@ -85,7 +85,7 @@
           showSuccessMsg: true,
           data: data
         }).then(() => {
-         
+
         });
       }
     }

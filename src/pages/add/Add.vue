@@ -36,7 +36,11 @@
             </el-card>
           </el-col>
 
-          <el-col :xs="0" :sm="6" :md="6" :lg="4" :xl="4" style="border: 1px solid red;" :offset="1">
+          <el-col
+            class="app-card"
+            :xs="0" :sm="6" :md="6" :lg="4"
+            :xl="4" :offset="1"
+          >
             待续
           </el-col>
         </el-row>
@@ -89,9 +93,7 @@
 
 <style lang="less" scoped>
   .add-page {
-    margin: 40px auto;
     .box-card {
-      /*border-radius: 20px;*/
       .create-btn {
         width: 100%;
       }

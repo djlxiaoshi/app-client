@@ -85,7 +85,6 @@
       height: 100%;
     }
     .box-card {
-      border-radius: 20px;
 
       .login-btn {
         width: 100%;

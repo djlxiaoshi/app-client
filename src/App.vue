@@ -48,11 +48,13 @@
       height: 60px;
       z-index: 1000;
       box-sizing: border-box;
-      background: @pageBodyBg; // 主题
+      background: @pageHeaderBg; // 主题
     }
     .app-body-wrap {
       margin-top: 60px;
-      background: #f3f4f4;
+      padding-top: 40px;
+      background: @pageBodyBg;
+      min-height: calc(100vh - 100px);
     }
     .app-footer-wrap {
 

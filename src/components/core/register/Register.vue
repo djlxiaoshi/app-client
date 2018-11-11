@@ -72,7 +72,6 @@
   .app-register {
     .box-card {
       margin-top: 50px;
-      border-radius: 20px;
 
       /deep/ .el-form-item {
         .el-input__inner {
