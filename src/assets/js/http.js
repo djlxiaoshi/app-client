@@ -69,7 +69,6 @@ export default function http (config) {
       ? this.$loading({
         target: config.loadingTarget,
         spinner: 'app-loading'
-        // spinner: 'el-icon-loading'
       })
       : null;
 
@@ -101,7 +100,7 @@ export default function http (config) {
       const axiosInstanceIndex = getXhrInstanceIndex(axiosInstance);
 
       if (config.loading) {
-        // loadingCache[axiosInstanceIndex].close();
+        loadingCache[axiosInstanceIndex].close();
       }
 
       // 更新缓存池

@@ -45,7 +45,6 @@
       position: fixed;
       left: 0;
       right: 0;
-      height: 60px;
       z-index: 1000;
       box-sizing: border-box;
       background: @pageHeaderBg; // 主题

@@ -75,7 +75,9 @@
           method: 'post',
           hasWarning: true,
           showSuccessMsg: true,
-          data: data
+          data: data,
+          loading: true,
+          loadingTarget: this.$refs.form.$el
         }).then(() => {
           this.reset();
         });

@@ -25,7 +25,7 @@
               </el-form-item>
 
               <el-form-item>
-                <el-button type="primary" @click="add" class="create-btn">
+                <el-button type="primary" @click="save" class="create-btn">
                   保存修改
                 </el-button>
               </el-form-item>
@@ -36,7 +36,10 @@
         </el-card>
       </el-col>
 
-      <el-col :xs="0" :sm="6" :md="6" :lg="4" :xl="4" style="border: 1px solid red;" :offset="1">
+      <el-col
+        class="app-card"
+        :xs="0" :sm="6" :md="6"
+        :lg="4" :xl="4" :offset="1">
         待续
       </el-col>
     </el-row>
@@ -72,7 +75,7 @@
 
     },
     methods: {
-      add () {
+      save () {
         const data = {
           time: dayjs().format('YYYY-MM-DD HH:MM:ss')
         };
@@ -83,7 +86,9 @@
           method: 'put',
           hasWarning: true,
           showSuccessMsg: true,
-          data: data
+          data: data,
+          loading: true,
+          loadingTarget: this.$refs.form.$el
         }).then(() => {
 
         });
@@ -101,6 +106,9 @@
       .create-btn {
         width: 100%;
       }
+    }
+    .card-body {
+      position: relative;
     }
     /deep/ .vue-input-tag-wrapper {
       box-sizing: border-box;

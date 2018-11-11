@@ -5,3 +5,23 @@
   border-radius: 4px;
   background-color: #ffffff;
 }
+
+.app-loading {
+  display: block;
+  margin-top: 50px;
+  &:before{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    content: '';
+    width: 100px;
+    height: 100px;
+    display: inline-block;
+    background: url("../img/loading.svg") no-repeat;
+    background-size: 100%;
+    background-position: center center;
+  }
+}

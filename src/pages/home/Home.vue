@@ -1,8 +1,8 @@
 <template>
   <section class="home-page">
     <el-row type="flex" justify="center" class="mini-header">
-      <el-col :xs="24" :sm="14" :md="14" :lg="13" :xl="14" class="card-left" ref="loadingTarget">
-        <el-card>
+      <el-col :xs="24" :sm="14" :md="14" :lg="13" :xl="14">
+        <el-card class="card-left" ref="loadingTarget">
           <link-item
             v-for="(item, index) in favoriteList"
             :data="item"
@@ -14,7 +14,6 @@
       </el-col>
 
       <el-col
-        ref="loadingTarget2"
         class="card-right app-card"
         :xs="0" :sm="4" :md="4"
         :lg="4" :xl="4"
@@ -97,6 +96,11 @@
 
     .card-right {
 
+    }
+
+    .card-left {
+      min-height: 120px;
+      padding: 0 !important;
     }
     /deep/ .home-link-item {
       border-bottom: 1px solid #f0f0f0;

@@ -1,7 +1,7 @@
 <template>
   <section class="app-register">
     <el-row type="flex" justify="center" align="middle">
-      <el-col :xs="20" :sm="16" :md="12" :lg="8" :xl="6">
+      <el-col :xs="24" :sm="16" :md="12" :lg="8" :xl="6">
         <el-card class="box-card">
           <div slot="header" class="card-header">
             <span>注册</span>

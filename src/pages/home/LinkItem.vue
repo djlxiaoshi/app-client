@@ -50,9 +50,10 @@
 
 <style scoped lang="less">
   .home-link-item{
+    box-sizing: border-box;
     width: 100%;
     margin: 0 0 15px;
-    padding: 15px 2px 20px 0;
+    padding: 15px;
     .item-title {
       font-size: 18px;
       font-weight: 700;

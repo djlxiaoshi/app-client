@@ -1,6 +1,6 @@
 <template>
   <el-row type="flex" align="middle" justify="center" class="normal-header">
-    <el-col :span="16">
+    <el-col :span="12">
       <header-menu
         text-color="#fff"
         background-color="#545c64"
@@ -8,7 +8,7 @@
         mode="horizontal"
         :menuConfig="menuConfig"></header-menu>
     </el-col>
-    <el-col :span="6">
+    <el-col :span="4">
       <div class="header-search">
         <el-input placeholder="搜索" v-model="searchText" suffix-icon="el-input__icon"></el-input>
       </div>
@@ -107,7 +107,7 @@
       text-align: center;
     }
     .header-login {
-      text-align: center;
+      text-align: right;
       cursor: pointer;
     }
     .avatar-wrap {

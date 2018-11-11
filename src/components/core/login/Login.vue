@@ -1,7 +1,7 @@
 <template>
   <section class="app-login">
-    <el-row type="flex" justify="center" align="middle">
-      <el-col :xs="20" :sm="16" :md="12" :lg="8" :xl="6">
+    <el-row type="flex" justify="center">
+      <el-col :xs="24" :sm="16" :md="12" :lg="8" :xl="6">
         <el-card class="box-card">
           <div slot="header" class="card-header">
             <span>登录</span>
@@ -79,13 +79,12 @@
 <style scoped lang="less">
   .app-login {
     position: relative;
-    height: 100vh;
-    background: rgba(144, 238, 144, 0.3);
+    height: calc(100vh - 100px);
     /deep/ .el-row {
       height: 100%;
     }
     .box-card {
-
+      margin-top: 50px;
       .login-btn {
         width: 100%;
         border-radius: 20px;

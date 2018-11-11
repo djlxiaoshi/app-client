@@ -1,11 +1,11 @@
 <template>
   <el-row type="flex" align="middle" justify="center" class="mini-header">
-    <el-col :span="6">
+    <el-col :span="4">
       <div class="menu-col">
         <i class="iconfont" :class="menuClass" @click="toggleSideMenu"></i>
       </div>
     </el-col>
-    <el-col :span="12">
+    <el-col :span="14">
       <div class="app-name">
         简藏
       </div>
@@ -47,6 +47,7 @@
   .mini-header {
     color: #ffffff;
     height: 100%;
+    padding: 0 20px;
     .iconfont {
       font-size: 18px !important;
       cursor: pointer;

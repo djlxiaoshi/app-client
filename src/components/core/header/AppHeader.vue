@@ -1,11 +1,7 @@
 <template>
   <header class="app-header">
-    <el-row type="flex" align="middle" justify="center">
-      <el-col  :span="18">
-        <mini-header v-if="isMiniWidth"></mini-header>
-        <normal-header v-else></normal-header>
-      </el-col>
-    </el-row>
+    <mini-header v-if="isMiniWidth"></mini-header>
+    <normal-header v-else></normal-header>
   </header>
 
 </template>
@@ -35,10 +31,7 @@
 <style scoped lang="less">
   @import "../../../assets/css/theme";
   .app-header {
-    height: 100%;
+    height: @AppHeaderHeight;
     background: @pageHeaderBg;
-    /deep/ .el-row {
-      height: 100%;
-    }
   }
 </style>

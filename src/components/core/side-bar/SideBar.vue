@@ -1,26 +1,38 @@
 <template>
   <transition name="page-move">
     <div class="side-menu-wrap">
-      <side-menu
+      <base-menu
         active-text-color="#ffd04b"
+        @menuSelect = "menuSelect"
         :menuConfig="menuConfig">
-      </side-menu>
+      </base-menu>
     </div>
   </transition>
 </template>
 
 <script>
-  import SideMenu from 'components/core/menu/Menu';
+  import BaseMenu from 'components/core/menu/Menu';
   import menuConfig from '../../../router/menu';
+
+  import { mapMutations } from 'vuex';
+  import { TOGGLE_SIDE_MENU_VISIBLE } from 'store/mutation-types';
 
   export default {
     components: {
-      SideMenu
+      BaseMenu
     },
     data () {
       return {
         menuConfig
       };
+    },
+    methods: {
+      ...mapMutations({
+        'setSideMenuVisible': TOGGLE_SIDE_MENU_VISIBLE
+      }),
+      menuSelect (menuName) {
+        this.setSideMenuVisible(false);
+      }
     }
   };
 </script>

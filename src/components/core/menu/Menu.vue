@@ -56,6 +56,7 @@
       }),
       handleSelect (key) {
         this.setActiveMenu(key);
+        this.$emit('menuSelect', key);
       }
     }
   };
@@ -64,5 +65,6 @@
 <style scoped lang="less">
   .menu {
     border-right: none;
+    height: 100%;
   }
 </style>
