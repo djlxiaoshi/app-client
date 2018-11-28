@@ -7,15 +7,19 @@
             <span>登录</span>
           </div>
           <div class="card-body">
-            <el-form ref="form" :model="form" label-width="0px">
-              <el-form-item>
-                <el-input v-model="form.username"></el-input>
+            <el-form
+              ref="form"
+              :rules="rules"
+               :model="form"
+              label-width="0px">
+              <el-form-item prop="username">
+                <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input v-model="form.password" placeholder="请输入密码"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-input v-model="form.password"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="login" class="login-btn" size="medium">登录</el-button>
+                <el-button type="primary" @click="formValidate" class="login-btn" size="medium">登录</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -42,6 +46,14 @@
             form: {
               username: '',
               password: ''
+            },
+            rules: {
+              username: [
+                { required: true, trigger: 'blur', message: '请输入用户名' }
+              ],
+              password: [
+                { required: true, trigger: 'blur', message: '请输入密码' }
+              ]
             }
           };
       },
@@ -65,6 +77,13 @@
             this.goToHomePage();
 
           }, () => {});
+        },
+        formValidate () {
+          this.$refs['form'].validate((valid) => {
+            if (valid) {
+              this.login();
+            }
+          });
         },
         goToHomePage () {
           this.$router.push('/home');

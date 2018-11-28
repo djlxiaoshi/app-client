@@ -58,26 +58,8 @@
   export default {
     data () {
       const checkUrl = (rule, value, callback) => {
-        if (value === '' || value.trim() === '') {
-          callback(new Error('url地址不能为空'));
-        } else if (!(/^(http|https):\/\//.test(value))) {
-          callback(new Error('请输入正确的url地址'));
-        } else {
-          callback();
-        }
-      };
-
-      const checkAbstract = (rule, value, callback) => {
-        if (value === '' || value.trim() === '') {
-          callback(new Error('概述不能为空'));
-        } else {
-          callback();
-        }
-      };
-
-      const checkTitle = (rule, value, callback) => {
-        if (value === '' || value.trim() === '') {
-          callback(new Error('标题不能为空'));
+        if (!(/^(http|https):\/\//.test(value))) {
+          callback(new Error('请输入正确的URL地址'));
         } else {
           callback();
         }
@@ -92,13 +74,14 @@
         },
         rules: {
           url: [
-            { required: true, trigger: 'blur', validator: checkUrl }
+            { required: true, trigger: 'blur', message: 'URL地址不能为空' },
+            { trigger: 'blur', validator: checkUrl }
           ],
           title: [
-            { required: true, trigger: 'blur', validator: checkTitle }
+            { required: true, trigger: 'blur', message: '标题不能为空' }
           ],
           abstract: [
-            { required: true, trigger: 'blur', validator: checkAbstract }
+            { required: true, trigger: 'blur', message: '描述不能为空' }
           ]
         }
       };

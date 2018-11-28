@@ -7,12 +7,17 @@
             编辑收藏
           </div>
           <div class="card-body">
-            <el-form ref="form" :model="formData" label-width="80px" label-position="left">
-              <el-form-item label="链接地址">
+            <el-form
+              :rules="rules"
+              ref="form"
+              :model="formData"
+              label-width="80px"
+              label-position="left">
+              <el-form-item label="链接地址" prop="url">
                 <el-input v-model="formData.url"></el-input>
               </el-form-item>
 
-              <el-form-item label="标题">
+              <el-form-item label="标题" prop="title">
                 <el-input v-model="formData.title"></el-input>
               </el-form-item>
 
@@ -20,12 +25,12 @@
                 <input-tag :tags.sync="formData.tags"></input-tag>
               </el-form-item>
 
-              <el-form-item label="概括">
+              <el-form-item label="概括" prop="abstract">
                 <el-input v-model="formData.abstract"></el-input>
               </el-form-item>
 
               <el-form-item>
-                <el-button type="primary" @click="save" class="create-btn">
+                <el-button type="primary" @click="formValidate" class="create-btn">
                   保存修改
                 </el-button>
               </el-form-item>
@@ -51,12 +56,33 @@
   import dayjs from 'dayjs';
   export default {
     data () {
+
+      const checkUrl = (rule, value, callback) => {
+        if (!(/^(http|https):\/\//.test(value))) {
+          callback(new Error('请输入正确的URL地址'));
+        } else {
+          callback();
+        }
+      };
+
       return {
         formData: {
           url: '',
           title: '',
           tags: [],
           abstract: ''
+        },
+        rules: {
+          url: [
+            { required: true, trigger: 'blur', message: 'URL地址不能为空' },
+            { trigger: 'blur', validator: checkUrl }
+          ],
+          title: [
+            { required: true, trigger: 'blur', message: '标题不能为空' }
+          ],
+          abstract: [
+            { required: true, trigger: 'blur', message: '描述不能为空' }
+          ]
         },
         prevFormData: ''
       };
@@ -111,6 +137,13 @@
           loadingTarget: this.$refs.form.$el
         }).then(() => {
           this.prevFormData = this.contentStringify(this.formData);
+        });
+      },
+      formValidate () {
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            this.save();
+          }
         });
       },
       contentStringify (formData) {

@@ -7,18 +7,21 @@
             <span>注册</span>
           </div>
           <div class="card-body">
-            <el-form ref="form" :model="form">
-              <el-form-item>
-                <el-input v-model="form.username"></el-input>
+            <el-form
+              ref="form"
+              :rules="rules"
+              :model="form">
+              <el-form-item prop="username">
+                <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+              </el-form-item>
+              <el-form-item prop="password">
+                <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
+              </el-form-item>
+              <el-form-item prop="email">
+                <el-input v-model="form.email" placeholder="请输入邮箱"></el-input>
               </el-form-item>
               <el-form-item>
-                <el-input v-model="form.password" type="password"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-input v-model="form.email"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="register" class="register-btn">注册</el-button>
+                <el-button type="primary" @click="formValidate" class="register-btn">注册</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -35,11 +38,34 @@
     export default {
       name: 'register',
       data () {
+
+        const checkEmail = (rule, value, callback) => {
+          value = value.trim();
+          const regexp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+          if (!regexp.test(value)) {
+            callback(new Error('请输入正确的邮箱地址'));
+          } else {
+            callback();
+          }
+        };
+
         return {
           form: {
             username: '',
             password: '',
             email: ''
+          },
+          rules: {
+            username: [
+              { required: true, trigger: 'blur', message: '请输入用户名' }
+            ],
+            password: [
+              { required: true, trigger: 'blur', message: '请输入密码' }
+            ],
+            email: [
+              { required: true, trigger: 'blur', message: '请输入邮箱' },
+              { trigger: 'blur', validator: checkEmail }
+            ]
           }
         };
       },
@@ -57,6 +83,13 @@
           }).then(() => {
             this.goToHomePage();
           }, () => {});
+        },
+        formValidate () {
+          this.$refs['form'].validate((valid) => {
+            if (valid) {
+              this.register();
+            }
+          });
         },
         goToLogin () {
           this.$router.push('/login');
