@@ -6,6 +6,16 @@
 
 <script>
     export default {
+      mounted () {
+        this.$http({
+          url: '/explore',
+          method: 'get',
+          hasWarning: true,
+          showSuccessMsg: true
+        }).then(() => {
+
+        });
+      }
     };
 </script>
 

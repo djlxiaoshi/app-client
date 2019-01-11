@@ -6,6 +6,7 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import Notification from './utils/notification';
 import { SERVER_ADRESS } from './config';
+import router from '../../router/index';
 
 const xhrCache = []; // 请求池
 const cancelCache = []; // 取消请求池
@@ -78,6 +79,9 @@ export default function http (config) {
 
       const data = response.data;
 
+      // 登录判断
+      loginCheck(data);
+
       if (data.code !== 0) {
         if (config.hasWarning) {
           Notification.error(data.message);
@@ -112,3 +116,18 @@ export default function http (config) {
     xhrCache.push(axiosInstance);
   });
 }
+
+function loginCheck (response) {
+  // 未登录
+  if (response.code === -1000) {
+    router.push('/login');
+  }
+}
+
+// function checkNotLogin (response) {
+//
+//   // 已登录
+//   if (response.code === -1001) {
+//
+//   }
+// }
