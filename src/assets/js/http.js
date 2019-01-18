@@ -50,7 +50,8 @@ export default function http (config) {
     method: config.method || 'get',
     url: SERVER_ADRESS + config.url,
     withCredentials: config.withCredentials || true,
-    headers: {'Content-Type': 'application/json'},
+    headers: Object.assign({}, {'Content-Type': 'application/json'}, config.headers),
+    // headers: {'Content-Type': 'application/json'},
     cancelToken: new CancelToken(function executor (c) {
       cancelCache.push(c);
     })

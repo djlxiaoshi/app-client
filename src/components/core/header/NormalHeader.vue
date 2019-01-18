@@ -13,16 +13,20 @@
         <el-input placeholder="搜索" v-model="searchText" suffix-icon="el-input__icon"></el-input>
       </div>
     </el-col>
-    <el-col :span="2" :push="1">
-      <div class="avatar-wrap">
+    <el-col :span="3" :push="1">
+      <div class="avatar-wrap" v-if="user">
         <el-dropdown @command="eventHandler" trigger="click">
           <a class="user-avatar"></a>
 
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>用户信息</el-dropdown-item>
+            <el-dropdown-item command="userInfo">用户信息</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+      </div>
+      <div class="login-or-register" v-else>
+        <a class="login-btn" href="javascript:void(0)" @click="goToLoginPage">登录</a>
+        <a class="register-btn" href="javascript:void(0)" @click="goToRegisterPage">注册</a>
       </div>
     </el-col>
   </el-row>
@@ -61,6 +65,8 @@
       eventHandler (event) {
         if (event === 'logout') {
           this.logout();
+        } else if (event === 'userInfo') {
+          this.$router.push('/info');
         }
       },
       logout () {
@@ -83,6 +89,9 @@
       },
       goToLoginPage () {
         this.$router.push('/login');
+      },
+      goToRegisterPage () {
+        this.$router.push('/register');
       }
     }
   };
@@ -117,6 +126,15 @@
         height: 40px;
         border-radius: 50%;
         background: lightgreen;
+      }
+    }
+    .login-or-register {
+      .register-btn, .login-btn {
+        color: #ffffff;
+        padding: 0 5px 5px 5px;
+        &:hover {
+          color: rgb(255, 208, 75);
+        }
       }
     }
   }

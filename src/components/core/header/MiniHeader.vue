@@ -12,8 +12,11 @@
     </el-col>
     <el-col :span="6">
       <div class="header-login">
-        <a>登录</a>
-        <a>注册</a>
+        <a class="user-avatar" v-if="user"></a>
+        <div v-else>
+          <a>登录</a>
+          <a>注册</a>
+        </div>
       </div>
     </el-col>
   </el-row>
@@ -26,7 +29,8 @@
   export default {
     computed: {
       ...mapState([
-        'sideMenuVisible'
+        'sideMenuVisible',
+        'user'
       ]),
       menuClass () {
         return this.sideMenuVisible ? 'icon-x' : 'icon-menu';
@@ -55,6 +59,16 @@
     }
     .app-name {
       text-align: center;
+    }
+    .header-login {
+      text-align: right;
+      .user-avatar {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: lightgreen;
+      }
     }
   }
 </style>

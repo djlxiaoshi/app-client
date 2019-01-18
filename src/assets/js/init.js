@@ -4,7 +4,7 @@ import http from './http';
 import sweetAlert from 'assets/js/utils/alert.js';
 import { Button, Menu, MenuItem, Submenu, Input,
   Dropdown, DropdownMenu, DropdownItem, Row, Col,
-  Form, FormItem, Card,
+  Form, FormItem, Card, Upload,
   MessageBox, Notification, Message, Loading
 } from 'element-ui';
 
@@ -31,6 +31,7 @@ Vue.use(Col);
 Vue.use(Form);
 Vue.use(FormItem);
 Vue.use(Card);
+Vue.use(Upload);
 
 Vue.use(Router);
 
