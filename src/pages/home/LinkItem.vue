@@ -19,7 +19,7 @@
 
       <div class="item-details">
         <span class="item-time">
-            {{ data.time }}
+            {{ data.createTime }}
           </span>
 
         <span class="button-wrap">

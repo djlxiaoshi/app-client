@@ -1,7 +1,7 @@
 <template>
   <section class="home-page">
     <el-row type="flex" justify="center" class="mini-header">
-      <el-col :xs="24" :sm="14" :md="14" :lg="13" :xl="14">
+      <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
         <el-card class="card-left" ref="loadingTarget">
           <link-item
             v-for="(item, index) in favoriteList"
@@ -15,10 +15,11 @@
 
       <el-col
         class="card-right app-card"
-        :xs="0" :sm="4" :md="4"
-        :lg="4" :xl="4"
-        :offset="1">
-        标签
+        :xs="0" :sm="5" :md="5" :lg="5" :xl="5"
+        :offset="1" ref="tagsWrap">
+        <div class="tags-wrap" >
+          <el-tag v-for="tag in tagsList" :key="tag.label">{{ tag.label }}({{ tag.count }})</el-tag>
+        </div>
       </el-col>
     </el-row>
 
@@ -34,13 +35,15 @@
     },
     data () {
       return {
-        favoriteList: []
+        favoriteList: [],
+        tagsList: []
       };
     },
     mounted () {
 
-      this.getData();
+      this.getCollectionList();
 
+      this.getTagsList();
     },
     watch: {},
     methods: {
@@ -48,7 +51,7 @@
       /**
        * 获取收藏的链接列表
        */
-      getData () {
+      getCollectionList () {
         this.$http({
           url: '/collection',
           hasWarning: true,
@@ -56,7 +59,19 @@
           loadingTarget: this.$refs.loadingTarget.$el
         }).then(data => {
           this.favoriteList = data;
-        }, () => {});
+        }, () => {
+        });
+      },
+      getTagsList () {
+        this.$http({
+          url: '/tags',
+          hasWarning: true,
+          loading: true,
+          loadingTarget: this.$refs.tagsWrap.$el
+        }).then(data => {
+          this.tagsList = data;
+        }, () => {
+        });
       },
       edit (item) {
         this.$router.push('/edit/' + item._id);
@@ -68,17 +83,11 @@
           hasWarning: true
         });
       },
-      back () {
-        this.showSwipePage = false;
-      },
-      onItemClick (item, index) {
-        window.location.href = item.url;
-      },
       onBtnClick (index) {
         this.$alert.warning('确定要删除该收藏吗？').then((willDone) => {
           if (willDone) {
             this.deleteItem(this.favoriteList[index]._id).then(() => {
-              this.getData();
+              this.getCollectionList();
               this.$alert.success('删除成功');
             });
           }
@@ -95,7 +104,13 @@
     }
 
     .card-right {
-
+      /deep/ .el-tag {
+        margin: 5px;
+        cursor: pointer;
+      }
+      .tags-wrap {
+        height: 100%;
+      }
     }
 
     .card-left {

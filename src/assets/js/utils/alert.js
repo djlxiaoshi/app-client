@@ -29,6 +29,22 @@ class Sweetalert {
     swal('Error', desc, 'error');
   }
 
+  input ({ title = '请输入', text = '请输入' }) {
+    return swal({
+      title: title,
+      content: {
+        element: 'input',
+        attributes: {
+          placeholder: text,
+          type: 'text'
+        }
+      },
+      buttons: {
+        cancel: true,
+        confirm: 'Confirm'
+      }
+    });
+  }
 }
 
 export default new Sweetalert();

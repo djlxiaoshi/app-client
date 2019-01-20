@@ -19,6 +19,7 @@
                     list-type="text"
                     :with-credentials="true"
                     :show-file-list="false"
+                    :before-upload="beforeAvatarUpload"
                     :on-success="handleSuccess">
                       <p class="support-desc">支持 jpg、png 格式大小 5M 以内的图片</p>
                       <el-button class="upload-avatar-btn" size="small">点击上传</el-button>
@@ -26,16 +27,19 @@
                 </div>
               </el-form-item>
 
-              <el-form-item label="用户名" prop="title">
-                <el-input v-model="user.username" :disabled="inputStatus.usernameDisabled">
-                  <el-button slot="append" icon="el-icon-edit" @click="edit('username')"></el-button>
-                </el-input>
+              <el-form-item label="用户名" prop="title" class="username-input-item">
+                <el-input v-model="user.username" :disabled="inputStatus.usernameDisabled" width="300px"></el-input>
+                <el-button icon="el-icon-edit" @click="edit('username')"></el-button>
               </el-form-item>
 
-              <el-form-item label="个人介绍">
-                <el-input v-model="user.info" :disabled="inputStatus.infoDisabled">
-                  <el-button slot="append" icon="el-icon-edit" @click="edit('info')"></el-button>
+              <el-form-item label="个人介绍" class="user-info-input-item">
+                <el-input
+                  type="textarea"
+                  :rows="2"
+                  v-model="user.info"
+                  :disabled="inputStatus.infoDisabled">
                 </el-input>
+                <el-button icon="el-icon-edit" @click="edit('info')"></el-button>
               </el-form-item>
 
               <el-form-item label="">
@@ -86,6 +90,19 @@
           this.user.avatar = res.data.path;
           this.$notify.success('上传成功');
         },
+        beforeAvatarUpload (file) {
+          const isJPG = file.type === 'image/jpeg';
+          const isPNG = file.type === 'image/png';
+          const isLt2M = file.size / 1024 < 300;
+
+          if (!(isJPG || isPNG)) {
+            this.$message.error('上传头像图片只能是 JPG或者PNG 格式!');
+          }
+          if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 300KB!');
+          }
+          return (isJPG || isPNG) && isLt2M;
+        },
         edit (type) {
           switch (type) {
             case 'username': {
@@ -111,7 +128,13 @@
           }).then((user) => {
             // 更新用户信息
             this.setUserMsg(user);
+
+            this.resetStatus();
           }, () => {});
+        },
+        resetStatus () {
+          this.inputStatus.usernameDisabled = true;
+          this.inputStatus.infoDisabled = true;
         }
       }
     };
@@ -120,7 +143,7 @@
 <style scoped lang="less">
   .user-info-page {
     .user-info-panel {
-      .el-upload {
+      /deep/ .el-upload {
         text-align: left;
       }
       .avatar-left, .avatar-right{
@@ -141,6 +164,19 @@
         }
         .upload-avatar-btn {
 
+        }
+      }
+      .username-input-item {
+        /deep/ .el-input {
+          width: 80%;
+        }
+      }
+      .user-info-input-item {
+        /deep/ .el-textarea {
+          width: 80%;
+          textarea {
+            font-family: 'Arial';
+          }
         }
       }
     }

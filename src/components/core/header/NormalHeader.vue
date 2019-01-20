@@ -20,6 +20,7 @@
 
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="userInfo">用户信息</el-dropdown-item>
+            <el-dropdown-item command="tags">标签管理</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -67,6 +68,8 @@
           this.logout();
         } else if (event === 'userInfo') {
           this.$router.push('/info');
+        } else if (event === 'tags') {
+          this.$router.push('/tags');
         }
       },
       logout () {

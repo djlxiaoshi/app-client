@@ -22,7 +22,10 @@
               </el-form-item>
 
               <el-form-item label="分类">
-                <input-tag :tags.sync="formData.tags"></input-tag>
+                <el-checkbox-group v-model="formData.tags">
+                  <el-checkbox :label="tag" v-for="(tag, index) in allTagsList" :key="index" @change="change(tag, $event)"></el-checkbox>
+                </el-checkbox-group>
+                <el-button type="text" @click="addTag">添加分类</el-button>
               </el-form-item>
 
               <el-form-item label="概括" prop="abstract">
@@ -54,6 +57,9 @@
 
 <script>
   import dayjs from 'dayjs';
+  import { mapState, mapMutations } from 'vuex';
+  import { ACTIVE_MENU } from 'store/mutation-types';
+
   export default {
     data () {
 
@@ -72,6 +78,7 @@
           tags: [],
           abstract: ''
         },
+        allTagsList: [],
         rules: {
           url: [
             { required: true, trigger: 'blur', message: 'URL地址不能为空' },
@@ -84,25 +91,26 @@
             { required: true, trigger: 'blur', message: '描述不能为空' }
           ]
         },
-        prevFormData: ''
+        prevFormData: '',
+        prevActiveMenu: ''
       };
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.$http({
-          url: '/collection/' + vm.$route.params.id,
-          method: 'get',
-          hasWarning: true
-        }).then(data => {
-          vm.formData = data;
+    async created () {
+      this.prevActiveMenu = this.activeMenu;
 
-          vm.prevFormData = JSON.stringify({
-            url: data.url,
-            title: data.title,
-            tags: data.tags,
-            abstract: data.abstract
-          });
-        });
+      const allTagsList = await this.getTagsList();
+      this.allTagsList = allTagsList.map(tag => tag.label);
+
+      const collectionDetails = await this.getCollectionDetails();
+
+      this.formData = collectionDetails;
+
+      // 用来判断用户是否编辑过
+      this.prevFormData = JSON.stringify({
+        url: collectionDetails.url,
+        title: collectionDetails.title,
+        tags: collectionDetails.tags,
+        abstract: collectionDetails.abstract
       });
     },
     mounted () {
@@ -117,22 +125,80 @@
       this.$alert.warning('客官，您不打算保存了吗？').then((confirm) => {
         if (confirm) {
           next();
+        } else {
+        // 保持当前菜单处于激活状态
+          this.setActiveMenu(this.prevActiveMenu);
         }
       });
     },
+    computed: {
+      ...mapState([
+        'activeMenu'
+      ])
+    },
     methods: {
+      ...mapMutations({
+        'setActiveMenu': ACTIVE_MENU
+      }),
+
+      getTagsList () {
+        return this.$http({
+          url: '/tags',
+          hasWarning: true
+        });
+      },
+      getCollectionDetails () {
+        // todo 这里可以优化，直接通过路由来传递参数就行，不用再发一次请求
+        return this.$http({
+          url: '/collection/' + this.$route.params.id,
+          method: 'get',
+          hasWarning: true
+        });
+      },
+      addTag () {
+        this.$alert.input({
+          title: '新建标签',
+          text: '请输入标签名'
+        }).then(inputValue => {
+          if (inputValue && (inputValue.trim() !== '')) {
+            this.$http({
+              url: '/tags',
+              method: 'post',
+              data: {
+                label: inputValue,
+                createTime: dayjs().format('YYYY-MM-DD HH:MM:ss')
+              },
+              hasWarning: true,
+              showSuccessMsg: true
+            }).then(data => {
+              this.allTagsList.push(inputValue);
+            }, () => {});
+          }
+        });
+      },
+      change (tagName, isChecked) {
+        this.$http({
+          url: '/tags',
+          data: {
+            label: tagName,
+            status: isChecked
+          },
+          method: 'put',
+          hasWarning: true
+        });
+      },
       save () {
-        const data = {
-          time: dayjs().format('YYYY-MM-DD HH:MM:ss')
-        };
-        Object.assign(data, this.formData);
+
+        const params = Object.assign({}, this.formData, {
+          lastModifyTime: dayjs().format('YYYY-MM-DD HH:MM:ss')
+        });
 
         this.$http({
           url: '/collection',
           method: 'put',
           hasWarning: true,
           showSuccessMsg: true,
-          data: data,
+          data: params,
           loading: true,
           loadingTarget: this.$refs.form.$el
         }).then(() => {

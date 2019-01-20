@@ -22,7 +22,10 @@
                   </el-form-item>
 
                   <el-form-item label="分类">
-                    <input-tag :tags.sync="data.tags"></input-tag>
+                    <el-checkbox-group v-model="data.tags">
+                      <el-checkbox :label="tag" v-for="(tag, index) in allTagsList" :key="index"></el-checkbox>
+                    </el-checkbox-group>
+                    <el-button type="text" @click="addTag">添加分类</el-button>
                   </el-form-item>
 
                   <el-form-item label="概括" prop="abstract">
@@ -72,6 +75,7 @@
           tags: [],
           abstract: ''
         },
+        allTagsList: [],
         rules: {
           url: [
             { required: true, trigger: 'blur', message: 'URL地址不能为空' },
@@ -87,8 +91,39 @@
       };
     },
     mounted () {
+      this.getTagsList();
     },
     methods: {
+      getTagsList () {
+        return this.$http({
+          url: '/tags',
+          hasWarning: true
+        }).then(data => {
+          this.allTagsList = data.map(tag => tag.label);
+        });
+      },
+      // 添加分类
+      addTag () {
+        this.$alert.input({
+          title: '新建标签',
+          text: '请输入标签名'
+        }).then(inputValue => {
+          if (inputValue && (inputValue.trim() !== '')) {
+            this.$http({
+              url: '/tags',
+              method: 'post',
+              data: {
+                label: inputValue,
+                createTime: dayjs().format('YYYY-MM-DD HH:MM:ss')
+              },
+              hasWarning: true,
+              showSuccessMsg: true
+            }).then(data => {
+              this.allTagsList.push(inputValue);
+            }, () => {});
+          }
+        });
+      },
       add () {
         const data = {
           time: dayjs().format('YYYY-MM-DD HH:MM:ss')
