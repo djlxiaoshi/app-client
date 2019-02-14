@@ -23,7 +23,8 @@
 
                   <el-form-item label="分类">
                     <el-checkbox-group v-model="data.tags">
-                      <el-checkbox :label="tag" v-for="(tag, index) in allTagsList" :key="index"></el-checkbox>
+                      <el-checkbox :label="tag._id" v-for="(tag, index) in allTagsList" :key="index">{{ tag.label }}</el-checkbox>
+
                     </el-checkbox-group>
                     <el-button type="text" @click="addTag">添加分类</el-button>
                   </el-form-item>
@@ -90,6 +91,15 @@
         }
       };
     },
+    computed: {
+      // checkedObjects () {
+      //   return this.allTagsList.filter(
+      //     option => this.checked.some(
+      //       checked => checked === option.name
+      //     )
+      //   );
+      // }
+    },
     mounted () {
       this.getTagsList();
     },
@@ -99,7 +109,7 @@
           url: '/tags',
           hasWarning: true
         }).then(data => {
-          this.allTagsList = data.map(tag => tag.label);
+          this.allTagsList = data;
         });
       },
       // 添加分类

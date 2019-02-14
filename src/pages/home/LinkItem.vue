@@ -13,7 +13,7 @@
           class="item-tag"
           v-for="(tag, index) in data.tags"
           :key="index">
-            {{ tag }}
+            {{ tag.label }}
           </a>
       </div>
 

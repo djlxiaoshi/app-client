@@ -23,7 +23,7 @@
 
               <el-form-item label="分类">
                 <el-checkbox-group v-model="formData.tags">
-                  <el-checkbox :label="tag" v-for="(tag, index) in allTagsList" :key="index" @change="change(tag, $event)"></el-checkbox>
+                  <el-checkbox :label="tag" v-for="(tag, index) in allTagsList" :key="index"></el-checkbox>
                 </el-checkbox-group>
                 <el-button type="text" @click="addTag">添加分类</el-button>
               </el-form-item>
@@ -174,17 +174,6 @@
               this.allTagsList.push(inputValue);
             }, () => {});
           }
-        });
-      },
-      change (tagName, isChecked) {
-        this.$http({
-          url: '/tags',
-          data: {
-            label: tagName,
-            status: isChecked
-          },
-          method: 'put',
-          hasWarning: true
         });
       },
       save () {

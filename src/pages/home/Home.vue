@@ -18,7 +18,7 @@
         :xs="0" :sm="5" :md="5" :lg="5" :xl="5"
         :offset="1" ref="tagsWrap">
         <div class="tags-wrap" >
-          <el-tag v-for="tag in tagsList" :key="tag.label">{{ tag.label }}({{ tag.count }})</el-tag>
+          <el-tag v-for="tag in tagsList" :key="tag.label">{{ tag.label }}({{ tag.collections.length }})</el-tag>
         </div>
       </el-col>
     </el-row>
