@@ -21,13 +21,6 @@
                 <el-input v-model="formData.title"></el-input>
               </el-form-item>
 
-              <el-form-item label="分类">
-                <el-checkbox-group v-model="formData.tags">
-                  <el-checkbox :label="tag" v-for="(tag, index) in allTagsList" :key="index"></el-checkbox>
-                </el-checkbox-group>
-                <el-button type="text" @click="addTag">添加分类</el-button>
-              </el-form-item>
-
               <el-form-item label="概括" prop="abstract">
                 <el-input v-model="formData.abstract"></el-input>
               </el-form-item>
@@ -75,7 +68,6 @@
         formData: {
           url: '',
           title: '',
-          tags: [],
           abstract: ''
         },
         allTagsList: [],
@@ -98,9 +90,6 @@
     async created () {
       this.prevActiveMenu = this.activeMenu;
 
-      const allTagsList = await this.getTagsList();
-      this.allTagsList = allTagsList.map(tag => tag.label);
-
       const collectionDetails = await this.getCollectionDetails();
 
       this.formData = collectionDetails;
@@ -109,7 +98,6 @@
       this.prevFormData = JSON.stringify({
         url: collectionDetails.url,
         title: collectionDetails.title,
-        tags: collectionDetails.tags,
         abstract: collectionDetails.abstract
       });
     },
@@ -141,12 +129,6 @@
         'setActiveMenu': ACTIVE_MENU
       }),
 
-      getTagsList () {
-        return this.$http({
-          url: '/tags',
-          hasWarning: true
-        });
-      },
       getCollectionDetails () {
         // todo 这里可以优化，直接通过路由来传递参数就行，不用再发一次请求
         return this.$http({
@@ -155,27 +137,7 @@
           hasWarning: true
         });
       },
-      addTag () {
-        this.$alert.input({
-          title: '新建标签',
-          text: '请输入标签名'
-        }).then(inputValue => {
-          if (inputValue && (inputValue.trim() !== '')) {
-            this.$http({
-              url: '/tags',
-              method: 'post',
-              data: {
-                label: inputValue,
-                createTime: dayjs().format('YYYY-MM-DD HH:MM:ss')
-              },
-              hasWarning: true,
-              showSuccessMsg: true
-            }).then(data => {
-              this.allTagsList.push(inputValue);
-            }, () => {});
-          }
-        });
-      },
+
       save () {
 
         const params = Object.assign({}, this.formData, {
@@ -205,7 +167,6 @@
         return JSON.stringify({
           url: formData.url,
           title: formData.title,
-          tags: formData.tags,
           abstract: formData.abstract
         });
       }

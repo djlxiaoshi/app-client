@@ -129,7 +129,7 @@
               hasWarning: true,
               showSuccessMsg: true
             }).then(data => {
-              this.allTagsList.push(inputValue);
+              this.allTagsList.push(data);
             }, () => {});
           }
         });

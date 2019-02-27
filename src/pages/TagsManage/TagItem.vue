@@ -7,7 +7,7 @@
         <h4 class="tag-name">{{ tagData.label }}</h4>
         <div class="tag-desc">
           <span class="tag-owner">{{tagData.ownerName}}</span>
-          <span class="tag-count">{{tagData.count || 0 }}篇文章</span>
+          <span class="tag-count">{{tagData.collections.length || 0 }}篇文章</span>
           <span class="tag-followers">{{tagData.followers || 0 }}人关注</span>
         </div>
       </div>

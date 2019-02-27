@@ -81,6 +81,8 @@
           url: '/collection/' + id,
           method: 'delete',
           hasWarning: true
+        }).then(() => {
+          this.getTagsList();
         });
       },
       onBtnClick (index) {
