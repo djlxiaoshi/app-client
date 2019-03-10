@@ -8,9 +8,6 @@ import { Button, Menu, MenuItem, Submenu, Input,
   MessageBox, Notification, Message, Loading
 } from 'element-ui';
 
-import InputTag from 'vue-input-tag';
-// import Loading from 'components/common/loading/Loading';
-
 import './resize';
 import 'izitoast/dist/css/iziToast.css';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -38,14 +35,10 @@ Vue.use(CheckboxGroup);
 
 Vue.use(Router);
 
-// Vue.component('Loading', Loading);
-
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
-
-Vue.component('input-tag', InputTag);
 
 Vue.prototype.$http = http;
 Vue.prototype.$alert = sweetAlert;

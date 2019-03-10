@@ -1,101 +1,23 @@
-'use strict'
-const utils = require('./utils')
-const webpack = require('webpack')
-const config = require('../config')
-const merge = require('webpack-merge')
-const path = require('path')
-const baseWebpackConfig = require('./webpack.base.conf')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const HappyPack =require('happypack')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const portfinder = require('portfinder')
+const path = require('path');
+const baseConfig = require('./webpack.base.conf');
+const webpack = require('webpack');
+const WebpackMerge = require('webpack-merge');
 
-const HOST = process.env.HOST
-const PORT = process.env.PORT && Number(process.env.PORT)
+module.exports = WebpackMerge(baseConfig, {
 
-const devWebpackConfig = merge(baseWebpackConfig, {
-  module: {
-    rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
-  },
-  // cheap-module-eval-source-map is faster for development
-  devtool: config.dev.devtool,
-
-  // these devServer options should be customized in /config/index.js
   devServer: {
-    clientLogLevel: 'warning',
-    historyApiFallback: {
-      rewrites: [
-        { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
-      ],
-    },
-    hot: true,
-    contentBase: false, // since we use CopyWebpackPlugin.
-    compress: true,
-    host: HOST || config.dev.host,
-    port: PORT || config.dev.port,
-    open: config.dev.autoOpenBrowser,
-    overlay: config.dev.errorOverlay
-      ? { warnings: false, errors: true }
-      : false,
-    publicPath: config.dev.assetsPublicPath,
-    proxy: config.dev.proxyTable,
-    quiet: false, // necessary for FriendlyErrorsPlugin
-    noInfo: false,
-    watchOptions: {
-      poll: config.dev.poll,
+    contentBase: path.resolve(__dirname, '../dist'),
+    host: "localhost", // 指定使用一个 host。默认是 localhost。如果你希望服务器外部可访问，指定如下： 所有的都能访问 通过ip或者通过localhost
+    compress: true, // 启用gzip压缩一切服务
+    port: 8080,
+    hot: true, // 启动热更新模块 或者在命令行中带参数开启
+    overlay: { // 在编译的时候出现任何错误 就会在网页上面显示黑色的背景和错误的信息
+      warnings: false, // 警告信息一般不开启
+      errors: true // 错误信息
     }
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-    new webpack.NoEmitOnErrorsPlugin(),
-    // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
-    }),
-    // copy custom static assets
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../static'),
-        to: config.dev.assetsSubDirectory,
-        ignore: ['.*']
-      }
-    ]),
-    new HappyPack({
-      id: 'babel',
-      loaders: [ 'babel-loader?cacheDirectory' ]
-    })
+    new webpack.HotModuleReplacementPlugin()
   ]
-})
+});
 
-module.exports = new Promise((resolve, reject) => {
-  portfinder.basePort = process.env.PORT || config.dev.port
-  portfinder.getPort((err, port) => {
-    if (err) {
-      reject(err)
-    } else {
-      // publish the new Port, necessary for e2e tests
-      process.env.PORT = port
-      // add port to devServer config
-      devWebpackConfig.devServer.port = port
-
-      // Add FriendlyErrorsPlugin
-      devWebpackConfig.plugins.push(new FriendlyErrorsPlugin({
-        compilationSuccessInfo: {
-          messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
-        },
-        onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
-      }))
-
-      resolve(devWebpackConfig)
-    }
-  })
-})
