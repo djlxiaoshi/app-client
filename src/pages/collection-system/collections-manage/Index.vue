@@ -1,11 +1,10 @@
 <template>
-    <section class="about-me-page">
-      about me
-    </section>
+  <router-view></router-view>
 </template>
 
 <script>
     export default {
+        name: ''
     };
 </script>
 

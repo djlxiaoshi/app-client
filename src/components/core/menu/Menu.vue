@@ -11,7 +11,7 @@
       <el-menu-item
         v-if="!menu.hidden"
         v-for="(menu, index) in menuConfig"
-        :index="menu.path"
+        :index="menu.activeKey"
         :key="index">
         {{ menu.label }}
       </el-menu-item>
@@ -58,6 +58,9 @@
         this.setActiveMenu(key);
         this.$emit('menuSelect', key);
       }
+    },
+    mounted () {
+      console.log(this.menuConfig)
     }
   };
 </script>

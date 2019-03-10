@@ -16,11 +16,12 @@
     <el-col :span="3" :push="1">
       <div class="avatar-wrap" v-if="user">
         <el-dropdown @command="eventHandler" trigger="click">
-          <a class="user-avatar"></a>
+          <a class="user-avatar">
+            <img :src="user.avatar" width="100%">
+          </a>
 
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="userInfo">用户信息</el-dropdown-item>
-            <el-dropdown-item command="tags">标签管理</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -35,7 +36,7 @@
 
 <script>
   import HeaderMenu from 'components/core/menu/Menu';
-  import menuConfig from 'router/menu';
+  import {routes as menuConfig} from 'router/index';
   import { mapState, mapMutations } from 'vuex';
   import { ACTIVE_MENU, SET_USER_MSG } from 'store/mutation-types';
 
@@ -67,9 +68,7 @@
         if (event === 'logout') {
           this.logout();
         } else if (event === 'userInfo') {
-          this.$router.push('/info');
-        } else if (event === 'tags') {
-          this.$router.push('/tags');
+          this.$router.push('/user/info');
         }
       },
       logout () {
@@ -91,10 +90,10 @@
         this.setUserMsg(null);
       },
       goToLoginPage () {
-        this.$router.push('/login');
+        this.$router.push('/user/login');
       },
       goToRegisterPage () {
-        this.$router.push('/register');
+        this.$router.push('/user/register');
       }
     }
   };
@@ -125,10 +124,12 @@
     .avatar-wrap {
       .user-avatar {
         display: inline-block;
+        overflow: hidden;
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: lightgreen;
+        border: 2px solid #e5e5e5;
+        cursor: pointer;
       }
     }
     .login-or-register {

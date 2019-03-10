@@ -51,7 +51,8 @@
     }
     .app-body-wrap {
       margin-top: 60px;
-      padding-top: 40px;
+      padding-top: 20px;
+      padding-bottom: 40px;
       background: @pageBodyBg;
       min-height: calc(100vh - 100px);
     }

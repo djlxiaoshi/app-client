@@ -121,7 +121,7 @@ export default function http (config) {
 function loginCheck (response) {
   // 未登录
   if (response.code === -1000) {
-    router.push('/login');
+    router.push('/user/login');
   }
 }
 

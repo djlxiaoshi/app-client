@@ -12,7 +12,9 @@
     </el-col>
     <el-col :span="6">
       <div class="header-login">
-        <a class="user-avatar" v-if="user"></a>
+        <a class="user-avatar" v-if="user">
+          <img :src="user.avatar" width="100%">
+        </a>
         <div v-else>
           <a>登录</a>
           <a>注册</a>
@@ -64,10 +66,12 @@
       text-align: right;
       .user-avatar {
         display: inline-block;
+        overflow: hidden;
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: lightgreen;
+        border: 2px solid #e5e5e5;
+        cursor: pointer;
       }
     }
   }

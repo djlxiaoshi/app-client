@@ -1,7 +1,7 @@
 <template>
     <div class="tag-item">
-      <div class="tag-img-wrap">
-        <img :src="tagData.img" alt="" class="tag-img">
+      <div class="tag-img-wrap" @click="getCollectionsByTag(tagData._id)">
+        <img :src="getDefaultCover()" alt="" class="tag-img" width="100%">
       </div>
       <div class="tag-details">
         <h4 class="tag-name">{{ tagData.label }}</h4>
@@ -15,6 +15,17 @@
 </template>
 
 <script>
+  import defaultImg1 from './img/tag-default-1.jpg';
+  import defaultImg2 from './img/tag-default-2.jpg';
+  import defaultImg3 from './img/tag-default-3.jpg';
+
+  import { randomNum } from '../../../assets/js/utils';
+
+  const defaultImg = [
+    defaultImg1,
+    defaultImg2,
+    defaultImg3
+  ];
     export default {
         props: {
           tagData: {
@@ -22,8 +33,22 @@
             default: () => {
               return {};
             }
-          }
+          },
+          defaultImg: [
+
+          ]
+        },
+      methods: {
+        getCollectionsByTag (tagId) {
+          this.$router.push('tag/' + tagId);
+        },
+        getDefaultCover () {
+          const index = randomNum(2);
+          console.log(index);
+          console.log(defaultImg[index]);
+          return defaultImg[index];
         }
+      }
     };
 </script>
 
@@ -50,6 +75,7 @@
       width: 100%;
       height: 160px;
       overflow: hidden;
+      cursor: pointer;
     }
     .tag-img {
       width: 100%;

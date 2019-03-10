@@ -1,11 +1,10 @@
 <template>
-    <section>
-      关注
-    </section>
+  <router-view></router-view>
 </template>
 
 <script>
     export default {
+        name: ''
     };
 </script>
 

@@ -3,13 +3,20 @@
       <el-row type="flex" justify="center" class="main-content">
         <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
           <el-card class="tags-panel">
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" v-for="(tag, index) in tagList" :key="index">
+            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" v-for="(tag, index) in tagList" :key="index">
               <TagItem :tag-data="tag"></TagItem>
             </el-col>
-            <div class="add-tag-wrap">
-              <a href="javascript:void(0)" class="el-icon-circle-plus add-btn" @click="addTag" alt="添加分类"></a>
-            </div>
           </el-card>
+        </el-col>
+
+        <el-col
+          class="app-card right-part"
+          :xs="0" :sm="5" :md="5" :lg="5"
+          :xl="5" :offset="1"
+        >
+          <div class="operate-btn-wrap">
+            <el-button type="primary" @click="addTag">添加分类</el-button>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -60,7 +67,7 @@
               hasWarning: true,
               showSuccessMsg: true
             }).then(data => {
-
+                this.getTagsList();
             }, () => {});
           }
         });
@@ -72,16 +79,13 @@
 <style scoped lang="less">
   .tags-manage-page {
     .tags-panel {
-      position: relative;
       padding-bottom: 50px;
     }
-    .add-tag-wrap {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      .add-btn {
-        display: inline-block;
-        font-size: 50px;
+    .right-part {
+      .operate-btn-wrap {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #e5e5e5;
       }
     }
   }

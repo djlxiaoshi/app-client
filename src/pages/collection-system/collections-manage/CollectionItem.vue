@@ -12,6 +12,7 @@
         <a
           class="item-tag"
           v-for="(tag, index) in data.tags"
+          @click="getCollectionsByTagId(tag._id)"
           :key="index">
             {{ tag.label }}
           </a>
@@ -19,17 +20,19 @@
 
       <div class="item-details">
         <span class="item-time">
-            {{ data.createTime }}
+            收录时间：{{ data.createTime || '未知'}}
           </span>
 
         <span class="button-wrap">
           <el-button
+            v-if="hasEdit"
             @click="editItem(data.id)"
             class="edit-button operate-button"
             type="primary"
             icon="el-icon-edit"
             size="mini" plain></el-button>
         <el-button
+          v-if="hasDelete"
           @click="deleteItem(data.id)"
           class="delete-button operate-button"
           type="danger"
@@ -47,6 +50,14 @@
       props: {
         data: {
           type: Object
+        },
+        hasEdit: {
+          type: Boolean,
+          default: true
+        },
+        hasDelete: {
+          type: Boolean,
+          default: true
         }
       },
       methods: {
@@ -55,6 +66,9 @@
         },
         editItem (id) {
           this.$emit('edit', id);
+        },
+        getCollectionsByTagId (tagId) {
+          this.$router.push('/tag/' + tagId);
         }
       }
     };
@@ -102,6 +116,9 @@
     }
     .button-wrap {
       margin-left: auto;
+      button {
+        display: inline-block;
+      }
     }
   }
 

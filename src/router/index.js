@@ -1,26 +1,34 @@
 import Router from 'vue-router';
 
-import Test from 'pages/test/Test';
+import Collection from '../pages/collection-system/collections-manage/Index';
+import collectionRoutes from './collections.js';
 
+import User from 'pages/users/Index';
 import userRoutes from './user.js';
-import menuRoutes from './menu.js';
 
 let routes = [
-
   {
-    path: '/test',
-    component: Test
+    path: '/collections-system/',
+    icon: 'icon-36',
+    label: '我的收藏',
+    activeKey: '/collections-system/CollectionsList',
+    component: Collection,
+    children: collectionRoutes
   },
-    ...userRoutes,
-    ...menuRoutes,
+  {
+    path: '/user/',
+    hidden: true,
+    component: User,
+    children: userRoutes
+  },
   {
     path: '',
-    redirect: '/home',
+    redirect: '/collections-system/',
     hidden: true
   },
   {
     path: '**',
-    redirect: '/home',
+    redirect: '/collections-system/',
     hidden: true
   }
 ];
@@ -29,4 +37,4 @@ const router = new Router({
   routes: routes
 });
 
-export default router;
+export { router, routes };

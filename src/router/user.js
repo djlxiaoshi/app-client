@@ -2,26 +2,21 @@
 *  用户相关路由
 * */
 
-import Login from 'components/core/login/Login';
-import Register from 'components/core/register/Register';
-import UserInfo from 'pages/UserInfo/UserInfo';
-import TagsManage from 'pages/tagsManage/tagsManage';
+import UserLogin from 'pages/users/Login';
+import UserRegister from 'pages/users/Register';
+import UserInfo from 'pages/users/Info';
 
 export default [
   {
-    path: '/login',
-    component: Login
+    path: 'login',
+    component: UserLogin
   },
   {
-    path: '/register',
-    component: Register
+    path: 'register',
+    component: UserRegister
   },
   {
-    path: '/info',
+    path: 'info',
     component: UserInfo
-  },
-  {
-    path: '/tags',
-    component: TagsManage
   }
 ];

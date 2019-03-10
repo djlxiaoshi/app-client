@@ -1,7 +1,7 @@
 <template>
   <div class="add-page">
         <el-row type="flex" justify="center">
-          <el-col :xs="24" :sm="12" :md="12" :lg="13" :xl="14">
+          <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
             <el-card class="box-card">
               <div slot="header" class="card-header">
                 添加收藏
@@ -47,8 +47,8 @@
 
           <el-col
             class="app-card"
-            :xs="0" :sm="6" :md="6" :lg="4"
-            :xl="4" :offset="1"
+            :xs="0" :sm="5" :md="5" :lg="5"
+            :xl="5" :offset="1"
           >
             待续
           </el-col>
@@ -92,13 +92,7 @@
       };
     },
     computed: {
-      // checkedObjects () {
-      //   return this.allTagsList.filter(
-      //     option => this.checked.some(
-      //       checked => checked === option.name
-      //     )
-      //   );
-      // }
+
     },
     mounted () {
       this.getTagsList();
@@ -136,7 +130,7 @@
       },
       add () {
         const data = {
-          time: dayjs().format('YYYY-MM-DD HH:MM:ss')
+          createTime: dayjs().format('YYYY-MM-DD HH:MM:ss')
         };
         Object.assign(data, this.data);
 
