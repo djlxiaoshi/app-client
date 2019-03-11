@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const WebpackMerge = require('webpack-merge');
 
 module.exports = WebpackMerge(baseConfig, {
-
+  mode: 'development',
   devServer: {
     contentBase: path.resolve(__dirname, '../dist'),
     host: "localhost", // 指定使用一个 host。默认是 localhost。如果你希望服务器外部可访问，指定如下： 所有的都能访问 通过ip或者通过localhost

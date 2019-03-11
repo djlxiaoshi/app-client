@@ -6,7 +6,7 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import Notification from './utils/notification';
 import { SERVER_ADRESS } from './config';
-import router from '../../router/index';
+import { router } from '../../router/index';
 
 const xhrCache = []; // 请求池
 const cancelCache = []; // 取消请求池
