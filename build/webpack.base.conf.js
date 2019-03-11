@@ -3,7 +3,10 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HappyPack = require('happypack');
+const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
+const env = process.env.NODE_ENV;
 
+const basePath = 'static/'
 module.exports = {
   context: path.resolve(__dirname, '../'), // 设置项目根目录为上下文（影响entry和loader中的路径）
   entry: {
@@ -11,7 +14,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].[hash].js'
+    filename: `${basePath}js/[name].[hash].js`
   },
   resolveLoader: {
     modules: [resolve('node_modules')]
@@ -40,14 +43,6 @@ module.exports = {
         include: [resolve('src')]
       },
       {
-        test: /\.css$/,
-        use: ['happypack/loader?id=css']
-      },
-      {
-        test: /\.less$/,
-        use: ['happypack/loader?id=less']
-      },
-      {
         test: /\.js$/,
         use: ['happypack/loader?id=babel'],
         exclude: path.resolve(__dirname, '../node_modules'),
@@ -56,6 +51,7 @@ module.exports = {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
+          name: `${basePath}images/[name]-[hash:8].[ext]`,
           limit: 10000
         }
       },
@@ -71,14 +67,20 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: 'static/fonts/[name].[hash:7].[ext]'
+          name: `${basePath}fonts/[name].[hash:7].[ext]`
         }
       }
     ]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../index.html')
+      template: path.resolve(__dirname, '../index.html'),
+      minify: env === 'production' ? {
+        removeComments: true,    //移除HTML中的注释
+        collapseWhitespace: false,    //删除空白符与换行符
+        minifyCSS: true, // 压缩html中的css代码
+        minifyJS: true // 压缩html的js代码
+      } : false
     }),
     // 静态目录处理
     new CopyWebpackPlugin([{
@@ -89,19 +91,13 @@ module.exports = {
     new HappyPack({
       // 用唯 的标识符 id ，来代表当前的 HappyPack 是用来处理 类特定的
       id: 'babel',
+      threads: 4,
       // 如何处理.js 文件，用法和 Loader 配置中的
       loaders: ['babel-loader?cacheDirectory']
     }),
-    new HappyPack({
-      // 用唯 的标识符 id ，来代表当前的 HappyPack 是用来处理 类特定的
-      id: 'css',
-      loaders: ['style-loader', 'css-loader', 'less-loader']
-    }),
-    new HappyPack({
-      // 用唯 的标识符 id ，来代表当前的 HappyPack 是用来处理 类特定的
-      id: 'less',
-      loaders: ['vue-style-loader', 'css-loader', 'less-loader']
-    }),
+    new DllReferencePlugin({
+      manifest: require('./vendor-manifest.json'),
+    })
   ]
 };
 
