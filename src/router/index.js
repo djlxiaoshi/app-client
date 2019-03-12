@@ -1,19 +1,19 @@
 import Router from 'vue-router';
 
-import Collection from '../pages/collection-system/collections-manage/Index';
-import collectionRoutes from './collections.js';
+import Component from '../pages/component-system/component-manage/Index';
+import componentRoutes from './component.js';
 
 import User from 'pages/users/Index';
 import userRoutes from './user.js';
 
 let routes = [
   {
-    path: '/collections-system/',
+    path: '/component-system/',
     icon: 'icon-36',
-    label: '我的收藏',
-    activeKey: '/collections-system/CollectionsList',
-    component: Collection,
-    children: collectionRoutes
+    label: '组件列表',
+    activeKey: '/component-system/ComponentsList',
+    component: Component,
+    children: componentRoutes
   },
   {
     path: '/user/',
@@ -23,12 +23,12 @@ let routes = [
   },
   {
     path: '',
-    redirect: '/collections-system/',
+    redirect: '/component-system/',
     hidden: true
   },
   {
     path: '**',
-    redirect: '/collections-system/',
+    redirect: '/component-system/',
     hidden: true
   }
 ];

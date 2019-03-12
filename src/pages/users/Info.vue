@@ -156,6 +156,7 @@
       .user-avatar {
         width: 80px;
         height: 80px;
+        border: 1px solid #e5e5e5;
       }
       .avatar-right {
         .support-desc {

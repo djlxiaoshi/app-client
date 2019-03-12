@@ -16,8 +16,8 @@
           <img :src="user.avatar" width="100%">
         </a>
         <div v-else>
-          <a>登录</a>
-          <a>注册</a>
+          <a class="login-btn" href="javascript:void(0)" @click="goToLoginPage">登录</a>
+          <a class="register-btn" href="javascript:void(0)" @click="goToRegisterPage">注册</a>
         </div>
       </div>
     </el-col>
@@ -44,6 +44,12 @@
       }),
       toggleSideMenu () {
         this.toggleSideMenuVisible(!this.sideMenuVisible);
+      },
+      goToLoginPage () {
+        this.$router.push('/user/login');
+      },
+      goToRegisterPage () {
+        this.$router.push('/user/register');
       }
     }
   };

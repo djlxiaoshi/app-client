@@ -1,35 +1,36 @@
 <template>
   <el-row type="flex" align="middle" justify="center" class="normal-header">
-    <el-col :span="12">
-      <header-menu
-        text-color="#fff"
-        background-color="#545c64"
-        active-text-color="#ffd04b"
-        mode="horizontal"
-        :menuConfig="menuConfig"></header-menu>
-    </el-col>
-    <el-col :span="4">
-      <div class="header-search">
-        <el-input placeholder="搜索" v-model="searchText" suffix-icon="el-input__icon"></el-input>
-      </div>
-    </el-col>
-    <el-col :span="3" :push="1">
-      <div class="avatar-wrap" v-if="user">
-        <el-dropdown @command="eventHandler" trigger="click">
-          <a class="user-avatar">
-            <img :src="user.avatar" width="100%">
-          </a>
+    <el-col :span="20">
+      <div class="header-container">
+        <div class="header-left">
+          <header-menu
+            text-color="#fff"
+            background-color="#545c64"
+            active-text-color="#ffd04b"
+            mode="horizontal"
+            :menuConfig="menuConfig"></header-menu>
+        </div>
 
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="userInfo">用户信息</el-dropdown-item>
-            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <div class="header-right">
+          <div class="avatar-wrap" v-if="user">
+            <el-dropdown @command="eventHandler" trigger="click">
+              <a class="user-avatar">
+                <img :src="user.avatar" width="100%">
+              </a>
+
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="userInfo">用户信息</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+          <div class="login-or-register" v-else>
+            <a class="login-btn" href="javascript:void(0)" @click="goToLoginPage">登录</a>
+            <a class="register-btn" href="javascript:void(0)" @click="goToRegisterPage">注册</a>
+          </div>
+        </div>
       </div>
-      <div class="login-or-register" v-else>
-        <a class="login-btn" href="javascript:void(0)" @click="goToLoginPage">登录</a>
-        <a class="register-btn" href="javascript:void(0)" @click="goToRegisterPage">注册</a>
-      </div>
+
     </el-col>
   </el-row>
 </template>
@@ -120,6 +121,11 @@
     .header-login {
       text-align: right;
       cursor: pointer;
+    }
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     .avatar-wrap {
       .user-avatar {

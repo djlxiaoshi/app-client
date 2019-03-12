@@ -5,7 +5,7 @@ import sweetAlert from 'assets/js/utils/alert.js';
 import { Button, Menu, MenuItem, Submenu, Input,
   Dropdown, DropdownMenu, DropdownItem, Row, Col,
   Form, FormItem, Card, Upload, Tag, Checkbox, CheckboxGroup,
-  MessageBox, Notification, Message, Loading
+  MessageBox, Notification, Message, Loading, Breadcrumb, BreadcrumbItem
 } from 'element-ui';
 
 import './resize';
@@ -32,6 +32,8 @@ Vue.use(Upload);
 Vue.use(Tag);
 Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
 
 Vue.use(Router);
 
