@@ -7,24 +7,25 @@
               <el-button type="primary" @click="openCreateTagDialog" size="mini">添加类别</el-button>
             </div>
           </div>
+
           <div class="tag-list" ref="loadingTarget">
-            <!-- 空状态 -->
-            <Empty v-if="tagsList.length === 0">
-              <el-button type="primary" @click="openCreateTagDialog" size="mini">添加类别</el-button>
-            </Empty>
-            <!-- 非空状态 -->
-            <template v-else>
-              <TagItem
-                v-for="(tag, index) in tagsList"
-                :key="index"
-                :data="tag"
-                @view="viewDetails"
-                @edit="openUpdateTagDialog"
-                @delete="openDeleteTagDialog"
-              >
-              </TagItem>
-            </template>
-          </div>
+              <!-- 空状态 -->
+              <Empty v-if="tagsList.length === 0">
+                <el-button type="primary" @click="openCreateTagDialog" size="mini">添加类别</el-button>
+              </Empty>
+              <!-- 非空状态 -->
+              <template v-else>
+                <TagItem
+                  v-for="(tag, index) in tagsList"
+                  :key="index"
+                  :data="tag"
+                  @view="viewDetails"
+                  @edit="openUpdateTagDialog"
+                  @delete="openDeleteTagDialog"
+                >
+                </TagItem>
+              </template>
+            </div>
 
           <div class="pagination-wrap">
             <el-pagination
@@ -43,6 +44,7 @@
 
 <script>
   import TagItem from './TagItem';
+  import dayjs from 'dayjs';
 
   export default {
     name: '',
@@ -71,7 +73,7 @@
             currentPage: this.currentPage,
             pageSize: this.pageSize
           },
-          loadingTarget: this.$refs.loadingTarget.$el
+          loadingTarget: this.$refs.loadingTarget
         }).then(data => {
           this.totalPages = data.total;
           this.tagsList = data.list;
@@ -129,7 +131,7 @@
           if (inputValue && (inputValue.trim() !== '')) {
             this.createTag(inputValue.trim()).then(() => {
               this.getTagsList();
-            });
+            }).catch(() => {});
           }
         });
       },
@@ -137,7 +139,7 @@
         return this.$http({
           url: '/tag/',
           method: 'post',
-          data: { label: label },
+          data: { label: label, createTime: dayjs().format('YYYY-MM-DD HH:MM:ss') },
           hasWarning: true
         });
       },
@@ -168,6 +170,11 @@
       .btn-wrap {
         margin-left: auto;
       }
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
     }
 
     .pagination-wrap {

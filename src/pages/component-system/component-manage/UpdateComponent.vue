@@ -199,9 +199,7 @@
           method: 'put',
           hasWarning: true,
           showSuccessMsg: true,
-          data: this.formData,
-          loading: true,
-          loadingTarget: this.$refs.form.$el
+          data: this.formData
         }).then(() => {
           this.prevFormData = this.contentStringify(this.formData);
           this.goToComponentDetailsPage(componentId);

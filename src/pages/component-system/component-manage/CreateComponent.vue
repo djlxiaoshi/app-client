@@ -109,8 +109,7 @@
       getAllTags () {
         this.$http({
           url: '/tags',
-          hasWarning: true,
-          showSuccessMsg: true
+          hasWarning: true
         }).then((res) => {
           this.tagsList = res;
         });
@@ -145,9 +144,7 @@
           method: 'post',
           hasWarning: true,
           showSuccessMsg: true,
-          data: this.data,
-          loading: true,
-          loadingTarget: this.$refs.form.$el
+          data: this.data
         }).then((res) => {
           this.goToComponentDetailsPage(res);
         });

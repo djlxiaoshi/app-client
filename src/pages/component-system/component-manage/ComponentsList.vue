@@ -79,7 +79,7 @@
             currentPage: parseInt(this.currentPage),
             pageSize: parseInt(this.pageSize)
           },
-          loadingTarget: this.$refs.loadingTarget.$el
+          loadingTarget: this.$refs.loadingTarget
         }).then(data => {
           this.totalPages = data.total;
           this.componentsList = data.list;

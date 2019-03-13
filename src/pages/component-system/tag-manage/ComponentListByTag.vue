@@ -82,7 +82,7 @@
             pageSize: parseInt(this.pageSize),
             tagId: this.$route.query.tagId
           },
-          loadingTarget: this.$refs.loadingTarget.$el
+          loadingTarget: this.$refs.loadingTarget
         }).then(data => {
           this.totalPages = data.total;
           this.componentsList = data.list;

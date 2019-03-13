@@ -6,8 +6,8 @@
           <span class="field-value">{{ data.label }}</span>
         </li>
         <li class="field-item">
-          <span class="field-label">该类别下组件：</span>
-          <span class="field-value">是的不上班</span>
+          <span class="field-label">创建时间：</span>
+          <span class="field-value">{{ data.createTime }}</span>
         </li>
       </ul>
 
@@ -72,6 +72,10 @@
 <style scoped lang="less">
   .tag-item {
     padding: 15px;
+    margin: 10px 20px;
+    width: 20%;
+    min-width: 250px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     .field-item {
       margin: 15px 0;
       .field-label, .field-value {
@@ -82,7 +86,6 @@
     .item-footer {
       display: flex;
       .button-wrap {
-        margin-left: auto;
       }
     }
   }

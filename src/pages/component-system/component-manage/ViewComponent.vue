@@ -81,6 +81,7 @@
           url: '/component/' + componentId,
           method: 'get',
           hasWarning: true,
+          loading: true,
           loadingTarget: this.$refs.loadingTarget.$el
         }).then(res => {
           this.component = res;
