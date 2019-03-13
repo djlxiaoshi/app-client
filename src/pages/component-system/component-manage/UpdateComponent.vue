@@ -51,7 +51,7 @@
               </el-form-item>
 
               <el-form-item label="组件类别" prop="gitlab">
-                <el-radio-group v-model="formData.tag">
+                <el-radio-group v-model="formData.tag._id">
                   <el-radio :label="tag._id" v-for="(tag, index) in tagsList" :key="index">
                     {{ tag.label }}
                   </el-radio>
@@ -101,7 +101,7 @@
           dependencies: '',
           gitlab: '',
           img: '',
-          tag: ''
+          tag: {}
         },
         tagsList: [],
         rules: {

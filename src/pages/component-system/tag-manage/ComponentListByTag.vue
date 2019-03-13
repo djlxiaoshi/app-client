@@ -3,7 +3,7 @@
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
         <div class="operate-bar">
-          <h2>{{ $route.query.tag }}</h2>
+          <h2>{{ $route.query.tagLabel }}</h2>
           <div class="btn-wrap">
             <el-button type="primary" @click="goToTagManagePage" size="mini">类别管理</el-button>
           </div>
@@ -117,7 +117,7 @@
         this.previewImgSrc = src;
       },
       goToGetComponentsByTagPage (tag) {
-        this.$router.push('/component-system/ComponentListByTag/?tag=' + tag);
+        this.$router.push('/component-system/ComponentListByTag/?tagId=' + tag._id + '&tagLabel=' + tag.label);
       },
       goToTagManagePage () {
         this.$router.push('/component-system/TagManage/');

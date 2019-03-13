@@ -109,7 +109,7 @@
         this.$router.push('/component-system/UpdateComponent/' + this.$route.params.id);
       },
       goToGetComponentsByTagPage () {
-        this.$router.push('/component-system/ComponentListByTag?tagId=' + this.component.tag._id);
+        this.$router.push('/component-system/ComponentListByTag?tagId=' + this.component.tag._id + '&tagLabel=' + this.component.tag.label);
       }
     }
   };

@@ -114,7 +114,7 @@
         this.previewImgSrc = src;
       },
       goToGetComponentsByTagPage (tag) {
-        this.$router.push('/component-system/ComponentListByTag?tagId=' + tag._id);
+        this.$router.push('/component-system/ComponentListByTag?tagId=' + tag._id + '&tagLabel=' + tag.label);
       },
       goToAddComponentPage () {
         this.$router.push('/component-system/CreateComponent/');
