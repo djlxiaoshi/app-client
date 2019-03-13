@@ -10,7 +10,7 @@ let routes = [
   {
     path: '/component-system/',
     icon: 'icon-36',
-    label: '组件列表',
+    label: '组件管理',
     activeKey: '/component-system/ComponentsList',
     component: Component,
     children: componentRoutes

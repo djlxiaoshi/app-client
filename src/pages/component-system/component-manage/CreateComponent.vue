@@ -31,6 +31,17 @@
                     </el-input>
                   </el-form-item>
 
+                  <el-form-item label="组件类别" prop="gitlab">
+                    <el-radio-group v-model="data.tag">
+                      <el-radio :label="tag._id" v-for="(tag, index) in tagsList" :key="index">
+                        {{ tag.label }}
+                      </el-radio>
+                    </el-radio-group>
+                    <div>
+                      <el-button type="primary" size="mini" plain @click="openCreateTagDialog">增加类别</el-button>
+                    </div>
+                  </el-form-item>
+
                   <el-form-item label="Gitlab地址" prop="gitlab">
                     <el-input v-model="data.gitlab"></el-input>
                   </el-form-item>
@@ -52,7 +63,7 @@
 </template>
 
 <script>
-
+  import dayjs from 'dayjs';
   export default {
     data () {
       const checkUrl = (rule, value, callback) => {
@@ -68,9 +79,10 @@
           chineseName: '',
           englishName: '',
           dependencies: '',
-          gitlab: ''
+          gitlab: '',
+          tag: ''
         },
-        allTagsList: [],
+        tagsList: [],
         rules: {
           chineseName: [
             { required: true, trigger: 'blur', message: '组件中文名不能为空' }
@@ -89,11 +101,43 @@
       };
     },
     mounted () {
+      this.getAllTags();
     },
     methods: {
+
+      // 获取所有标签列表
+      getAllTags () {
+        this.$http({
+          url: '/tags',
+          hasWarning: true,
+          showSuccessMsg: true
+        }).then((res) => {
+          this.tagsList = res;
+        });
+      },
       // 跳转组件详细介绍页面
       goToComponentDetailsPage (component) {
         this.$router.push('/component-system/ViewComponent/' + component._id);
+      },
+      openCreateTagDialog () {
+        this.$alert.input({
+          title: '新增类别',
+          text: '请输入类别名称'
+        }).then(inputValue => {
+          if (inputValue && (inputValue.trim() !== '')) {
+            this.createTag(inputValue.trim()).then(() => {
+              this.getAllTags();
+            });
+          }
+        });
+      },
+      createTag (label) {
+        return this.$http({
+          url: '/tag/',
+          method: 'post',
+          data: { label: label, createTime: dayjs().format('YYYY-MM-DD HH:MM:ss') },
+          hasWarning: true
+        });
       },
       createComponent () {
         this.$http({

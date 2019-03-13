@@ -5,8 +5,11 @@ import sweetAlert from 'assets/js/utils/alert.js';
 import { Button, Menu, MenuItem, Submenu, Input,
   Dropdown, DropdownMenu, DropdownItem, Row, Col,
   Form, FormItem, Card, Upload, Tag, Checkbox, CheckboxGroup,
-  MessageBox, Notification, Message, Loading, Pagination, Dialog
+  MessageBox, Notification, Message, Loading, Pagination, Dialog,
+  Radio, RadioGroup
 } from 'element-ui';
+
+import Empty from 'components/common/empty/Empty';
 
 import './resize';
 import 'izitoast/dist/css/iziToast.css';
@@ -34,6 +37,11 @@ Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
 Vue.use(Pagination);
 Vue.use(Dialog);
+Vue.use(Radio);
+Vue.use(RadioGroup);
+
+// 自定义全局公共组件
+Vue.component('Empty', Empty);
 
 Vue.use(Router);
 

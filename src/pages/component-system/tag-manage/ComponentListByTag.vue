@@ -1,11 +1,11 @@
 <template>
-  <section class="home-page">
+  <section class="components-tag-page">
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
         <div class="operate-bar">
+          <h2>{{ $route.query.tag }}</h2>
           <div class="btn-wrap">
-            <el-button type="success" @click="goToAddComponentPage" size="mini">添加组件</el-button>
-            <el-button type="primary" @click="goToTagManagePage" size="mini">分类管理</el-button>
+            <el-button type="primary" @click="goToTagManagePage" size="mini">类别管理</el-button>
           </div>
         </div>
         <div class="component-list" ref="loadingTarget">
@@ -48,10 +48,12 @@
 </template>
 
 <script>
-  import ComponentItem from './ComponentItem';
+  import ComponentItem from '../component-manage/ComponentItem';
+  import Empty from 'components/common/empty/Empty';
   export default {
     components: {
-      ComponentItem
+      ComponentItem,
+      Empty
     },
     data () {
       return {
@@ -64,20 +66,21 @@
       };
     },
     mounted () {
-      this.getComponentsList();
+      this.getComponentsListByTag();
     },
     methods: {
       /**
        * 获取收藏的链接列表
        */
-      getComponentsList () {
+      getComponentsListByTag () {
         this.$http({
-          url: '/components',
+          url: '/components/tag',
           hasWarning: true,
           loading: true,
           data: {
             currentPage: parseInt(this.currentPage),
-            pageSize: parseInt(this.pageSize)
+            pageSize: parseInt(this.pageSize),
+            tagId: this.$route.query.tagId
           },
           loadingTarget: this.$refs.loadingTarget.$el
         }).then(data => {
@@ -114,13 +117,13 @@
         this.previewImgSrc = src;
       },
       goToGetComponentsByTagPage (tag) {
-        this.$router.push('/component-system/ComponentListByTag?tagId=' + tag._id);
-      },
-      goToAddComponentPage () {
-        this.$router.push('/component-system/CreateComponent/');
+        this.$router.push('/component-system/ComponentListByTag/?tag=' + tag);
       },
       goToTagManagePage () {
         this.$router.push('/component-system/TagManage/');
+      },
+      goToAddComponentPage () {
+        this.$router.push('/component-system/CreateComponent/');
       },
       currentChange (currentPage) {
         this.currentPage = currentPage;
@@ -131,7 +134,11 @@
 </script>
 
 <style scoped lang="less">
-  .home-page {
+  .components-tag-page {
+    .main-container {
+      background: #ffffff;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
     .operate-bar {
       display: flex;
       align-items: center;

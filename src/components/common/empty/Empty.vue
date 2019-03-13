@@ -1,6 +1,6 @@
 <template>
     <div class="app-empty-component">
-      <div class="main-container">
+      <div class="empty-component-main-container">
         <p class="empty-text">{{ emptyText }}</p>
         <img src="./empty.svg" width="120px">
         <div class="custom-slot">
@@ -12,6 +12,7 @@
 
 <script>
   export default {
+    name: 'app-empty-component',
     props: {
       emptyText: {
         type: String,
@@ -28,7 +29,7 @@
     align-items: center;
     padding: 10px 20px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    .main-container {
+    .empty-component-main-container {
       padding: 20px;
       .empty-text {
         color: #999999;

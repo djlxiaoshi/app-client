@@ -29,14 +29,15 @@ class Sweetalert {
     swal('Error', desc, 'error');
   }
 
-  input ({ title = '请输入', text = '请输入' }) {
+  input ({ title = '请输入', text = '请输入', defaultValue = '' }) {
     return swal({
       title: title,
       content: {
         element: 'input',
         attributes: {
           placeholder: text,
-          type: 'text'
+          type: 'text',
+          defaultValue: defaultValue
         }
       },
       buttons: {

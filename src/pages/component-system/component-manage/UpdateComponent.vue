@@ -50,6 +50,17 @@
                 </el-input>
               </el-form-item>
 
+              <el-form-item label="组件类别" prop="gitlab">
+                <el-radio-group v-model="formData.tag">
+                  <el-radio :label="tag._id" v-for="(tag, index) in tagsList" :key="index">
+                    {{ tag.label }}
+                  </el-radio>
+                </el-radio-group>
+                <div>
+                  <el-button type="primary" size="mini" plain @click="openCreateTagDialog">增加类别</el-button>
+                </div>
+              </el-form-item>
+
               <el-form-item label="Gitlab地址" prop="gitlab">
                 <el-input v-model="formData.gitlab"></el-input>
               </el-form-item>
@@ -71,7 +82,7 @@
 </template>
 
 <script>
-
+  import dayjs from 'dayjs';
   export default {
     data () {
 
@@ -89,8 +100,10 @@
           englishName: '',
           dependencies: '',
           gitlab: '',
-          img: ''
+          img: '',
+          tag: ''
         },
+        tagsList: [],
         rules: {
           chineseName: [
             { required: true, trigger: 'blur', message: '组件中文名不能为空' }
@@ -113,6 +126,8 @@
       this.getComponentDetails().then(() => {
         this.prevFormData = this.contentStringify(this.formData);
       });
+
+      this.getTagsList();
     },
     beforeRouteLeave (to, from, next) {
       // 离开时做保存提示，通过比较内容是否更改，判断是否弹出提示框
@@ -136,6 +151,42 @@
           hasWarning: true
         }).then(res => {
           this.formData = res;
+        });
+      },
+      // 获取tag列表
+      getTagsList () {
+        this.$http({
+          url: '/tags/',
+          method: 'get',
+          hasWarning: true
+        }).then(res => {
+          this.tagsList = res;
+        });
+      },
+      // 打开增加tag 弹窗
+      openCreateTagDialog () {
+        this.$alert.input({
+          title: '新建标签',
+          text: '请输入类别名'
+        }).then(inputValue => {
+          if (inputValue && (inputValue.trim() !== '')) {
+            this.createTag(inputValue).then(() => {
+              this.getTagsList();
+            });
+          }
+        });
+      },
+      // 增加tag
+      createTag (tagName) {
+        return this.$http({
+          url: '/tag',
+          method: 'post',
+          data: {
+            label: tagName.trim(),
+            createTime: dayjs().format('YYYY-MM-DD HH:MM:ss')
+          },
+          hasWarning: true,
+          showSuccessMsg: true
         });
       },
       goToComponentDetailsPage (id) {
@@ -186,7 +237,8 @@
           chineseName: formData.chineseName,
           englishName: formData.englishName,
           dependencies: formData.dependencies,
-          gitlab: formData.gitlab
+          gitlab: formData.gitlab,
+          tag: formData.tag
         });
       }
     }

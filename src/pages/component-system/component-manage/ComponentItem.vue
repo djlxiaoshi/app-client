@@ -16,6 +16,17 @@
             <span class="field-value">{{ data.dependencies }}</span>
           </li>
           <li class="field-item">
+            <span class="field-label">组件类别：</span>
+            <el-tag
+              v-if="data.tag"
+              @click="clickTag(data.tag)"
+              class="field-value"
+              size="small">
+              {{ data.tag.label }}
+            </el-tag>
+            <span class="field-value" v-else>暂无类别</span>
+          </li>
+          <li class="field-item">
             <span class="field-label">Git地址：</span>
             <a class="field-value gitlab-address" :href="data.gitlab">{{ data.gitlab }}</a>
           </li>
@@ -64,7 +75,8 @@
               chineseName: '',
               englishName: '',
               dependencies: '',
-              gitlab: ''
+              gitlab: '',
+              tag: ''
             };
           }
         },
@@ -93,6 +105,9 @@
         },
         previewImg (src) {
           this.$emit('preview', src);
+        },
+        clickTag (tag) {
+          this.$emit('tagClick', tag);
         }
       }
     };
@@ -126,6 +141,9 @@
         font-size: 14px;
         line-height: 24px;
       }
+      /deep/ .el-tag {
+        cursor: pointer;
+      }
       .gitlab-address {
         text-decoration: underline;
         color: #000;
@@ -134,10 +152,9 @@
         }
       }
     }
+
     .item-footer {
       display: flex;
-      padding-top: 10px;
-      margin-top: 10px;
       .button-wrap {
         margin-left: auto;
         button {
