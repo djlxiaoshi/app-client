@@ -21,6 +21,7 @@
               @view="onView(item)"
               @delete="onDelete(item)"
               @edit="onEdit(item)"
+              @preview="previewImg"
             ></ComponentItem>
           </template>
         </div>
@@ -37,6 +38,10 @@
         </div>
       </el-col>
     </el-row>
+
+    <el-dialog :show-close="false" :visible.sync="previewDialogVisible" class="preview-dialog">
+      <img :src="previewImgSrc" alt="" class="preview-img">
+    </el-dialog>
   </section>
 </template>
 
@@ -52,8 +57,10 @@
       return {
         componentsList: [],
         currentPage: 1,
-        pageSize: 1,
-        totalPages: 10
+        pageSize: 10,
+        totalPages: 10,
+        previewImgSrc: '',
+        previewDialogVisible: false
       };
     },
     mounted () {
@@ -101,6 +108,10 @@
             });
           }
         });
+      },
+      previewImg (src) {
+        this.previewDialogVisible = true;
+        this.previewImgSrc = src;
       },
       goToAddCollectionPage () {
         this.$router.push('/component-system/CreateComponent/');
@@ -152,6 +163,12 @@
       padding: 10px 0;
       border-top: 1px solid #e5e5e5;
       text-align: center;
+    }
+    .preview-dialog {
+      text-align: center;
+      .preview-img {
+        width: 100%;
+      }
     }
   }
 </style>

@@ -6,7 +6,10 @@
             <ul class="fields-list">
               <li class="field-item">
                 <span class="field-label">组件展示：</span>
-                <img class="field-value" :src="component.img" width="100px">
+                <div class="field-value">
+                  <img class=" img-field" :src="component.img" width="100px" height="100px">
+                  <el-button type="primary" plain size="mini" @click="goToEditPage">点击更改</el-button>
+                </div>
               </li>
               <li class="field-item">
                 <span class="field-label">组件中文名称：</span>
@@ -58,6 +61,10 @@
         }).then(res => {
           this.component = res;
         });
+      },
+      goToEditPage () {
+        const componentId = this.$route.params.id;
+        this.$router.push('/component-system/UpdateComponent/' + componentId);
       }
     }
   };
@@ -71,6 +78,13 @@
         align-items: flex-start;
         margin: 30px 0;
         font-size: 14px;
+        .img-field {
+          margin-right: 20px;
+          border: 1px solid #e5e5e5;
+        }
+        .edit-button, .img-field {
+          vertical-align: bottom;
+        }
         .field-label {
           width: 150px;
         }

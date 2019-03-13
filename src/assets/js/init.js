@@ -5,7 +5,7 @@ import sweetAlert from 'assets/js/utils/alert.js';
 import { Button, Menu, MenuItem, Submenu, Input,
   Dropdown, DropdownMenu, DropdownItem, Row, Col,
   Form, FormItem, Card, Upload, Tag, Checkbox, CheckboxGroup,
-  MessageBox, Notification, Message, Loading, Pagination
+  MessageBox, Notification, Message, Loading, Pagination, Dialog
 } from 'element-ui';
 
 import './resize';
@@ -33,6 +33,7 @@ Vue.use(Tag);
 Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
 Vue.use(Pagination);
+Vue.use(Dialog);
 
 Vue.use(Router);
 

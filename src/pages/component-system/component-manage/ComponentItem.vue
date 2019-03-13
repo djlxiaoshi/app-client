@@ -22,7 +22,7 @@
         </ul>
       </div>
       <div class="item-right">
-        <img :src="data.img" alt="" width="100%" height="100%">
+        <a href="javascript:void(0)" class="component-img" @click="previewImg(data.img)"><img :src="data.img" title="点击预览" width="100%" height="100%"></a>
       </div>
     </div>
     <div class="item-footer operate-wrap">
@@ -90,6 +90,9 @@
         },
         editItem (id) {
           this.$emit('edit', id);
+        },
+        previewImg (src) {
+          this.$emit('preview', src);
         }
       }
     };
@@ -110,6 +113,11 @@
         width: 150px;
         height: 150px;
         border: 1px solid #e5e5e5;
+        .component-img {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+        }
       }
     }
     .field-item {
