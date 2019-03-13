@@ -1,20 +1,21 @@
 <template>
   <section class="home-page">
-    <el-row type="flex" justify="center" class="mini-header">
-      <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
+    <el-row type="flex" justify="center">
+      <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
         <div class="operate-bar">
           <div class="btn-wrap">
             <el-button type="primary" @click="goToAddCollectionPage" size="mini">添加组件</el-button>
           </div>
         </div>
-        <el-card class="component-list" ref="loadingTarget">
-          <Empty v-if="favoriteList.length === 0">
+        <div class="component-list" ref="loadingTarget">
+          <!-- 空状态 -->
+          <Empty v-if="componentsList.length === 0">
             <el-button type="primary" @click="goToAddCollectionPage" size="mini">添加组件</el-button>
           </Empty>
+          <!-- 非空状态 -->
           <template v-else>
-
             <ComponentItem
-              v-for="(item, index) in favoriteList"
+              v-for="(item, index) in componentsList"
               :key="index"
               :data="item"
               @view="onView(item)"
@@ -22,7 +23,18 @@
               @edit="onEdit(item)"
             ></ComponentItem>
           </template>
-        </el-card>
+        </div>
+
+        <div class="pagination-wrap">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            @current-change="currentChange"
+            :current-page="currentPage"
+            :page-size="pageSize"
+            :total="totalPages">
+          </el-pagination>
+        </div>
       </el-col>
     </el-row>
   </section>
@@ -38,24 +50,32 @@
     },
     data () {
       return {
-        favoriteList: []
+        componentsList: [],
+        currentPage: 1,
+        pageSize: 1,
+        totalPages: 10
       };
     },
     mounted () {
-      this.getCollectionList();
+      this.getComponentsList();
     },
     methods: {
       /**
        * 获取收藏的链接列表
        */
-      getCollectionList () {
+      getComponentsList () {
         this.$http({
           url: '/components',
           hasWarning: true,
           loading: true,
+          data: {
+            currentPage: parseInt(this.currentPage),
+            pageSize: parseInt(this.pageSize)
+          },
           loadingTarget: this.$refs.loadingTarget.$el
         }).then(data => {
-          this.favoriteList = data;
+          this.totalPages = data.total;
+          this.componentsList = data.list;
         }, () => {
         });
       },
@@ -76,7 +96,7 @@
         this.$alert.warning('确定要删除该项吗？').then((willDone) => {
           if (willDone) {
             this.deleteItem(item._id).then(() => {
-              this.getCollectionList();
+              this.getComponentsList();
               this.$alert.success('删除成功');
             });
           }
@@ -84,6 +104,10 @@
       },
       goToAddCollectionPage () {
         this.$router.push('/component-system/CreateComponent/');
+      },
+      currentChange (currentPage) {
+        this.currentPage = currentPage;
+        this.getComponentsList();
       }
     }
   };
@@ -91,12 +115,16 @@
 
 <style scoped lang="less">
   .home-page {
+    .main-container {
+      background: #ffffff;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
     .operate-bar {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
       padding: 5px 10px;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid #e5e5e5;
       background: #ffffff;
       .btn-wrap {
         margin-left: auto;
@@ -119,6 +147,11 @@
       &:last-of-type {
         border-bottom: none;
       }
+    }
+    .pagination-wrap {
+      padding: 10px 0;
+      border-top: 1px solid #e5e5e5;
+      text-align: center;
     }
   }
 </style>
