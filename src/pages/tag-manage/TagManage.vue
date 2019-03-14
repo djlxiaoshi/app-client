@@ -81,7 +81,7 @@
         });
       },
       viewDetails (tag) {
-        this.$router.push('/component-system/ComponentListByTag?tagId=' + tag._id + '&tagLabel=' + tag.label);
+        this.$router.push('/component/ComponentListByTag?tagId=' + tag._id + '&tagLabel=' + tag.label);
       },
       openUpdateTagDialog (tag) {
         this.$alert.input({

@@ -106,10 +106,10 @@
         this.$notify.success('上传成功');
       },
       goToEditPage () {
-        this.$router.push('/component-system/UpdateComponent/' + this.$route.params.id);
+        this.$router.push('/component/UpdateComponent/' + this.$route.params.id);
       },
       goToGetComponentsByTagPage () {
-        this.$router.push('/component-system/ComponentListByTag?tagId=' + this.component.tag._id + '&tagLabel=' + this.component.tag.label);
+        this.$router.push('/component/ComponentListByTag?tagId=' + this.component.tag._id + '&tagLabel=' + this.component.tag.label);
       }
     }
   };

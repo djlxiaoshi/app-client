@@ -1,4 +1,4 @@
-import TagManage from '../pages/component-system/tag-manage/TagManage';
+import TagManage from '../pages/tag-manage/TagManage';
 
 import { ACTIVE_MENU } from '../store/mutation-types';
 import store from '../store/index';

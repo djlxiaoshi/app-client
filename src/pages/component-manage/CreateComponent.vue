@@ -120,7 +120,7 @@
       },
       // 跳转组件详细介绍页面
       goToComponentDetailsPage (component) {
-        this.$router.push('/component-system/ViewComponent/' + component._id);
+        this.$router.push('/component/ViewComponent/' + component._id);
       },
       openCreateTagDialog () {
         this.$alert.input({
@@ -170,6 +170,11 @@
     .box-card {
       .create-btn {
         width: 100%;
+      }
+      /deep/ .el-textarea {
+        textarea {
+          font-family: '微软雅黑';
+        }
       }
     }
   }

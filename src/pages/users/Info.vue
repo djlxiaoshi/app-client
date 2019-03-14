@@ -1,8 +1,8 @@
 <template>
     <div class="user-info-page">
       <el-row type="flex" justify="center">
-        <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
-          <el-card class="user-info-panel">
+        <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
+          <div class="user-info-panel">
             <el-form
               ref="form"
               :rules="rules"
@@ -15,38 +15,40 @@
                   <el-upload
                     ref="upload"
                     class="upload-avatar-input"
-                    action="http://localhost:3000/avatar/"
+                    action="http://localhost:3000/user/avatar/"
                     list-type="text"
                     :with-credentials="true"
                     :show-file-list="false"
                     :before-upload="beforeAvatarUpload"
                     :on-success="handleSuccess">
-                      <p class="support-desc">支持 jpg、png 格式大小 5M 以内的图片</p>
-                      <el-button class="upload-avatar-btn" size="small">点击上传</el-button>
+                    <p class="support-desc">支持 jpg、png 格式大小 5M 以内的图片</p>
+                    <el-button class="upload-avatar-btn" size="small">点击上传</el-button>
                   </el-upload>
                 </div>
               </el-form-item>
 
               <el-form-item label="用户名" prop="title" class="username-input-item">
-                <el-input v-model="user.username" :disabled="inputStatus.usernameDisabled" width="300px"></el-input>
-                <el-button icon="el-icon-edit" @click="edit('username')"></el-button>
+                <el-input v-model="user.username" v-if="isEditStatus"></el-input>
+                <p v-else>{{ user.username }}</p>
               </el-form-item>
 
               <el-form-item label="个人介绍" class="user-info-input-item">
                 <el-input
+                  v-if="isEditStatus"
                   type="textarea"
                   :rows="2"
                   v-model="user.info"
-                  :disabled="inputStatus.infoDisabled">
+                >
                 </el-input>
-                <el-button icon="el-icon-edit" @click="edit('info')"></el-button>
+                <p v-else>{{ user.info }}</p>
               </el-form-item>
 
               <el-form-item label="">
-                  <el-button @click="save">保存</el-button>
+                <el-button @click="toggleEditStatus" type="primary" size="small" plain>编辑</el-button>
+                <el-button @click="save" type="success" size="small" plain>保存</el-button>
               </el-form-item>
             </el-form>
-          </el-card>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -64,6 +66,7 @@
               username: '',
               info: ''
             },
+            isEditStatus: false,
             rules: {
 
             },
@@ -103,20 +106,21 @@
           }
           return (isJPG || isPNG) && isLt2M;
         },
-        edit (type) {
-          switch (type) {
-            case 'username': {
-              this.inputStatus.usernameDisabled = false;
-              break;
-            }
-            case 'info': {
-              this.inputStatus.infoDisabled = false;
-              break;
-            }
-          }
+        toggleEditStatus () {
+          this.isEditStatus = true;
         },
         save () {
-          this.$http({
+          this.updateUserInfo().then(user => {
+
+            // 更新vuex store中用户信息
+            this.setUserMsg(user);
+            // 重置状态
+            this.resetStatus();
+          });
+        },
+        // 更新用户信息
+        updateUserInfo () {
+          return this.$http({
             url: '/user',
             method: 'put',
             data: {
@@ -125,16 +129,10 @@
             },
             hasWarning: true,
             showSuccessMsg: true
-          }).then((user) => {
-            // 更新用户信息
-            this.setUserMsg(user);
-
-            this.resetStatus();
-          }, () => {});
+          });
         },
         resetStatus () {
-          this.inputStatus.usernameDisabled = true;
-          this.inputStatus.infoDisabled = true;
+          this.isEditStatus = false;
         }
       }
     };
@@ -143,6 +141,10 @@
 <style scoped lang="less">
   .user-info-page {
     .user-info-panel {
+      margin: 20px auto;
+      padding: 20px 50px;
+      width: 500px;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
       /deep/ .el-upload {
         text-align: left;
       }

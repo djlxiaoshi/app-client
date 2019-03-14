@@ -1,10 +1,8 @@
-import CreateComponent from '../pages/component-system/component-manage/CreateComponent';
-import ComponentsList from '../pages/component-system/component-manage/ComponentsList';
-import UpdateComponent from '../pages/component-system/component-manage/UpdateComponent';
-import ViewComponent from '../pages/component-system/component-manage/ViewComponent';
-
-import ComponentListByTag from '../pages/component-system/component-manage/ComponentListByTag';
-import TagManage from '../pages/component-system/tag-manage/TagManage';
+import CreateComponent from '../pages/component-manage/CreateComponent';
+import ComponentsList from '../pages/component-manage/ComponentsList';
+import UpdateComponent from '../pages/component-manage/UpdateComponent';
+import ViewComponent from '../pages/component-manage/ViewComponent';
+import ComponentListByTag from '../pages/component-manage/ComponentListByTag';
 
 import { ACTIVE_MENU } from '../store/mutation-types';
 import store from '../store/index';

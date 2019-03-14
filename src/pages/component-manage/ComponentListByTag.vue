@@ -90,10 +90,10 @@
         });
       },
       onView (item) {
-        this.$router.push('/component-system/ViewComponent/' + item._id);
+        this.$router.push('/component/ViewComponent/' + item._id);
       },
       onEdit (item) {
-        this.$router.push('/component-system/UpdateComponent/' + item._id);
+        this.$router.push('/component/UpdateComponent/' + item._id);
       },
       deleteItem (id) {
         return this.$http({
@@ -117,13 +117,13 @@
         this.previewImgSrc = src;
       },
       goToGetComponentsByTagPage (tag) {
-        this.$router.push('/component-system/ComponentListByTag/?tagId=' + tag._id + '&tagLabel=' + tag.label);
+        this.$router.push('/component/ComponentListByTag/?tagId=' + tag._id + '&tagLabel=' + tag.label);
       },
       goToTagManagePage () {
-        this.$router.push('/component-system/TagManage/');
+        this.$router.push('/component/TagManage/');
       },
       goToAddComponentPage () {
-        this.$router.push('/component-system/CreateComponent?defaultTag=' + this.$route.query.tagId);
+        this.$router.push('/component/CreateComponent?defaultTag=' + this.$route.query.tagId);
       },
       currentChange (currentPage) {
         this.currentPage = currentPage;

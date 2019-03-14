@@ -91,10 +91,10 @@
         this.setUserMsg(null);
       },
       goToLoginPage () {
-        this.$router.push('/user/login');
+        this.$router.push('/login');
       },
       goToRegisterPage () {
-        this.$router.push('/user/register');
+        this.$router.push('/register');
       }
     }
   };

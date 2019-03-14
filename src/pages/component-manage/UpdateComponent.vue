@@ -199,7 +199,7 @@
         });
       },
       goToComponentDetailsPage (id) {
-        this.$router.push('/component-system/ViewComponent/' + id);
+        this.$router.push('/component/ViewComponent/' + id);
       },
       update () {
         const componentId = this.$route.params.id;
@@ -267,6 +267,11 @@
       .img-field {
         display: flex;
         align-items: flex-end;
+      }
+      /deep/ .el-textarea {
+        textarea {
+          font-family: '微软雅黑';
+        }
       }
       .component-img {
         margin-right: 20px;
