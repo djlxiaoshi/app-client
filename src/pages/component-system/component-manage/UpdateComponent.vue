@@ -123,7 +123,16 @@
       };
     },
     mounted () {
-      this.getComponentDetails().then(() => {
+      this.getComponentDetails().then((res) => {
+
+        // fixme 如果没有标签，连表查询的tag属性为null,那么标签field绑定的formData.tag.Z_id就会报错。
+        if (!res.tag) {
+          res.tag = {
+            _id: ''
+          };
+        }
+
+        this.formData = res;
         this.prevFormData = this.contentStringify(this.formData);
       });
 
@@ -142,15 +151,15 @@
       });
     },
     methods: {
-
+      getBindModel () {
+        return this.formData.tag ? this.formData.tag._id : null;
+      },
       getComponentDetails () {
         // todo 这里可以优化，直接通过路由来传递参数就行，不用再发一次请求
         return this.$http({
           url: '/component/' + this.$route.params.id,
           method: 'get',
           hasWarning: true
-        }).then(res => {
-          this.formData = res;
         });
       },
       // 获取tag列表

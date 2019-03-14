@@ -1,7 +1,7 @@
 <template>
     <div class="user-info-page">
       <el-row type="flex" justify="center">
-        <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
+        <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
           <el-card class="user-info-panel">
             <el-form
               ref="form"

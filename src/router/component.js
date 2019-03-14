@@ -3,7 +3,7 @@ import ComponentsList from '../pages/component-system/component-manage/Component
 import UpdateComponent from '../pages/component-system/component-manage/UpdateComponent';
 import ViewComponent from '../pages/component-system/component-manage/ViewComponent';
 
-import ComponentListByTag from '../pages/component-system/tag-manage/ComponentListByTag';
+import ComponentListByTag from '../pages/component-system/component-manage/ComponentListByTag';
 import TagManage from '../pages/component-system/tag-manage/TagManage';
 
 import { ACTIVE_MENU } from '../store/mutation-types';
@@ -33,10 +33,6 @@ export default [
   {
     path: 'ComponentListByTag',
     component: ComponentListByTag
-  },
-  {
-    path: 'TagManage',
-    component: TagManage
   },
   {
     path: '',

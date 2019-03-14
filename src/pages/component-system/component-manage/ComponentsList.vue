@@ -4,8 +4,7 @@
       <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
         <div class="operate-bar">
           <div class="btn-wrap">
-            <el-button type="success" @click="goToAddComponentPage" size="mini">添加组件</el-button>
-            <el-button type="primary" @click="goToTagManagePage" size="mini">分类管理</el-button>
+            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加组件</el-button>
           </div>
         </div>
         <div class="component-list" ref="loadingTarget">
@@ -118,9 +117,6 @@
       },
       goToAddComponentPage () {
         this.$router.push('/component-system/CreateComponent/');
-      },
-      goToTagManagePage () {
-        this.$router.push('/component-system/TagManage/');
       },
       currentChange (currentPage) {
         this.currentPage = currentPage;

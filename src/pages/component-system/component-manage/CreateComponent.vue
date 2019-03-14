@@ -101,6 +101,10 @@
       };
     },
     mounted () {
+      // 默认选中tag
+      if (this.$route.query && this.$route.query.defaultTag) {
+        this.data.tag = this.$route.query.defaultTag;
+      }
       this.getAllTags();
     },
     methods: {

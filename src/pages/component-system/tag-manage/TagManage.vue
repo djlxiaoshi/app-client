@@ -4,14 +4,14 @@
         <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
           <div class="operate-bar">
             <div class="btn-wrap">
-              <el-button type="primary" @click="openCreateTagDialog" size="mini">添加类别</el-button>
+              <el-button type="primary" @click="openCreateTagDialog" size="mini">添加分类</el-button>
             </div>
           </div>
 
           <div class="tag-list" ref="loadingTarget">
               <!-- 空状态 -->
               <Empty v-if="tagsList.length === 0">
-                <el-button type="primary" @click="openCreateTagDialog" size="mini">添加类别</el-button>
+                <el-button type="primary" @click="openCreateTagDialog" size="mini">添加分类</el-button>
               </Empty>
               <!-- 非空状态 -->
               <template v-else>
@@ -81,7 +81,7 @@
         });
       },
       viewDetails (tag) {
-        this.$router.push('/component-system/ComponentListByTag?tag=' + tag.label);
+        this.$router.push('/component-system/ComponentListByTag?tagId=' + tag._id + '&tagLabel=' + tag.label);
       },
       openUpdateTagDialog (tag) {
         this.$alert.input({

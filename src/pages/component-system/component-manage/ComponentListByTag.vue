@@ -5,7 +5,7 @@
         <div class="operate-bar">
           <h2>{{ $route.query.tagLabel }}</h2>
           <div class="btn-wrap">
-            <el-button type="primary" @click="goToTagManagePage" size="mini">类别管理</el-button>
+            <!--<el-button type="primary" @click="goToTagManagePage" size="mini">类别管理</el-button>-->
           </div>
         </div>
         <div class="component-list" ref="loadingTarget">
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import ComponentItem from '../component-manage/ComponentItem';
+  import ComponentItem from './ComponentItem';
   import Empty from 'components/common/empty/Empty';
   export default {
     components: {
@@ -123,7 +123,7 @@
         this.$router.push('/component-system/TagManage/');
       },
       goToAddComponentPage () {
-        this.$router.push('/component-system/CreateComponent/');
+        this.$router.push('/component-system/CreateComponent?defaultTag=' + this.$route.query.tagId);
       },
       currentChange (currentPage) {
         this.currentPage = currentPage;
