@@ -40,6 +40,7 @@
       data () {
 
         const checkEmail = (rule, value, callback) => {
+
           value = value.trim();
           const regexp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
           if (!regexp.test(value)) {
@@ -47,6 +48,23 @@
           } else {
             callback();
           }
+        };
+
+        const checkEmailExsit = (rule, value, callback) => {
+          value = value.trim();
+          this.$http({
+            url: '/getUserBy',
+            data: {
+              userMsg: value,
+              getUserMethod: 'USER_EMAIL'
+            }
+          }).then(res => {
+            if (res) {
+              callback(new Error('邮箱已存在'));
+            } else {
+              callback();
+            }
+          });
         };
 
         return {
@@ -64,7 +82,8 @@
             ],
             email: [
               { required: true, trigger: 'blur', message: '请输入邮箱' },
-              { trigger: 'blur', validator: checkEmail }
+              { trigger: 'blur', validator: checkEmail },
+              { trigger: 'blur', validator: checkEmailExsit }
             ]
           }
         };
