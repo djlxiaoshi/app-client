@@ -1,6 +1,6 @@
 <template>
   <section class="app-login">
-    <el-row type="flex" justify="center">
+    <el-row type="flex" justify="center" align="middle">
       <el-col :xs="24" :sm="16" :md="12" :lg="8" :xl="6">
         <el-card class="box-card">
           <div slot="header" class="card-header">
@@ -16,7 +16,7 @@
                 <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
               </el-form-item>
               <el-form-item prop="password">
-                <el-input v-model="form.password" placeholder="请输入密码"></el-input>
+                <el-input v-model="form.password" placeholder="请输入密码" type="password"></el-input>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="formValidate" class="login-btn" size="medium">登录</el-button>

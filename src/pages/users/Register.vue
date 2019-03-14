@@ -103,6 +103,11 @@
 
 <style scoped lang="less">
   .app-register {
+    position: relative;
+    height: calc(100vh - 100px);
+    /deep/ .el-row {
+      height: 100%;
+    }
     .box-card {
       margin-top: 50px;
 

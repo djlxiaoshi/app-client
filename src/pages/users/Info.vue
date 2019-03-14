@@ -27,9 +27,14 @@
                 </div>
               </el-form-item>
 
-              <el-form-item label="用户名" prop="title" class="username-input-item">
+              <el-form-item label="用户名" prop="username" class="username-input-item">
                 <el-input v-model="user.username" v-if="isEditStatus"></el-input>
                 <p v-else>{{ user.username }}</p>
+              </el-form-item>
+
+              <el-form-item label="用户邮箱" prop="email" class="username-input-item">
+                <el-input v-model="user.email" v-if="isEditStatus"></el-input>
+                <p v-else>{{ user.email }}</p>
               </el-form-item>
 
               <el-form-item label="个人介绍" class="user-info-input-item">
@@ -63,6 +68,7 @@
           return {
             user: {
               avatar: '',
+              email: '',
               username: '',
               info: ''
             },
@@ -90,7 +96,9 @@
           'setUserMsg': SET_USER_MSG
         }),
         handleSuccess (res) {
-          this.user.avatar = res.data.path;
+          this.$set(this.user, 'avatar', res.data.path);
+          // 更新vuex 中用户信息
+          this.setUserMsg(this.user);
           this.$notify.success('上传成功');
         },
         beforeAvatarUpload (file) {

@@ -25,12 +25,15 @@ import tagRoutes from './tag.js';
 import userRoutes from './user.js';
 
 import http from '../assets/js/http';
+import { SET_USER_MSG } from '../store/mutation-types';
+import store from '../store/index';
 
 function userIsLogin (next) {
   http({
     url: '/user/isLogin'
   }).then(user => {
     if (user) {
+      store.commit(SET_USER_MSG, user);
       next();
     }
   });
