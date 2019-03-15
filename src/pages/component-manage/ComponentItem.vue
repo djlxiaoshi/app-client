@@ -16,6 +16,10 @@
             <span class="field-value">{{ data.dependencies }}</span>
           </li>
           <li class="field-item">
+            <span class="field-label">使用方式：</span>
+            <span class="field-value">{{ data.usage }}</span>
+          </li>
+          <li class="field-item">
             <span class="field-label">组件类别：</span>
             <el-tag
               v-if="data.tag"
@@ -27,13 +31,19 @@
             <span class="field-value" v-else>暂无类别</span>
           </li>
           <li class="field-item">
+            <span class="field-label">预览地址：</span>
+            <a class="field-value common-link" :href="data.previewUrl">{{ data.previewUrl }}</a>
+          </li>
+          <li class="field-item">
             <span class="field-label">Git地址：</span>
-            <a class="field-value gitlab-address" :href="data.gitlab">{{ data.gitlab }}</a>
+            <a class="field-value common-link" :href="data.gitlab">{{ data.gitlab }}</a>
           </li>
         </ul>
       </div>
       <div class="item-right">
-        <a href="javascript:void(0)" class="component-img" @click="previewImg(data.img)"><img :src="data.img" title="点击预览" width="100%" height="100%"></a>
+        <a href="javascript:void(0)" class="component-img" @click="previewImg(data.img)">
+          <img :src="getImgAddress(data.img)" title="点击预览" width="100%" height="100%">
+        </a>
       </div>
     </div>
     <div class="item-footer operate-wrap">
@@ -76,6 +86,8 @@
               englishName: '',
               dependencies: '',
               gitlab: '',
+              previewUrl: '',
+              usage: '',
               tag: ''
             };
           }
@@ -108,6 +120,9 @@
         },
         clickTag (tag) {
           this.$emit('tagClick', tag);
+        },
+        getImgAddress (imgPath) {
+          return this.$globalConfig.SERVER_ADDRESS + imgPath;
         }
       }
     };
@@ -136,7 +151,7 @@
       }
     }
     .field-item {
-      margin: 15px 0;
+      margin: 5px 0;
       .field-label, .field-value {
         font-size: 14px;
         line-height: 24px;

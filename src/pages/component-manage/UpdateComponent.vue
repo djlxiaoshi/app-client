@@ -16,11 +16,14 @@
 
               <el-form-item label="组件图片" prop="url">
                 <div class="img-field">
-                  <img class="component-img" :src="formData.img">
+                  <div class="img-wrap">
+                    <img v-if="formData.img" class="component-img" :src="getImgAddress(formData.img)">
+                  </div>
+
                   <el-upload
                     ref="upload"
                     class="upload-component"
-                    action="http://localhost:3000/component/img/"
+                    :action="$globalConfig.SERVER_ADDRESS + '/component/img/'"
                     :data="{componentId: formData._id}"
                     list-type="text"
                     :with-credentials="true"
@@ -50,7 +53,11 @@
                 </el-input>
               </el-form-item>
 
-              <el-form-item label="组件类别" prop="gitlab">
+              <el-form-item label="使用说明" prop="usage">
+                <el-input v-model="formData.usage"></el-input>
+              </el-form-item>
+
+              <el-form-item label="组件类别">
                 <el-radio-group v-model="formData.tag._id">
                   <el-radio :label="tag._id" v-for="(tag, index) in tagsList" :key="index">
                     {{ tag.label }}
@@ -59,6 +66,10 @@
                 <div>
                   <el-button type="primary" size="mini" plain @click="openCreateTagDialog">增加类别</el-button>
                 </div>
+              </el-form-item>
+
+              <el-form-item label="预览地址" prop="previewUrl">
+                <el-input v-model="formData.previewUrl"></el-input>
               </el-form-item>
 
               <el-form-item label="Gitlab地址" prop="gitlab">
@@ -83,6 +94,10 @@
 
 <script>
   import dayjs from 'dayjs';
+
+  import { mapState, mapMutations } from 'vuex';
+  import { ACTIVE_MENU } from 'store/mutation-types';
+
   export default {
     data () {
 
@@ -100,6 +115,8 @@
           englishName: '',
           dependencies: '',
           gitlab: '',
+          previewUrl: '',
+          usage: '',
           img: '',
           tag: {}
         },
@@ -114,12 +131,20 @@
           dependencies: [
             { required: true, trigger: 'blur', message: '安装依赖说明不能为空' }
           ],
+          usage: [
+            { required: true, trigger: 'blur', message: '使用说明不能为空' }
+          ],
           gitlab: [
             { required: true, trigger: 'blur', message: 'Gitlab地址不能为空' },
             { trigger: 'blur', validator: checkUrl }
+          ],
+          previewUrl: [
+            { required: true, trigger: 'blur', message: '预览地址不能为空' },
+            { trigger: 'blur', validator: checkUrl }
           ]
         },
-        prevFormData: ''
+        prevFormData: '',
+        prevActiveMenu: ''
       };
     },
     mounted () {
@@ -128,12 +153,14 @@
         // fixme 如果没有标签，连表查询的tag属性为null,那么标签field绑定的formData.tag.Z_id就会报错。
         if (!res.tag) {
           res.tag = {
-            _id: ''
+            _id: null
           };
         }
 
         this.formData = res;
         this.prevFormData = this.contentStringify(this.formData);
+        // 记录原来选中的菜单选项
+        this.prevActiveMenu = this.activeMenu;
       });
 
       this.getTagsList();
@@ -144,16 +171,27 @@
         next();
         return;
       }
-      this.$alert.warning('客官，您不打算保存了吗？').then((confirm) => {
+      this.$alert.warning('客官，您不打算保存了吗？', {
+        buttons: ['再想一下', '放弃']
+      }).then((confirm) => {
         if (confirm) {
           next();
+        } else {
+          // 保持原来菜单的选中状态
+          this.setActiveMenu(this.prevActiveMenu);
         }
       });
     },
+    computed: {
+      ...mapState([
+        'activeMenu'
+      ])
+    },
     methods: {
-      getBindModel () {
-        return this.formData.tag ? this.formData.tag._id : null;
-      },
+      ...mapMutations({
+        'setActiveMenu': ACTIVE_MENU
+      }),
+      // 获取组件详细信息
       getComponentDetails () {
         // todo 这里可以优化，直接通过路由来传递参数就行，不用再发一次请求
         return this.$http({
@@ -208,7 +246,8 @@
           method: 'put',
           hasWarning: true,
           showSuccessMsg: true,
-          data: this.formData
+          // fixme 这里mongodb Model tag为String类型，所以要解析，且如果没有选中标签应该为null不能为''（空字符串）
+          data: Object.assign(this.formData, { tag: this.formData.tag._id || null })
         }).then(() => {
           this.prevFormData = this.contentStringify(this.formData);
           this.goToComponentDetailsPage(componentId);
@@ -239,6 +278,9 @@
         this.$set(this.formData, 'img', res.data.path);
         this.$notify.success('上传成功');
       },
+      getImgAddress (imgPath) {
+        return this.$globalConfig.SERVER_ADDRESS + imgPath;
+      },
       contentStringify (formData) {
         return JSON.stringify({
           chineseName: formData.chineseName,
@@ -267,6 +309,12 @@
       .img-field {
         display: flex;
         align-items: flex-end;
+        .img-wrap {
+          width: 100px;
+          height: 100px;
+          margin-right: 20px;
+          border: 1px solid #e5e5e5;
+        }
       }
       /deep/ .el-textarea {
         textarea {

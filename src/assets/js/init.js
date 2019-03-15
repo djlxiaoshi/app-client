@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import http from './http';
+import gloabalConfig from './config';
 import sweetAlert from 'assets/js/utils/alert.js';
 import { Button, Menu, MenuItem, Submenu, Input,
   Dropdown, DropdownMenu, DropdownItem, Row, Col,
@@ -52,3 +53,4 @@ Vue.prototype.$message = Message;
 
 Vue.prototype.$http = http;
 Vue.prototype.$alert = sweetAlert;
+Vue.prototype.$globalConfig = gloabalConfig;

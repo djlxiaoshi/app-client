@@ -41,7 +41,7 @@
     </el-row>
 
     <el-dialog :show-close="false" :visible.sync="previewDialogVisible" class="preview-dialog">
-      <img :src="previewImgSrc" alt="" class="preview-img">
+      <img :src="$globalConfig.SERVER_ADDRESS + previewImgSrc" alt="" class="preview-img">
     </el-dialog>
   </section>
 </template>

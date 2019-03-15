@@ -15,7 +15,7 @@
                   <el-upload
                     ref="upload"
                     class="upload-avatar-input"
-                    action="http://localhost:3000/user/avatar/"
+                    :action="$globalConfig.SERVER_ADDRESS + '/user/avatar/'"
                     list-type="text"
                     :with-credentials="true"
                     :show-file-list="false"

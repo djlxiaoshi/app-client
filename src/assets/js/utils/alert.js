@@ -15,14 +15,15 @@ class Sweetalert {
     });
   }
 
-  warning (desc) {
-    return swal({
+  warning (desc, options) {
+    const defaultConfig = {
       title: 'Warning',
       text: desc,
       icon: 'warning',
       buttons: true,
       dangerMode: true
-    });
+    };
+    return swal(Object.assign(defaultConfig, options));
   }
 
   error (desc) {

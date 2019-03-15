@@ -31,6 +31,10 @@
                     </el-input>
                   </el-form-item>
 
+                  <el-form-item label="使用说明" prop="usage">
+                    <el-input v-model="data.usage"></el-input>
+                  </el-form-item>
+
                   <el-form-item label="组件类别" prop="gitlab">
                     <el-radio-group v-model="data.tag">
                       <el-radio :label="tag._id" v-for="(tag, index) in tagsList" :key="index">
@@ -40,6 +44,10 @@
                     <div>
                       <el-button type="primary" size="mini" plain @click="openCreateTagDialog">增加类别</el-button>
                     </div>
+                  </el-form-item>
+
+                  <el-form-item label="预览地址" prop="previewUrl">
+                    <el-input v-model="data.previewUrl"></el-input>
                   </el-form-item>
 
                   <el-form-item label="Gitlab地址" prop="gitlab">
@@ -80,6 +88,8 @@
           englishName: '',
           dependencies: '',
           gitlab: '',
+          previewUrl: '',
+          usage: '',
           tag: ''
         },
         tagsList: [],
@@ -93,8 +103,15 @@
           dependencies: [
             { required: true, trigger: 'blur', message: '安装依赖说明不能为空' }
           ],
+          usage: [
+            { required: true, trigger: 'blur', message: '使用说明不能为空' }
+          ],
           gitlab: [
             { required: true, trigger: 'blur', message: 'Gitlab地址不能为空' },
+            { trigger: 'blur', validator: checkUrl }
+          ],
+          previewUrl: [
+            { required: true, trigger: 'blur', message: '预览地址不能为空' },
             { trigger: 'blur', validator: checkUrl }
           ]
         }

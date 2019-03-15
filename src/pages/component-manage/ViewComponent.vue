@@ -7,11 +7,13 @@
               <li class="field-item">
                 <span class="field-label">组件展示：</span>
                 <div class="field-value img-field-value">
-                  <img class=" img-field" :src="component.img" width="100px" height="100px">
+                  <div class="img-wrap">
+                    <img v-if="component.img" :src="getImgAddress(component.img)" width="100%" height="100%">
+                  </div>
                   <el-upload
                     ref="upload"
                     class="upload-component"
-                    action="http://localhost:3000/component/img/"
+                    :action="$globalConfig.SERVER_ADDRESS + '/component/img/'"
                     :data="{componentId: $route.params.id}"
                     list-type="text"
                     :with-credentials="true"
@@ -35,6 +37,10 @@
                 <span class="field-label">安装依赖说明：</span>
                 <span class="field-value">{{ component.dependencies }}</span>
               </li>
+              <li class="field-item">
+                <span class="field-label">使用说明：</span>
+                <span class="field-value">{{ component.usage }}</span>
+              </li>
               <li class="field-item tag-field">
                 <span class="field-label">组件类别：</span>
                 <el-tag class="field-value" size="small" v-if="component.tag" @click="goToGetComponentsByTagPage">
@@ -43,8 +49,12 @@
                 <span class="field-value" v-else>暂无类别</span>
               </li>
               <li class="field-item">
+                <span class="field-label">预览地址：</span>
+                <a class="field-value common-link" :href="component.previewUrl">{{ component.previewUrl }}</a>
+              </li>
+              <li class="field-item">
                 <span class="field-label">Gitlab地址：</span>
-                <a class="field-value gitlab-link" :href="component.gitlab">{{ component.gitlab }}</a>
+                <a class="field-value common-link" :href="component.gitlab">{{ component.gitlab }}</a>
               </li>
               <li class="field-item">
                 <span class="field-label">编辑：</span>
@@ -66,6 +76,8 @@
           englishName: '',
           dependencies: '',
           gitlab: '',
+          previewUrl: '',
+          usage: '',
           img: '',
           tag: ''
         }
@@ -101,6 +113,9 @@
         }
         return (isJPG || isPNG) && isLt2M;
       },
+      getImgAddress (imgPath) {
+        return this.$globalConfig.SERVER_ADDRESS + imgPath;
+      },
       handleSuccess (res) {
         this.$set(this.component, 'img', res.data.path);
         this.$notify.success('上传成功');
@@ -123,7 +138,9 @@
         align-items: flex-start;
         margin: 30px 0;
         font-size: 14px;
-        .img-field {
+        .img-wrap {
+          width: 100px;
+          height: 100px;
           margin-right: 20px;
           border: 1px solid #e5e5e5;
         }
@@ -142,13 +159,6 @@
 
         .field-label {
           width: 150px;
-        }
-        .gitlab-link {
-          text-decoration: underline;
-          color: #000;
-          &:hover {
-            color: lightgreen;
-          }
         }
       }
       .field-item.tag-field {

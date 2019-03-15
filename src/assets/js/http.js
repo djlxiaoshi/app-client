@@ -5,7 +5,7 @@
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Notification from './utils/notification';
-import { SERVER_ADRESS } from './config';
+import globalConfig from './config';
 import { router } from '../../router/index';
 
 const xhrCache = []; // 请求池
@@ -48,7 +48,7 @@ function setNProgress () {
 export default function http (config) {
   const axiosConfig = {
     method: config.method || 'get',
-    url: SERVER_ADRESS + config.url,
+    url: globalConfig.SERVER_ADDRESS + config.url,
     withCredentials: config.withCredentials || true,
     headers: Object.assign({}, {'Content-Type': 'application/json'}, config.headers),
     // headers: {'Content-Type': 'application/json'},
