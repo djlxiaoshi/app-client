@@ -22,21 +22,22 @@ import UserRegister from 'pages/users/Register';
 
 import componentRoutes from './component.js';
 import tagRoutes from './tag.js';
-import templateRoutes from './template.js';
 import userRoutes from './user.js';
+import adminRoutes from './admin.js';
 
 import http from '../assets/js/http';
-import { SET_USER_MSG } from '../store/mutation-types';
+import { SET_USER_MSG, SET_MENU_LIST } from '../store/mutation-types';
 import store from '../store/index';
 
 function userIsLogin (next) {
-  http({
+  return http({
     url: '/user/isLogin'
-  }).then(user => {
-    if (user) {
-      store.commit(SET_USER_MSG, user);
-      next();
-    }
+  });
+}
+
+function getInitMenu () {
+  return http({
+    url: '/menus'
   });
 }
 
@@ -58,18 +59,16 @@ let routes = [
     children: tagRoutes
   },
   {
-    path: 'template/',
-    icon: 'icon-36',
-    label: '模板管理',
-    activeKey: '/template/TemplateList',
-    component: Framework,
-    children: templateRoutes
-  },
-  {
     path: 'user',
     hidden: true,
     component: Framework,
     children: userRoutes
+  },
+  {
+    path: 'admin',
+    hidden: true,
+    component: Framework,
+    children: adminRoutes
   },
   {
     path: '/login',
@@ -99,21 +98,47 @@ const rootRoute = [
   {
     path: '/',
     component: App,
-    beforeEnter (to, from, next) {
-      const matched = to.matched;
-      const finallyMatched = to.matched[matched.length - 1];
-      if (finallyMatched.meta.NoRequiredLogin) {
-        next();
-      } else {
-        userIsLogin(next);
-      }
-    },
     children: routes
   }
 ];
 
 const router = new Router({
   routes: rootRoute
+});
+
+// 全局拦截
+router.beforeEach((to, from, next) => {
+  const matched = to.matched;
+  const finallyMatched = to.matched[matched.length - 1];
+
+  if (finallyMatched.meta.NoRequiredLogin) {
+    next();
+  } else {
+    // 获取用户是否处于登录状态
+    if (!store.state.user) {
+      Promise.all([userIsLogin(), getInitMenu()]).then((result) => {
+        if (result[0]) {
+          store.commit(SET_USER_MSG, result[0]);
+          store.commit(SET_MENU_LIST, result[1]);
+        }
+      });
+    }
+
+    if (store.state.user) {
+
+      if (!finallyMatched.meta.permissionList) {
+        // 不需要权限
+        next();
+      } else {
+        if (!!~finallyMatched.meta.permissionList.indexOf(store.state.user.role)) {
+          // 权限通过
+          next();
+        } else {
+          // 到权限不足提示页面，点击返回首页
+        }
+      }
+    }
+  }
 });
 
 export { router, routes };

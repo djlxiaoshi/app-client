@@ -5,7 +5,7 @@
         <div class="operate-bar">
           <h2>{{ $route.query.tagLabel }}</h2>
           <div class="btn-wrap">
-            <!--<el-button type="primary" @click="goToTagManagePage" size="mini">类别管理</el-button>-->
+            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加组件</el-button>
           </div>
         </div>
         <div class="component-list" ref="loadingTarget">
@@ -49,11 +49,11 @@
 
 <script>
   import ComponentItem from './ComponentItem';
-  import Empty from 'components/common/empty/Empty';
+  import routerNameConfig from '../../router/config';
+
   export default {
     components: {
-      ComponentItem,
-      Empty
+      ComponentItem
     },
     data () {
       return {
@@ -90,10 +90,10 @@
         });
       },
       onView (item) {
-        this.$router.push('/component/ViewComponent/' + item._id);
+        this.$router.push({ name: routerNameConfig.ViewComponentRouterName, params: { id: item._id } });
       },
       onEdit (item) {
-        this.$router.push('/component/UpdateComponent/' + item._id);
+        this.$router.push({ name: routerNameConfig.UpdateComponentRouterName, params: { id: item._id } });
       },
       deleteItem (id) {
         return this.$http({
@@ -117,13 +117,10 @@
         this.previewImgSrc = src;
       },
       goToGetComponentsByTagPage (tag) {
-        this.$router.push('/component/ComponentListByTag/?tagId=' + tag._id + '&tagLabel=' + tag.label);
-      },
-      goToTagManagePage () {
-        this.$router.push('/component/TagManage/');
+        this.$router.push({ name: routerNameConfig.ComponentListByTagRouterName, query: { tagId: tag._id, tagLabel: tag.label } });
       },
       goToAddComponentPage () {
-        this.$router.push('/component/CreateComponent?defaultTag=' + this.$route.query.tagId);
+        this.$router.push({ name: routerNameConfig.CreateComponentRouterName, query: { defaultTag: this.$route.query.tagId } });
       },
       currentChange (currentPage) {
         this.currentPage = currentPage;

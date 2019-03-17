@@ -48,6 +48,8 @@
 
 <script>
   import ComponentItem from './ComponentItem';
+  import routerNameConfig from '../../router/config';
+
   export default {
     components: {
       ComponentItem
@@ -86,10 +88,10 @@
         });
       },
       onView (item) {
-        this.$router.push('/component/ViewComponent/' + item._id);
+        this.$router.push({ name: routerNameConfig.ViewComponentRouterName, params: { id: item._id } });
       },
       onEdit (item) {
-        this.$router.push('/component/UpdateComponent/' + item._id);
+        this.$router.push({ name: routerNameConfig.UpdateComponentRouterName, params: { id: item._id } });
       },
       deleteItem (id) {
         return this.$http({
@@ -113,10 +115,10 @@
         this.previewImgSrc = src;
       },
       goToGetComponentsByTagPage (tag) {
-        this.$router.push('/component/ComponentListByTag?tagId=' + tag._id + '&tagLabel=' + tag.label);
+        this.$router.push({ name: routerNameConfig.ComponentListByTagRouterName, query: { tagId: tag._id, tagLabel: tag.label } });
       },
       goToAddComponentPage () {
-        this.$router.push('/component/CreateComponent/');
+        this.$router.push({ name: routerNameConfig.CreateComponentRouterName });
       },
       currentChange (currentPage) {
         this.currentPage = currentPage;

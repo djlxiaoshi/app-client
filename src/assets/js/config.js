@@ -3,7 +3,7 @@
 * */
 
 const development = {
-  SERVER_ADDRESS: 'http://192.168.159.235:3000' // 开发环境后端接口地址
+  SERVER_ADDRESS: 'http://localhost:3000' // 开发环境后端接口地址
 };
 
 const production = {

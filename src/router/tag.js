@@ -5,7 +5,7 @@ import store from '../store/index';
 
 export default [
   {
-    path: 'TagsList',
+    path: 'TagList',
     component: TagManage,
     beforeEnter (to, from, next) {
       store.commit(ACTIVE_MENU, to.fullPath);
@@ -14,10 +14,10 @@ export default [
   },
   {
     path: '',
-    redirect: 'TagsList'
+    redirect: 'TagList'
   },
   {
     path: '**',
-    redirect: 'TagsList'
+    redirect: 'TagList'
   }
 ];

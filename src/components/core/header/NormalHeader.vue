@@ -3,12 +3,31 @@
     <el-col :span="20">
       <div class="header-container">
         <div class="header-left">
+          <el-menu
+            :default-active="defaultSelectSystem"
+            class="system-menu"
+            mode="horizontal"
+            @select="handleSystemSelect"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#5a92fd">
+            <el-submenu index="2">
+              <template slot="title">{{ selectSystem }}</template>
+              <el-menu-item
+                :index="item['system']"
+                v-for="(item, index) in systemConfig"
+                :key="index">
+                {{ item['label'] }}
+              </el-menu-item>
+            </el-submenu>
+          </el-menu>
+
           <header-menu
             text-color="#fff"
             background-color="#545c64"
             active-text-color="#ffd04b"
             mode="horizontal"
-            :menuConfig="menuConfig"></header-menu>
+            :menuConfig="menuList"></header-menu>
         </div>
 
         <div class="header-right">
@@ -37,9 +56,8 @@
 
 <script>
   import HeaderMenu from 'components/core/menu/Menu';
-  import {routes as menuConfig} from 'router/index';
   import { mapState, mapMutations } from 'vuex';
-  import { ACTIVE_MENU, SET_USER_MSG } from 'store/mutation-types';
+  import { ACTIVE_MENU, SET_USER_MSG, SET_MENU_LIST } from 'store/mutation-types';
 
   export default {
     components: {
@@ -48,22 +66,58 @@
     data () {
       return {
         searchText: '',
-        menuConfig
+        selectSystem: '我的收藏',
+        systemConfig: [
+          { system: 'collection', label: '我的收藏' },
+          { system: 'blog', label: '我的博客' }
+        ]
       };
     },
     computed: {
       ...mapState([
         'activeMenu',
-        'user'
-      ])
+        'user',
+        'menuList'
+      ]),
+      defaultSelectSystem () {
+        return this.systemConfig[0].system;
+      }
     },
     methods: {
       ...mapMutations({
         'setActiveMenu': ACTIVE_MENU,
-        'setUserMsg': SET_USER_MSG
+        'setUserMsg': SET_USER_MSG,
+        'setMenuList': SET_MENU_LIST
       }),
       handleSelect (key) {
         this.setActiveMenu(key);
+      },
+      handleSystemSelect (systemName) {
+        this.systemConfig.forEach(menuItem => {
+          if (menuItem.system === systemName) {
+            this.selectSystem = menuItem.label;
+          }
+        });
+
+        this.getMenuListBySystemName(systemName).then((menuList) => {
+          if (menuList.length) {
+            this.$router.push(menuList[0].path);
+          } else {
+          //  暂无内容页面
+          }
+
+        });
+      },
+      getMenuListBySystemName (systemName) {
+        return this.$http({
+          url: '/menus',
+          data: {
+            system: systemName
+          }
+        }).then(menuList => {
+          this.setMenuList(menuList);
+          return menuList;
+        });
       },
       eventHandler (event) {
         if (event === 'logout') {
@@ -126,6 +180,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      .header-left {
+        display: flex;
+        .system-menu {
+          /deep/ .is-active {
+            .el-submenu__title {
+              border-bottom: none !important;
+              color: #5a92fd !important;
+              font-size: 16px !important;
+              font-weight: 600 !important;
+            }
+          }
+        }
+      }
     }
     .avatar-wrap {
       .user-avatar {

@@ -8,13 +8,14 @@
     :default-active="activeMenu"
     :mode="mode"
     @select="handleSelect">
-      <el-menu-item
-        v-if="!menu.hidden"
-        v-for="(menu, index) in menuConfig"
-        :index="menu.activeKey"
-        :key="index">
-        {{ menu.label }}
-      </el-menu-item>
+      <template v-for="(menu, index) in menuConfig">
+        <el-menu-item
+          v-if="!menu.hidden"
+          :index="menu.path"
+          :key="index">
+          {{ menu.label }}
+        </el-menu-item>
+      </template>
     </el-menu>
 </template>
 
@@ -49,6 +50,9 @@
       ...mapState([
         'activeMenu'
       ])
+    },
+    mounted () {
+      console.log('menuConfig', this.menuConfig);
     },
     methods: {
       ...mapMutations({

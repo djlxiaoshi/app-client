@@ -58,7 +58,7 @@
               </el-form-item>
 
               <el-form-item label="组件类别">
-                <el-radio-group v-model="formData.tag._id">
+                <el-radio-group v-model="formData.tag">
                   <el-radio :label="tag._id" v-for="(tag, index) in tagsList" :key="index">
                     {{ tag.label }}
                   </el-radio>
@@ -94,6 +94,7 @@
 
 <script>
   import dayjs from 'dayjs';
+  import routerNameConfig from '../../router/config';
 
   import { mapState, mapMutations } from 'vuex';
   import { ACTIVE_MENU } from 'store/mutation-types';
@@ -118,7 +119,7 @@
           previewUrl: '',
           usage: '',
           img: '',
-          tag: {}
+          tag: ''
         },
         tagsList: [],
         rules: {
@@ -149,13 +150,6 @@
     },
     mounted () {
       this.getComponentDetails().then((res) => {
-
-        // fixme 如果没有标签，连表查询的tag属性为null,那么标签field绑定的formData.tag.Z_id就会报错。
-        if (!res.tag) {
-          res.tag = {
-            _id: null
-          };
-        }
 
         this.formData = res;
         this.prevFormData = this.contentStringify(this.formData);
@@ -197,6 +191,11 @@
         return this.$http({
           url: '/component/' + this.$route.params.id,
           method: 'get',
+          data: {
+            operate: {
+              $lookup: false // 是否需要连表查询
+            }
+          },
           hasWarning: true
         });
       },
@@ -237,7 +236,7 @@
         });
       },
       goToComponentDetailsPage (id) {
-        this.$router.push('/component/ViewComponent/' + id);
+        this.$router.push({ name: routerNameConfig.ViewComponentRouterName, params: { id } });
       },
       update () {
         const componentId = this.$route.params.id;
@@ -246,8 +245,7 @@
           method: 'put',
           hasWarning: true,
           showSuccessMsg: true,
-          // fixme 这里mongodb Model tag为String类型，所以要解析，且如果没有选中标签应该为null不能为''（空字符串）
-          data: Object.assign(this.formData, { tag: this.formData.tag._id || null })
+          data: this.formData
         }).then(() => {
           this.prevFormData = this.contentStringify(this.formData);
           this.goToComponentDetailsPage(componentId);

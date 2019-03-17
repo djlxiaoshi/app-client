@@ -92,6 +92,11 @@
         this.$http({
           url: '/component/' + componentId,
           method: 'get',
+          data: {
+            operate: {
+              $lookup: true
+            }
+          },
           hasWarning: true,
           loading: true,
           loadingTarget: this.$refs.loadingTarget.$el

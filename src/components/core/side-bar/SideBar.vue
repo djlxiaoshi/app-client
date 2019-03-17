@@ -12,7 +12,7 @@
 
 <script>
   import BaseMenu from 'components/core/menu/Menu';
-  import { routes as menuConfig }from '../../../router/index';
+  import { routes as menuConfig } from '../../../router/index';
 
   import { mapMutations } from 'vuex';
   import { TOGGLE_SIDE_MENU_VISIBLE } from 'store/mutation-types';

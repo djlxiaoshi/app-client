@@ -10,7 +10,7 @@
               label-width="80px"
               label-position="left">
               <el-form-item label="头像" prop="url">
-                <img class="user-avatar avatar-left" :src="user.avatar" alt="">
+                <img class="user-avatar avatar-left" :src="$globalConfig.SERVER_ADDRESS + user.avatar" alt="">
                 <div class="avatar-right">
                   <el-upload
                     ref="upload"

@@ -66,12 +66,13 @@
             </el-card>
           </el-col>
         </el-row>
-
   </div>
 </template>
 
 <script>
   import dayjs from 'dayjs';
+  import routerNameConfig from '../../router/config';
+
   export default {
     data () {
       const checkUrl = (rule, value, callback) => {
@@ -137,7 +138,7 @@
       },
       // 跳转组件详细介绍页面
       goToComponentDetailsPage (component) {
-        this.$router.push('/component/ViewComponent/' + component._id);
+        this.$router.push({ name: routerNameConfig.ViewComponentRouterName, params: { id: component._id } });
       },
       openCreateTagDialog () {
         this.$alert.input({
