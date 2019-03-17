@@ -15,7 +15,7 @@
           <div class="avatar-wrap" v-if="user">
             <el-dropdown @command="eventHandler" trigger="click">
               <a class="user-avatar">
-                <img :src="user.avatar" width="100%">
+                <img :src="$globalConfig.SERVER_ADDRESS + user.avatar" width="100%">
               </a>
 
               <el-dropdown-menu slot="dropdown">

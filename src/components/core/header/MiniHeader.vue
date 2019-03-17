@@ -13,7 +13,7 @@
     <el-col :span="6">
       <div class="header-login">
         <a class="user-avatar" v-if="user">
-          <img :src="user.avatar" width="100%">
+          <img :src="$globalConfig.SERVER_ADDRESS + user.avatar" width="100%">
         </a>
         <div v-else>
           <a class="login-btn" href="javascript:void(0)" @click="goToLoginPage">登录</a>

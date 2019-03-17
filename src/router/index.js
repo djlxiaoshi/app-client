@@ -22,6 +22,7 @@ import UserRegister from 'pages/users/Register';
 
 import componentRoutes from './component.js';
 import tagRoutes from './tag.js';
+import templateRoutes from './template.js';
 import userRoutes from './user.js';
 
 import http from '../assets/js/http';
@@ -55,6 +56,14 @@ let routes = [
     activeKey: '/tag/TagsList',
     component: Framework,
     children: tagRoutes
+  },
+  {
+    path: 'template/',
+    icon: 'icon-36',
+    label: '模板管理',
+    activeKey: '/template/TemplateList',
+    component: Framework,
+    children: templateRoutes
   },
   {
     path: 'user',

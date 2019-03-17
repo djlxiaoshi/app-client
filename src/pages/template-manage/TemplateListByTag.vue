@@ -1,10 +1,11 @@
 <template>
-  <section class="home-page">
+  <section class="components-tag-page">
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
         <div class="operate-bar">
+          <h2>{{ $route.query.tagLabel }}</h2>
           <div class="btn-wrap">
-            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加组件</el-button>
+            <!--<el-button type="primary" @click="goToTagManagePage" size="mini">类别管理</el-button>-->
           </div>
         </div>
         <div class="component-list" ref="loadingTarget">
@@ -14,7 +15,7 @@
           </Empty>
           <!-- 非空状态 -->
           <template v-else>
-            <ComponentItem
+            <TemplateItem
               v-for="(item, index) in componentsList"
               :key="index"
               :data="item"
@@ -23,7 +24,7 @@
               @edit="onEdit(item)"
               @preview="previewImg"
               @tagClick="goToGetComponentsByTagPage"
-            ></ComponentItem>
+            ></TemplateItem>
           </template>
         </div>
 
@@ -40,17 +41,19 @@
       </el-col>
     </el-row>
 
-    <el-dialog :show-close="false" :visible.sync="previewDialogVisible" class="preview-dialog" width="90%">
-      <img :src="$globalConfig.SERVER_ADDRESS + previewImgSrc" alt="" class="preview-img">
+    <el-dialog :show-close="false" :visible.sync="previewDialogVisible" class="preview-dialog">
+      <img :src="previewImgSrc" alt="" class="preview-img">
     </el-dialog>
   </section>
 </template>
 
 <script>
-  import ComponentItem from './ComponentItem';
+  import TemplateItem from './TemplateItem';
+  import Empty from 'components/common/empty/Empty';
   export default {
     components: {
-      ComponentItem
+      TemplateItem,
+      Empty
     },
     data () {
       return {
@@ -63,20 +66,21 @@
       };
     },
     mounted () {
-      this.getComponentsList();
+      this.getComponentsListByTag();
     },
     methods: {
       /**
        * 获取收藏的链接列表
        */
-      getComponentsList () {
+      getComponentsListByTag () {
         this.$http({
-          url: '/components',
+          url: '/components/tag',
           hasWarning: true,
           loading: true,
           data: {
             currentPage: parseInt(this.currentPage),
-            pageSize: parseInt(this.pageSize)
+            pageSize: parseInt(this.pageSize),
+            tagId: this.$route.query.tagId
           },
           loadingTarget: this.$refs.loadingTarget
         }).then(data => {
@@ -113,10 +117,13 @@
         this.previewImgSrc = src;
       },
       goToGetComponentsByTagPage (tag) {
-        this.$router.push('/component/ComponentListByTag?tagId=' + tag._id + '&tagLabel=' + tag.label);
+        this.$router.push('/component/ComponentListByTag/?tagId=' + tag._id + '&tagLabel=' + tag.label);
+      },
+      goToTagManagePage () {
+        this.$router.push('/component/TagManage/');
       },
       goToAddComponentPage () {
-        this.$router.push('/component/CreateComponent/');
+        this.$router.push('/component/CreateComponent?defaultTag=' + this.$route.query.tagId);
       },
       currentChange (currentPage) {
         this.currentPage = currentPage;
@@ -127,7 +134,11 @@
 </script>
 
 <style scoped lang="less">
-  .home-page {
+  .components-tag-page {
+    .main-container {
+      background: #ffffff;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    }
     .operate-bar {
       display: flex;
       align-items: center;

@@ -8,9 +8,9 @@ import Notification from './utils/notification';
 import globalConfig from './config';
 import { router } from '../../router/index';
 
-const xhrCache = []; // 请求池
-const cancelCache = []; // 取消请求池
-const loadingCache = []; // loading状态存储池
+let xhrCache = []; // 请求池
+let cancelCache = []; // 取消请求池
+let loadingCache = []; // loading状态存储池
 const CancelToken = axios.CancelToken;
 
 // 请求发送拦截
@@ -50,10 +50,9 @@ export default function http (config) {
     method: config.method || 'get',
     url: globalConfig.SERVER_ADDRESS + config.url,
     withCredentials: config.withCredentials || true,
-    headers: Object.assign({}, {'Content-Type': 'application/json'}, config.headers),
-    // headers: {'Content-Type': 'application/json'},
-    cancelToken: new CancelToken(function executor (c) {
-      cancelCache.push(c);
+    headers: Object.assign({}, { 'Content-Type': 'application/json' }, config.headers),
+    cancelToken: new CancelToken(function executor (cancel) {
+      cancelCache.push(cancel);
     })
   };
 
@@ -67,6 +66,7 @@ export default function http (config) {
     // 开启滚动条
     NProgress.start();
 
+    // todo 这里可以把loading参数和loadingTarget参数合并
     let loadingInstance = config.loading
       ? this.$loading({
         target: config.loadingTarget,
@@ -118,6 +118,7 @@ export default function http (config) {
   });
 }
 
+// 用户未登录处理
 function loginCheck (response) {
   // 未登录
   if (response.code === -1000) {
@@ -125,10 +126,12 @@ function loginCheck (response) {
   }
 }
 
-// function checkNotLogin (response) {
-//
-//   // 已登录
-//   if (response.code === -1001) {
-//
-//   }
-// }
+export function cancelAll () {
+  cancelCache.forEach(cancel => {
+    cancel();
+  });
+
+  cancelCache = [];
+  xhrCache = [];
+  loadingCache = [];
+}

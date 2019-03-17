@@ -4,17 +4,17 @@
       <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
         <div class="operate-bar">
           <div class="btn-wrap">
-            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加组件</el-button>
+            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加模板</el-button>
           </div>
         </div>
         <div class="component-list" ref="loadingTarget">
           <!-- 空状态 -->
           <Empty v-if="componentsList.length === 0">
-            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加组件</el-button>
+            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加模板</el-button>
           </Empty>
           <!-- 非空状态 -->
           <template v-else>
-            <ComponentItem
+            <TemplateItem
               v-for="(item, index) in componentsList"
               :key="index"
               :data="item"
@@ -23,7 +23,7 @@
               @edit="onEdit(item)"
               @preview="previewImg"
               @tagClick="goToGetComponentsByTagPage"
-            ></ComponentItem>
+            ></TemplateItem>
           </template>
         </div>
 
@@ -47,10 +47,10 @@
 </template>
 
 <script>
-  import ComponentItem from './ComponentItem';
+  import TemplateItem from './TemplateItem';
   export default {
     components: {
-      ComponentItem
+      TemplateItem
     },
     data () {
       return {
