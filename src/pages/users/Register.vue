@@ -90,7 +90,7 @@
       },
       methods: {
         register () {
-          this.$http({
+          const { xhrInstance } = this.$http({
             method: 'post',
             url: '/user',
             data: {
@@ -98,8 +98,10 @@
               password: this.form.password,
               email: this.form.email
             },
-            hasWarning: true
-          }).then(() => {
+            showErrorMsg: true
+          });
+
+          xhrInstance.then(() => {
             this.goToHomePage();
           }, () => {});
         },

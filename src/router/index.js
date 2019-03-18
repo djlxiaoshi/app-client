@@ -30,15 +30,22 @@ import { SET_USER_MSG, SET_MENU_LIST } from '../store/mutation-types';
 import store from '../store/index';
 
 function userIsLogin (next) {
-  return http({
+  const { xhrInstance } = http({
     url: '/user/isLogin'
   });
+  return xhrInstance;
 }
 
 function getInitMenu () {
-  return http({
+  const { xhrInstance } = http({
     url: '/menus'
   });
+
+  return xhrInstance;
+}
+
+async function getUserMsg ()  {
+  return Promise.all([userIsLogin(), getInitMenu()]);
 }
 
 let routes = [
@@ -48,7 +55,12 @@ let routes = [
     label: '组件管理',
     activeKey: '/component/ComponentsList',
     component: Framework,
-    children: componentRoutes
+    children: componentRoutes,
+    beforeLeave (to, from, next) {
+      debugger
+      http.cancelAll();
+      next();
+    }
   },
   {
     path: 'tag/',
@@ -107,7 +119,7 @@ const router = new Router({
 });
 
 // 全局拦截
-router.beforeEach((to, from, next) => {
+router.beforeEach( async (to, from, next) => {
   const matched = to.matched;
   const finallyMatched = to.matched[matched.length - 1];
 
@@ -116,16 +128,12 @@ router.beforeEach((to, from, next) => {
   } else {
     // 获取用户是否处于登录状态
     if (!store.state.user) {
-      Promise.all([userIsLogin(), getInitMenu()]).then((result) => {
-        if (result[0]) {
-          store.commit(SET_USER_MSG, result[0]);
-          store.commit(SET_MENU_LIST, result[1]);
-        }
-      });
+      const result = await getUserMsg();
+      store.commit(SET_USER_MSG, result[0]);
+      store.commit(SET_MENU_LIST, result[1]);
     }
 
     if (store.state.user) {
-
       if (!finallyMatched.meta.permissionList) {
         // 不需要权限
         next();

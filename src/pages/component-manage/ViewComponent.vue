@@ -89,7 +89,7 @@
     methods: {
       getComponentById () {
         const componentId = this.$route.params.id;
-        this.$http({
+        const { xhrInstance } = this.$http({
           url: '/component/' + componentId,
           method: 'get',
           data: {
@@ -97,10 +97,11 @@
               $lookup: true
             }
           },
-          hasWarning: true,
-          loading: true,
-          loadingTarget: this.$refs.loadingTarget.$el
-        }).then(res => {
+          showErrorMsg: true,
+          loading: this.$refs.loadingTarget.$el
+        });
+
+        xhrInstance.then(res => {
           this.component = res;
         });
       },

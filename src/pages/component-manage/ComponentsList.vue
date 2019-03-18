@@ -72,16 +72,17 @@
        * 获取收藏的链接列表
        */
       getComponentsList () {
-        this.$http({
+        const { xhrInstance } = this.$http({
           url: '/components',
-          hasWarning: true,
-          loading: true,
+          showErrorMsg: true,
+          loading: this.$refs.loadingTarget,
           data: {
             currentPage: parseInt(this.currentPage),
             pageSize: parseInt(this.pageSize)
-          },
-          loadingTarget: this.$refs.loadingTarget
-        }).then(data => {
+          }
+        });
+
+        xhrInstance.then(data => {
           this.totalPages = data.total;
           this.componentsList = data.list;
         }, () => {
@@ -97,15 +98,17 @@
         return this.$http({
           url: '/component/' + id,
           method: 'delete',
-          hasWarning: true
+          showErrorMsg: true,
+          showSuccessMsg: true
         });
       },
       onDelete (item) {
         this.$alert.warning('确定要删除该项吗？').then((willDone) => {
           if (willDone) {
-            this.deleteItem(item._id).then(() => {
+            const { xhrInstance } = this.deleteItem(item._id);
+
+            xhrInstance.then(() => {
               this.getComponentsList();
-              this.$alert.success('删除成功');
             });
           }
         });

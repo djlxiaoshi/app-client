@@ -62,7 +62,7 @@
           'setUserMsg': SET_USER_MSG
         }),
         login () {
-          this.$http({
+          const { xhrInstance } = this.$http({
             url: '/login',
             data: {
               username: this.form.username,
@@ -70,8 +70,10 @@
             },
             method: 'post',
             showSuccessMsg: true,
-            hasWarning: true
-          }).then((user) => {
+            showErrorMsg: true
+          });
+
+          xhrInstance.then((user) => {
 
             this.setUserMsg(user);
             this.goToHomePage();

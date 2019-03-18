@@ -149,7 +149,9 @@
       };
     },
     mounted () {
-      this.getComponentDetails().then((res) => {
+      const { xhrInstance } = this.getComponentDetails();
+
+      xhrInstance.then((res) => {
 
         this.formData = res;
         this.prevFormData = this.contentStringify(this.formData);
@@ -201,11 +203,13 @@
       },
       // 获取tag列表
       getTagsList () {
-        this.$http({
+        const { xhrInstance } = this.$http({
           url: '/tags/',
           method: 'get',
-          hasWarning: true
-        }).then(res => {
+          showErrorMsg: true
+        });
+
+        xhrInstance.then(res => {
           this.tagsList = res;
         });
       },
@@ -216,7 +220,9 @@
           text: '请输入类别名'
         }).then(inputValue => {
           if (inputValue && (inputValue.trim() !== '')) {
-            this.createTag(inputValue).then(() => {
+            const { xhrInstance } = this.createTag(inputValue);
+
+            xhrInstance.then(() => {
               this.getTagsList();
             });
           }
@@ -240,13 +246,15 @@
       },
       update () {
         const componentId = this.$route.params.id;
-        this.$http({
+        const { xhrInstance } = this.$http({
           url: '/component/' + componentId,
           method: 'put',
-          hasWarning: true,
+          showErrorMsg: true,
           showSuccessMsg: true,
           data: this.formData
-        }).then(() => {
+        });
+
+        xhrInstance.then(() => {
           this.prevFormData = this.contentStringify(this.formData);
           this.goToComponentDetailsPage(componentId);
         });

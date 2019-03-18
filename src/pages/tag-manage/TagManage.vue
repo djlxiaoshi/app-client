@@ -45,6 +45,7 @@
 <script>
   import TagItem from './TagItem';
   import dayjs from 'dayjs';
+  import routerNameConfig from '../../router/config';
 
   export default {
     name: '',
@@ -65,23 +66,24 @@
     methods: {
       // 获取所有类别列表
       getTagsList () {
-        this.$http({
+        const { xhrInstance } = this.$http({
           url: '/tags',
-          hasWarning: true,
-          loading: true,
+          showErrorMsg: true,
+          loading: this.$refs.loadingTarget,
           data: {
             currentPage: this.currentPage,
             pageSize: this.pageSize
-          },
-          loadingTarget: this.$refs.loadingTarget
-        }).then(data => {
+          }
+        });
+
+        xhrInstance.then(data => {
           this.totalPages = data.total;
           this.tagsList = data.list;
         }, () => {
         });
       },
       viewDetails (tag) {
-        this.$router.push('/component/ComponentListByTag?tagId=' + tag._id + '&tagLabel=' + tag.label);
+        this.$router.push({ name: routerNameConfig.ComponentListByTagRouterName, query: { tagId: tag._id, tagLabel: tag.label } });
       },
       openUpdateTagDialog (tag) {
         this.$alert.input({
@@ -89,7 +91,9 @@
           defaultValue: tag.label
         }).then(inputValue => {
           if (inputValue && (inputValue.trim() !== '')) {
-            this.updateTag(tag._id, inputValue.trim()).then(() => {
+            const { xhrInstance } = this.updateTag(tag._id, inputValue.trim());
+
+            xhrInstance.then(() => {
               this.getTagsList();
             });
           }
@@ -98,7 +102,9 @@
       openDeleteTagDialog (tag) {
         this.$alert.warning('确定要删除该项吗？').then((willDone) => {
           if (willDone) {
-            this.deleteTag(tag).then(() => {
+            const { xhrInstance } = this.deleteTag(tag);
+
+            xhrInstance.then(() => {
               this.getTagsList();
             });
           }
@@ -109,7 +115,7 @@
         return this.$http({
           url: '/tag/' + tag._id,
           method: 'delete',
-          hasWarning: true,
+          showErrorMsg: true,
           showSuccessMsg: true
         });
       },
@@ -119,7 +125,7 @@
           url: '/tag/' + id,
           method: 'put',
           data: { label: label },
-          hasWarning: true,
+          showErrorMsg: true,
           showSuccessMsg: true
         });
       },
@@ -129,7 +135,9 @@
           text: '请输入类别名称'
         }).then(inputValue => {
           if (inputValue && (inputValue.trim() !== '')) {
-            this.createTag(inputValue.trim()).then(() => {
+            const { xhrInstance } = this.createTag(inputValue.trim());
+
+            xhrInstance.then(() => {
               this.getTagsList();
             }).catch(() => {});
           }

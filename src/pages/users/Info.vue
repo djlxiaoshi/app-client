@@ -83,11 +83,13 @@
           };
         },
       created () {
-        this.$http({
+        const { xhrInstance } = this.$http({
           url: '/user',
           method: 'get',
-          hasWarning: true
-        }).then((user) => {
+          showErrorMsg: true
+        });
+
+        xhrInstance.then((user) => {
           this.user = user;
         }, () => {});
       },

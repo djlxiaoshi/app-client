@@ -129,10 +129,12 @@
 
       // 获取所有标签列表
       getAllTags () {
-        this.$http({
+        const { xhrInstance } = this.$http({
           url: '/tags',
-          hasWarning: true
-        }).then((res) => {
+          showErrorMsg: true
+        });
+
+        xhrInstance.then((res) => {
           this.tagsList = res;
         });
       },
@@ -146,7 +148,9 @@
           text: '请输入类别名称'
         }).then(inputValue => {
           if (inputValue && (inputValue.trim() !== '')) {
-            this.createTag(inputValue.trim()).then(() => {
+            const { xhrInstance } = this.createTag(inputValue.trim());
+
+            xhrInstance.then(() => {
               this.getAllTags();
             });
           }
@@ -157,17 +161,20 @@
           url: '/tag/',
           method: 'post',
           data: { label: label, createTime: dayjs().format('YYYY-MM-DD HH:MM:ss') },
-          hasWarning: true
+          showErrorMsg: true,
+          showSuccessMsg: true,
         });
       },
       createComponent () {
-        this.$http({
+        const { xhrInstance } = this.$http({
           url: '/component',
           method: 'post',
-          hasWarning: true,
+          showErrorMsg: true,
           showSuccessMsg: true,
           data: this.data
-        }).then((res) => {
+        });
+
+        xhrInstance.then((res) => {
           this.goToComponentDetailsPage(res);
         });
       },
