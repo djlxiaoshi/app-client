@@ -22,6 +22,7 @@ import UserRegister from 'pages/users/Register';
 
 import componentRoutes from './component.js';
 import tagRoutes from './tag.js';
+import blogRoutes from './blog.js';
 import userRoutes from './user.js';
 import adminRoutes from './admin.js';
 
@@ -38,7 +39,7 @@ function userIsLogin (next) {
 
 function getInitMenu () {
   const { xhrInstance } = http({
-    url: '/menus'
+    url: '/getMenusBySystem'
   });
 
   return xhrInstance;
@@ -55,12 +56,7 @@ let routes = [
     label: '组件管理',
     activeKey: '/component/ComponentsList',
     component: Framework,
-    children: componentRoutes,
-    beforeLeave (to, from, next) {
-      debugger
-      http.cancelAll();
-      next();
-    }
+    children: componentRoutes
   },
   {
     path: 'tag/',
@@ -69,6 +65,14 @@ let routes = [
     activeKey: '/tag/TagsList',
     component: Framework,
     children: tagRoutes
+  },
+  {
+    path: 'blog/',
+    icon: 'icon-36',
+    label: '文章列表',
+    activeKey: '/blog/ArticleList',
+    component: Framework,
+    children: blogRoutes
   },
   {
     path: 'user',

@@ -71,7 +71,7 @@
 
 <script>
   import dayjs from 'dayjs';
-  import routerNameConfig from '../../router/config';
+  import routerNameConfig from '../../../router/config';
 
   export default {
     data () {
@@ -120,13 +120,16 @@
     },
     mounted () {
       // 默认选中tag
-      if (this.$route.query && this.$route.query.defaultTag) {
-        this.data.tag = this.$route.query.defaultTag;
-      }
+      this.setDefaultTag();
       this.getAllTags();
     },
     methods: {
 
+      setDefaultTag () {
+        if (this.$route.query && this.$route.query.defaultTag) {
+          this.data.tag = this.$route.query.defaultTag;
+        }
+      },
       // 获取所有标签列表
       getAllTags () {
         const { xhrInstance } = this.$http({

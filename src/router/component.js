@@ -1,8 +1,9 @@
-import CreateComponent from '../pages/component-manage/CreateComponent';
-import ComponentsList from '../pages/component-manage/ComponentsList';
-import UpdateComponent from '../pages/component-manage/UpdateComponent';
-import ViewComponent from '../pages/component-manage/ViewComponent';
-import ComponentListByTag from '../pages/component-manage/ComponentListByTag';
+import CreateComponent from '../pages/collection-system/component-manage/CreateComponent';
+import ComponentsList from '../pages/collection-system/component-manage/ComponentsList';
+import UpdateComponent from '../pages/collection-system/component-manage/UpdateComponent';
+import ViewComponent from '../pages/collection-system/component-manage/ViewComponent';
+import ComponentListByTag from '../pages/collection-system/component-manage/ComponentListByTag';
+import NotFoundPage from '../components/common/exception/NotFound';
 
 import routerNameConfig from './config';
 
@@ -39,11 +40,21 @@ export default [
     component: ComponentListByTag
   },
   {
+    path: 'NotFound',
+    component: NotFoundPage,
+    // 清空选中状态
+    beforeEnter (to, from, next) {
+      debugger;
+      store.commit(ACTIVE_MENU, 'hsdfhdsfha');
+      next();
+    }
+  },
+  {
     path: '',
     redirect: 'ComponentList'
   },
   {
     path: '**',
-    redirect: 'ComponentList'
+    redirect: 'NotFound'
   }
 ];

@@ -45,7 +45,7 @@
 <script>
   import TagItem from './TagItem';
   import dayjs from 'dayjs';
-  import routerNameConfig from '../../router/config';
+  import routerNameConfig from '../../../router/config';
 
   export default {
     name: '',

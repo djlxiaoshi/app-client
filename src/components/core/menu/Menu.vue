@@ -52,7 +52,6 @@
       ])
     },
     mounted () {
-      console.log('menuConfig', this.menuConfig);
     },
     methods: {
       ...mapMutations({
@@ -62,9 +61,6 @@
         this.setActiveMenu(key);
         this.$emit('menuSelect', key);
       }
-    },
-    mounted () {
-      console.log(this.menuConfig)
     }
   };
 </script>

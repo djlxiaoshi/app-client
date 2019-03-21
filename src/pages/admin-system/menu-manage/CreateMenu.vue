@@ -10,7 +10,7 @@
             label-width="150px"
             label-position="left">
 
-            <el-form-item label="菜单名称" prop="name">
+            <el-form-item label="菜单名称" prop="label">
               <el-input v-model="data.label"></el-input>
             </el-form-item>
 
@@ -20,6 +20,13 @@
 
             <el-form-item label="菜单路径" prop="path">
               <el-input v-model="data.path"></el-input>
+            </el-form-item>
+
+            <el-form-item label="所属系统" prop="system">
+              <el-radio-group v-model="data.system">
+                <el-radio label="collection">收藏系统</el-radio>
+                <el-radio label="blog">博客系统</el-radio>
+              </el-radio-group>
             </el-form-item>
 
             <el-form-item>
@@ -37,36 +44,51 @@
 
 <script>
   import dayjs from 'dayjs';
+  import routerNameConfig from '../../../router/config';
 
   export default {
     name: '',
     data () {
       return {
         rules: {
-          name: [
+          label: [
             { required: true, trigger: 'blur', message: '菜单名不能为空' }
           ],
           path: [
             { required: true, trigger: 'blur', message: '菜单路径不能为空' }
+          ],
+          system: [
+            { required: true, trigger: 'blur', message: '所属系统不能为空' }
           ]
         },
         data: {}
       };
     },
+    mounted () {
+      this.setDefaultSystem();
+    },
     methods: {
+      setDefaultSystem () {
+        if (this.$route.query && this.$route.query.defaultSystem) {
+          this.$set(this.data, 'system', this.$route.query.defaultSystem);
+        }
+      },
       createMenu () {
-        this.$http({
+        return this.$http({
           url: '/menu',
           method: 'post',
-          hasWarning: true,
+          showErrorMsg: true,
           showSuccessMsg: true,
-          data: Object.assign(this.data, { createTime: dayjs().format('YYYY-MM-DD HH:MM:ss') })
+          data: { ...this.data, createTime: dayjs().format('YYYY-MM-DD HH:MM:ss') }
         });
       },
       formValidate () {
         this.$refs['form'].validate((valid) => {
           if (valid) {
-            this.createMenu();
+            const { xhrInstance } = this.createMenu();
+            xhrInstance.then(() => {
+              this.$router.push({ name: routerNameConfig.AdminMenuListRouterName });
+            });
           }
         });
       }
@@ -74,6 +96,6 @@
   };
 </script>
 
-<style scoped>
+<style scoped lang="less">
 
 </style>

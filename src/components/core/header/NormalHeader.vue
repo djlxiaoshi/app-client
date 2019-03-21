@@ -103,18 +103,20 @@
           if (menuList.length) {
             this.$router.push(menuList[0].path);
           } else {
-          //  暂无内容页面
+            //  暂无内容页面
           }
 
         });
       },
       getMenuListBySystemName (systemName) {
-        return this.$http({
-          url: '/menus',
+        const { xhrInstance } = this.$http({
+          url: '/getMenusBySystem',
           data: {
             system: systemName
           }
-        }).then(menuList => {
+        });
+
+        return xhrInstance.then(menuList => {
           this.setMenuList(menuList);
           return menuList;
         });
@@ -128,12 +130,14 @@
       },
       logout () {
         if (this.user) {
-          this.$http({
+          const { xhrInstance } = this.$http({
             url: '/logout',
             data: {
               id: this.user._id
             }
-          }).then(() => {
+          });
+
+          xhrInstance.then(() => {
 
             this.clearUserMsg();
             this.goToLoginPage();

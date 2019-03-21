@@ -48,7 +48,7 @@
 
 <script>
   import ComponentItem from './ComponentItem';
-  import routerNameConfig from '../../router/config';
+  import routerNameConfig from '../../../router/config';
 
   export default {
     components: {

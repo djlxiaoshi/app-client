@@ -94,7 +94,7 @@
 
 <script>
   import dayjs from 'dayjs';
-  import routerNameConfig from '../../router/config';
+  import routerNameConfig from '../../../router/config';
 
   import { mapState, mapMutations } from 'vuex';
   import { ACTIVE_MENU } from 'store/mutation-types';

@@ -4,5 +4,10 @@ export default {
   ViewComponentRouterName: 'collectionSystem/collectionManage/ViewComponent',
   UpdateComponentRouterName: 'collectionSystem/collectionManage/UpdateComponent',
   CreateComponentRouterName: 'collectionSystem/collectionManage/CreateComponent',
-  ComponentListByTagRouterName: 'collectionSystem/collectionManage/ComponentListByTag'
+  ComponentListByTagRouterName: 'collectionSystem/collectionManage/ComponentListByTag',
+
+  // admin
+  AdminMenuListRouterName: 'admin/MenuList',
+  AdminUpdateMenuRouterName: 'admin/UpdateMenu',
+  AdminCreateMenuRouterName: 'admin/CreateMenu'
 };
