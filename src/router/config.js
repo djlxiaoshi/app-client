@@ -9,5 +9,9 @@ export default {
   // admin
   AdminMenuListRouterName: 'admin/MenuList',
   AdminUpdateMenuRouterName: 'admin/UpdateMenu',
-  AdminCreateMenuRouterName: 'admin/CreateMenu'
+  AdminCreateMenuRouterName: 'admin/CreateMenu',
+
+  AdminCreateSystemRouterName: 'admin/CreateSystem',
+  AdminUpdateSystemRouterName: 'admin/UpdateSystem',
+  AdminSystemListRouterName: 'admin/SystemList'
 };

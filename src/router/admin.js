@@ -2,6 +2,10 @@ import MenuList from '../pages/admin-system/menu-manage/MenuList';
 import CreateMenu from '../pages/admin-system/menu-manage/CreateMenu';
 import UpdateMenu from '../pages/admin-system/menu-manage/UpdateMenu';
 
+import SystemList from '../pages/admin-system/system-manage/SystemList';
+import CreateSystem from '../pages/admin-system/system-manage/CreateSystem';
+import UpdateSystem from '../pages/admin-system/system-manage/UpdateSystem';
+
 import routerNameConfig from './config';
 
 export default [
@@ -28,5 +32,30 @@ export default [
     meta: {
       permissionList: ['admin']
     }
+  },
+  {
+    path: 'SystemList',
+    component: SystemList,
+    name: routerNameConfig.AdminSystemListRouterName,
+    meta: {
+      permissionList: ['admin']
+    }
+  },
+  {
+    path: 'CreateSystem',
+    component: CreateSystem,
+    name: routerNameConfig.AdminCreateSystemRouterName,
+    meta: {
+      permissionList: ['admin']
+    }
+  },
+  {
+    path: 'UpdateSystem/:id',
+    component: UpdateSystem,
+    name: routerNameConfig.AdminUpdateSystemRouterName,
+    meta: {
+      permissionList: ['admin']
+    }
   }
+
 ];
