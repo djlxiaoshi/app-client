@@ -23,10 +23,26 @@
                 <el-input v-model="data.path"></el-input>
               </el-form-item>
 
+              <el-form-item label="菜单权限" prop="permission">
+                <el-checkbox-group v-model="data.permission">
+                  <el-checkbox
+                    v-for="(item, index) in roleList"
+                    :key="index"
+                    :label="item.value">
+                    {{ item.label }}
+                  </el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
+
               <el-form-item label="所属系统" prop="system">
                 <el-radio-group v-model="data.system">
-                  <el-radio label="collection">收藏系统</el-radio>
-                  <el-radio label="blog">博客系统</el-radio>
+                  <el-radio
+                    v-for="(item, index) in systemList"
+                    :key="index"
+                    disabled
+                    :label="item._id">
+                    {{ item.label }}
+                  </el-radio>
                 </el-radio-group>
               </el-form-item>
 
@@ -58,17 +74,38 @@
           path: [
             { required: true, trigger: 'blur', message: '菜单路径不能为空' }
           ],
+          permission: [
+            { required: true, trigger: 'blur', message: '权限选择不能为空' }
+          ],
           system: [
             { required: true, trigger: 'blur', message: '所属系统不能为空' }
           ]
         },
-        data: {}
+        data: {
+          permission: []
+        },
+        roleList: [
+          { label: '管理员', value: 'admin' },
+          { label: '普通用户', value: 'general' },
+          { label: '游客', value: 'guest' }
+        ],
+        systemList: []
       };
     },
     mounted () {
       this.getMenu();
+      this.getSystemList();
     },
     methods: {
+      getSystemList () {
+        const { xhrInstance } = this.$http({
+          url: '/systems'
+        });
+
+        xhrInstance.then(result => {
+          this.systemList = result;
+        });
+      },
       getMenu () {
         const { xhrInstance } = this.$http({
           url: '/menu/' + this.$route.params.id,
@@ -88,7 +125,7 @@
         });
 
         xhrInstance.then(() => {
-          this.$router.push({ name: routerNameConfig.AdminMenuListRouterName });
+          this.$router.push({ name: routerNameConfig.AdminSystemListRouterName });
         });
       },
       formValidate () {

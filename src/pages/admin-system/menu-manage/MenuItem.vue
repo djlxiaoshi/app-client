@@ -3,7 +3,7 @@
       <div class="item-header">
         <h3 class="system-name">{{ data._id }}</h3>
         <div class="operate-bar">
-          <el-button type="primary" @click="goToAddMenuPage" size="mini">添加菜单</el-button>
+          <el-button type="primary" @click="goToAddMenuPage(data._id)" size="mini">添加菜单</el-button>
         </div>
       </div>
       <div class="item-body">
@@ -65,8 +65,8 @@
       deleteItem (id) {
         this.$emit('delete', id);
       },
-      goToAddMenuPage () {
-        this.$emit('addMenu', 'blog');
+      goToAddMenuPage (id) {
+        this.$emit('addMenu', id);
       }
     }
   };

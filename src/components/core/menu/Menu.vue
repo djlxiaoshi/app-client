@@ -52,6 +52,7 @@
       ])
     },
     mounted () {
+      console.log(this.data);
     },
     methods: {
       ...mapMutations({
@@ -60,6 +61,18 @@
       handleSelect (key) {
         this.setActiveMenu(key);
         this.$emit('menuSelect', key);
+      }
+    },
+    watch: {
+      menuConfig (menuList) {
+        if (menuList && menuList.length) {
+          this.$nextTick(() => {
+            this.setActiveMenu(menuList[0].path);
+          });
+        }
+      },
+      activeMenu (value) {
+        console.log(value);
       }
     }
   };

@@ -1,39 +1,45 @@
 <template>
   <div class="system-item">
-    <div class="item--left">
-      <ul class="fields-list" >
-        <li class="field-item">
-          <span class="field-label">系统名称：</span>
-          <span class="field-value">{{ data.label }}</span>
-        </li>
-        <li class="field-item">
-          <span class="field-label">系统Icon：</span>
-          <span class="field-value">{{ data.icon }}</span>
-        </li>
-        <li class="field-item">
-          <span class="field-label">系统访问权限：</span>
-          <span class="field-value">{{ data.permission }}</span>
+    <div class="item-top">
+      <h4 class="system-name">{{ data.label }}</h4>
+      <div class="system-operate">
+        <el-button
+          @click="goToCreateMenuPage(data._id, data.label)"
+          class="operate-button"
+          type="primary"
+          icon="el-icon-plus"
+          size="mini" plain></el-button>
+        <el-button
+          @click="goToUpdateSystemPage(data._id)"
+          class="edit-button operate-button"
+          type="warning"
+          icon="el-icon-edit"
+          size="mini" plain></el-button>
+        <el-button
+          @click="openDeleteSystemDialog(data._id)"
+          class="delete-button operate-button"
+          type="danger"
+          icon="el-icon-delete"
+          size="mini" plain></el-button>
+      </div>
+    </div>
+    <div class="item-bottom">
+      <ul class="menu-list">
+        <li class="menu-item" v-for="(menu, index) in data.menus" :key="index">
+          <span class="menu-name">{{ menu.label }}</span>
+          <span class="menu-operate">
+            <i class="el-icon-edit" @click="goToUpdateMenuPage(menu._id)"></i>
+            <i class="el-icon-delete" @click="openDeleteMenuDialog(menu._id)"></i>
+          </span>
         </li>
       </ul>
-    </div>
-    <div class="item--right">
-      <el-button
-        @click="editItem(data._id)"
-        class="edit-button operate-button"
-        type="warning"
-        icon="el-icon-edit"
-        size="mini" plain></el-button>
-      <el-button
-        @click="deleteItem(data._id)"
-        class="delete-button operate-button"
-        type="danger"
-        icon="el-icon-delete"
-        size="mini" plain></el-button>
     </div>
   </div>
 </template>
 
 <script>
+  import routerNameConfig from '../../../router/config';
+
   export default {
     name: '',
     props: {
@@ -47,12 +53,25 @@
       }
     },
     methods: {
-      editItem (id) {
-        this.$emit('edit', id);
+      // 去往增加菜单页面
+      goToCreateMenuPage (systemId, systemName) {
+        this.$router.push({ name: routerNameConfig.AdminCreateMenuRouterName, query: { systemId, systemName } });
       },
-      deleteItem (id) {
-        this.$emit('delete', id);
-      }
+      // 去往更新菜单页面
+      goToUpdateMenuPage (id) {
+        this.$router.push({ name: routerNameConfig.AdminUpdateMenuRouterName, params: { id } });
+      },
+      openDeleteSystemDialog (id) {
+        this.$alert.warning('确定要删除该项吗？').then((willDone) => {
+          if (willDone) {
+            const { xhrInstance } = this.deleteSystem(id);
+
+            xhrInstance.then(() => {
+              this.getSystemList();
+            });
+          }
+        });
+      },
     }
   };
 </script>
@@ -60,17 +79,35 @@
 <style scoped lang="less">
   .system-item {
     margin: 15px;
-    display: flex;
-    align-items: flex-end;
     font-size: 14px;
-    .item--right {
-      margin-left: auto;
+    .item-top {
+      display: flex;
+      align-items: center;
+      .system-name {
+        font-weight: 600;
+      }
+      .system-operate {
+        margin-left: auto;
+      }
     }
-    .fields-list {
-      margin-left: 20px;
-    }
-    .field-item {
-      margin: 15px 0;
+    .item-bottom {
+      .menu-list {
+        margin-left: 50px;
+        margin-top: 20px;
+        .menu-item {
+          display: flex;
+          padding: 10px 5px;
+          margin: 5px;
+          .menu-operate {
+            margin-left: auto;
+            i {
+              font-size: 16px;
+              padding: 0 10px;
+              cursor: pointer;
+            }
+          }
+        }
+      }
     }
   }
 </style>

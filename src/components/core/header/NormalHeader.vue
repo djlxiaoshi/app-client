@@ -4,7 +4,7 @@
       <div class="header-container">
         <div class="header-left">
           <el-menu
-            :default-active="defaultSelectSystem"
+            :default-active="activeSystem"
             class="system-menu"
             mode="horizontal"
             @select="handleSystemSelect"
@@ -12,10 +12,11 @@
             text-color="#fff"
             active-text-color="#5a92fd">
             <el-submenu index="2">
-              <template slot="title">{{ selectSystem }}</template>
+              <template slot="title">{{ selectSystem.label }}</template>
               <el-menu-item
-                :index="item['system']"
-                v-for="(item, index) in systemConfig"
+                :disabled="getSystemMenuItemStatus(item)"
+                :index="item['_id']"
+                v-for="(item, index) in menuList"
                 :key="index">
                 {{ item['label'] }}
               </el-menu-item>
@@ -27,7 +28,7 @@
             background-color="#545c64"
             active-text-color="#ffd04b"
             mode="horizontal"
-            :menuConfig="menuList"></header-menu>
+            :menuConfig="selectSystem.menus"></header-menu>
         </div>
 
         <div class="header-right">
@@ -65,12 +66,8 @@
     },
     data () {
       return {
-        searchText: '',
-        selectSystem: '我的收藏',
-        systemConfig: [
-          { system: 'collection', label: '我的收藏' },
-          { system: 'blog', label: '我的博客' }
-        ]
+        activeSystem: '',
+        selectSystem: {}
       };
     },
     computed: {
@@ -78,47 +75,36 @@
         'activeMenu',
         'user',
         'menuList'
-      ]),
-      defaultSelectSystem () {
-        return this.systemConfig[0].system;
-      }
+      ])
+    },
+    mounted () {
+      this.selectSystem = this.menuList[0];
+      this.activeSystem = this.selectSystem._id;
     },
     methods: {
       ...mapMutations({
         'setActiveMenu': ACTIVE_MENU,
-        'setUserMsg': SET_USER_MSG,
-        'setMenuList': SET_MENU_LIST
+        'setUserMsg': SET_USER_MSG
       }),
+      getSystemMenuItemStatus (system) {
+        return !system.menus.length;
+      },
       handleSelect (key) {
         this.setActiveMenu(key);
       },
-      handleSystemSelect (systemName) {
-        this.systemConfig.forEach(menuItem => {
-          if (menuItem.system === systemName) {
-            this.selectSystem = menuItem.label;
+      handleSystemSelect (systemId) {
+        this.menuList.forEach(systemItem => {
+          if (systemItem._id === systemId) {
+            this.selectSystem = systemItem;
+            const menuList = this.selectSystem.menus;
+            if (menuList && menuList.length) {
+              this.$router.push(menuList[0].path);
+            } else {
+              console.log(404);
+              this.$router.push();
+              // todo 404
+            }
           }
-        });
-
-        this.getMenuListBySystemName(systemName).then((menuList) => {
-          if (menuList.length) {
-            this.$router.push(menuList[0].path);
-          } else {
-            //  暂无内容页面
-          }
-
-        });
-      },
-      getMenuListBySystemName (systemName) {
-        const { xhrInstance } = this.$http({
-          url: '/getMenusBySystem',
-          data: {
-            system: systemName
-          }
-        });
-
-        return xhrInstance.then(menuList => {
-          this.setMenuList(menuList);
-          return menuList;
         });
       },
       eventHandler (event) {

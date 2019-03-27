@@ -44,7 +44,6 @@ export default [
     component: NotFoundPage,
     // 清空选中状态
     beforeEnter (to, from, next) {
-      debugger;
       store.commit(ACTIVE_MENU, 'hsdfhdsfha');
       next();
     }

@@ -10,7 +10,7 @@
             <el-form
               ref="form"
               :rules="rules"
-               :model="form"
+              :model="form"
               label-width="0px">
               <el-form-item prop="username">
                 <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
@@ -34,67 +34,80 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex';
-  import { SET_USER_MSG } from 'store/mutation-types';
+  import { mapMutations, mapState } from 'vuex';
+  import { SET_USER_MSG, SET_MENU_LIST } from 'store/mutation-types';
 
   export default {
-        name: 'app-login',
-      components: {
-      },
-      data () {
-          return {
-            form: {
-              username: '',
-              password: ''
-            },
-            rules: {
-              username: [
-                { required: true, trigger: 'blur', message: '请输入用户名' }
-              ],
-              password: [
-                { required: true, trigger: 'blur', message: '请输入密码' }
-              ]
-            }
-          };
-      },
-      methods: {
-        ...mapMutations({
-          'setUserMsg': SET_USER_MSG
-        }),
-        login () {
-          const { xhrInstance } = this.$http({
-            url: '/login',
-            data: {
-              username: this.form.username,
-              password: this.form.password
-            },
-            method: 'post',
-            showSuccessMsg: true,
-            showErrorMsg: true
-          });
-
-          xhrInstance.then((user) => {
-
-            this.setUserMsg(user);
-            this.goToHomePage();
-
-          }, () => {});
+    name: 'app-login',
+    components: {},
+    data () {
+      return {
+        form: {
+          username: '',
+          password: ''
         },
-        formValidate () {
-          this.$refs['form'].validate((valid) => {
-            if (valid) {
-              this.login();
-            }
-          });
-        },
-        goToHomePage () {
-          this.$router.push('/home');
-        },
-        goToRegisterPage () {
-          this.$router.push('/register');
+        rules: {
+          username: [
+            { required: true, trigger: 'blur', message: '请输入用户名' }
+          ],
+          password: [
+            { required: true, trigger: 'blur', message: '请输入密码' }
+          ]
         }
+      };
+    },
+    computed: {
+      ...mapState([
+      ])
+    },
+    methods: {
+      ...mapMutations({
+        'setUserMsg': SET_USER_MSG,
+        'setMenuList': SET_MENU_LIST
+      }),
+      login () {
+        const { xhrInstance } = this.$http({
+          url: '/login',
+          data: {
+            username: this.form.username,
+            password: this.form.password
+          },
+          method: 'post',
+          showSuccessMsg: true,
+          showErrorMsg: true
+        });
+
+        xhrInstance.then((user) => {
+
+          this.setUserMsg({
+            username: user.username,
+            info: user.info,
+            avatar: user.avatar,
+            role: user.role,
+            email: user.email
+          });
+          this.setMenuList(user.menus);
+          this.goToHomePage(user.menus);
+
+        }, () => {
+        });
+      },
+      formValidate () {
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            this.login();
+          }
+        });
+      },
+      goToHomePage (menuList) {
+        // todo 保留上一次退出去访问的页面
+        this.$router.push('/');
+      },
+      goToRegisterPage () {
+        this.$router.push('/register');
       }
-    };
+    }
+  };
 </script>
 
 <style scoped lang="less">

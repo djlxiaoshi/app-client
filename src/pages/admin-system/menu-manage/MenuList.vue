@@ -2,14 +2,20 @@
   <div class="menu-list-page">
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
-        <MenuItem
-          v-for="(item, index) in data"
-          :key="index"
-          :data="item"
-          @edit="goToUpdateMenuPage"
-          @delete="openDeleteDialog"
-          @addMenu="goToAddMenuPage"
-        ></MenuItem>
+        <!-- 空状态 -->
+        <Empty v-if="data.length === 0">
+          <el-button type="primary" @click="goToCreateMenuPage" size="mini">添加菜单</el-button>
+        </Empty>
+        <template v-else>
+          <MenuItem
+            v-for="(item, index) in data"
+            :key="index"
+            :data="item"
+            @edit="goToUpdateMenuPage"
+            @delete="openDeleteDialog"
+            @addMenu="goToCreateMenuPage"
+          ></MenuItem>
+        </template>
       </el-col>
     </el-row>
   </div>
@@ -65,7 +71,7 @@
           }
         });
       },
-      goToAddMenuPage (defaultSystem) {
+      goToCreateMenuPage (defaultSystem) {
         this.$router.push({ name: routerNameConfig.AdminCreateMenuRouterName, query: { defaultSystem: defaultSystem } });
       }
     }

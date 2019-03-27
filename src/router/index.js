@@ -27,7 +27,7 @@ import userRoutes from './user.js';
 import adminRoutes from './admin.js';
 
 import http from '../assets/js/http';
-import { SET_USER_MSG, SET_MENU_LIST } from '../store/mutation-types';
+import { SET_USER_MSG, SET_MENU_LIST, ACTIVE_MENU } from '../store/mutation-types';
 import store from '../store/index';
 
 function userIsLogin (next) {
@@ -35,18 +35,6 @@ function userIsLogin (next) {
     url: '/user/isLogin'
   });
   return xhrInstance;
-}
-
-function getInitMenu () {
-  const { xhrInstance } = http({
-    url: '/getMenusBySystem'
-  });
-
-  return xhrInstance;
-}
-
-async function getUserMsg ()  {
-  return Promise.all([userIsLogin(), getInitMenu()]);
 }
 
 let routes = [
@@ -127,14 +115,18 @@ router.beforeEach( async (to, from, next) => {
   const matched = to.matched;
   const finallyMatched = to.matched[matched.length - 1];
 
+  if (finallyMatched.meta.activeMenu) {
+    // debugger;
+    store.commit(ACTIVE_MENU, finallyMatched.meta.activeMenu);
+  }
   if (finallyMatched.meta.NoRequiredLogin) {
     next();
   } else {
     // 获取用户是否处于登录状态
     if (!store.state.user) {
-      const result = await getUserMsg();
-      store.commit(SET_USER_MSG, result[0]);
-      store.commit(SET_MENU_LIST, result[1]);
+      const result = await userIsLogin();
+      store.commit(SET_USER_MSG, result);
+      store.commit(SET_MENU_LIST, result ? result.menus : null);
     }
 
     if (store.state.user) {

@@ -8,7 +8,7 @@ module.exports = {
     vendor: [
       'axios',
       'dayjs',
-      'vue/dist/vue.min.js',
+      'vue/dist/vue.esm.js',
       'vue-router',
       'vuex',
       'element-ui',

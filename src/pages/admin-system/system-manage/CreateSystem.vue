@@ -21,9 +21,11 @@
 
               <el-form-item label="系统权限" prop="permission">
                 <el-checkbox-group v-model="data.permission">
-                  <el-checkbox label="admin">管理员</el-checkbox>
-                  <el-checkbox label="general">普通用户</el-checkbox>
-                  <el-checkbox label="guest">游客</el-checkbox>
+                  <el-checkbox
+                    v-for="(item, index) in roles"
+                    :key="index"
+                    :label="item.value"
+                  >{{ item.label }}</el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
 
@@ -60,8 +62,16 @@
         data: {
           label: '',
           icon: '',
-          permission: []
-        }
+          permission: [],
+          menus: [
+            { label: '我的文章', path: '', icon: '', permission: '' }
+          ]
+        },
+        roles: [
+          { label: '管理员', value: 'admin' },
+          { label: '普通用户', value: 'general' },
+          { label: '游客', value: 'guest' }
+        ]
       };
     },
     mounted () {
@@ -94,6 +104,8 @@
 
 <style scoped lang="less">
   .create-system-page {
-
+    .system-menus {
+      display: flex;
+    }
   }
 </style>

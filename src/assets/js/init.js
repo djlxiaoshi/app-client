@@ -7,7 +7,7 @@ import { Button, Menu, MenuItem, Submenu, Input,
   Dropdown, DropdownMenu, DropdownItem, Row, Col,
   Form, FormItem, Card, Upload, Tag, Checkbox, CheckboxGroup,
   MessageBox, Notification, Message, Loading, Pagination, Dialog,
-  Radio, RadioGroup
+  Radio, RadioGroup, Select, Option
 } from 'element-ui';
 
 import Empty from 'components/common/empty/Empty';
@@ -40,6 +40,8 @@ Vue.use(Pagination);
 Vue.use(Dialog);
 Vue.use(Radio);
 Vue.use(RadioGroup);
+Vue.use(Select);
+Vue.use(Option);
 
 // 自定义全局公共组件
 Vue.component('Empty', Empty);

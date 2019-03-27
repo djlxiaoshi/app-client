@@ -7,7 +7,10 @@ import UserInfo from 'pages/users/Info';
 export default [
   {
     path: 'info',
-    component: UserInfo
+    component: UserInfo,
+    meta: {
+      activeMenu: '/user/info'
+    }
   },
   {
     path: '',
