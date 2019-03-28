@@ -1,4 +1,3 @@
-import MenuList from '../pages/admin-system/menu-manage/MenuList';
 import CreateMenu from '../pages/admin-system/menu-manage/CreateMenu';
 import UpdateMenu from '../pages/admin-system/menu-manage/UpdateMenu';
 
@@ -18,14 +17,6 @@ export default [
     }
   },
   {
-    path: 'MenuList',
-    component: MenuList,
-    name: routerNameConfig.AdminMenuListRouterName,
-    meta: {
-      permissionList: ['admin']
-    }
-  },
-  {
     path: 'UpdateMenu/:id',
     component: UpdateMenu,
     name: routerNameConfig.AdminUpdateMenuRouterName,
@@ -38,7 +29,8 @@ export default [
     component: SystemList,
     name: routerNameConfig.AdminSystemListRouterName,
     meta: {
-      permissionList: ['admin']
+      permissionList: ['admin'],
+      activeMenu: '/admin/SystemList'
     }
   },
   {
@@ -56,6 +48,9 @@ export default [
     meta: {
       permissionList: ['admin']
     }
+  },
+  {
+    path: '',
+    redirect: 'SystemList'
   }
-
 ];

@@ -8,11 +8,11 @@
     :default-active="activeMenu"
     :mode="mode"
     @select="handleSelect">
-      <template v-for="(menu, index) in menuConfig">
+      <template v-for="menu in menuConfig">
         <el-menu-item
           v-if="!menu.hidden"
           :index="menu.path"
-          :key="index">
+          :key="menu.path">
           {{ menu.label }}
         </el-menu-item>
       </template>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import { mapState, mapMutations } from 'vuex';
+  import { mapMutations } from 'vuex';
   import { ACTIVE_MENU } from 'store/mutation-types';
 
   export default {
@@ -41,38 +41,22 @@
       },
       activeTextColor: {
         type: String
+      },
+      activeMenu: {
+        type: String
       }
     },
     data () {
       return {};
     },
-    computed: {
-      ...mapState([
-        'activeMenu'
-      ])
-    },
     mounted () {
-      console.log(this.data);
     },
     methods: {
       ...mapMutations({
         'setActiveMenu': ACTIVE_MENU
       }),
       handleSelect (key) {
-        this.setActiveMenu(key);
-        this.$emit('menuSelect', key);
-      }
-    },
-    watch: {
-      menuConfig (menuList) {
-        if (menuList && menuList.length) {
-          this.$nextTick(() => {
-            this.setActiveMenu(menuList[0].path);
-          });
-        }
-      },
-      activeMenu (value) {
-        console.log(value);
+        // this.setActiveMenu(key);
       }
     }
   };

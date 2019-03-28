@@ -15,6 +15,10 @@
                 <el-input v-model="data.label"></el-input>
               </el-form-item>
 
+              <el-form-item label="系统英文名" prop="name">
+                <el-input v-model="data.name"></el-input>
+              </el-form-item>
+
               <el-form-item label="系统Icon" prop="icon">
                 <el-input v-model="data.icon"></el-input>
               </el-form-item>
@@ -52,6 +56,9 @@
           label: [
             { required: true, trigger: 'blur', message: '菜单名不能为空' }
           ],
+          name: [
+            { required: true, trigger: 'blur', message: '菜单英文名不能为空' }
+          ],
           permission: [
             { required: true, trigger: 'blur', message: '系统权限设置不能为空' }
           ]
@@ -59,6 +66,7 @@
         data: {
           label: '',
           icon: '',
+          name: '',
           permission: []
         }
       };

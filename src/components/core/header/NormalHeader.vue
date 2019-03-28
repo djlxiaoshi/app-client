@@ -15,9 +15,9 @@
               <template slot="title">{{ selectSystem.label }}</template>
               <el-menu-item
                 :disabled="getSystemMenuItemStatus(item)"
-                :index="item['_id']"
-                v-for="(item, index) in menuList"
-                :key="index">
+                :index="item['name']"
+                v-for="item in menuList"
+                :key="item['name']">
                 {{ item['label'] }}
               </el-menu-item>
             </el-submenu>
@@ -27,6 +27,7 @@
             text-color="#fff"
             background-color="#545c64"
             active-text-color="#ffd04b"
+            :activeMenu="activeMenu"
             mode="horizontal"
             :menuConfig="selectSystem.menus"></header-menu>
         </div>
@@ -58,7 +59,7 @@
 <script>
   import HeaderMenu from 'components/core/menu/Menu';
   import { mapState, mapMutations } from 'vuex';
-  import { ACTIVE_MENU, SET_USER_MSG, SET_MENU_LIST } from 'store/mutation-types';
+  import { ACTIVE_MENU, SET_USER_MSG } from 'store/mutation-types';
 
   export default {
     components: {
@@ -66,7 +67,6 @@
     },
     data () {
       return {
-        activeSystem: '',
         selectSystem: {}
       };
     },
@@ -74,27 +74,35 @@
       ...mapState([
         'activeMenu',
         'user',
-        'menuList'
+        'menuList',
+        'activeSystem'
       ])
     },
     mounted () {
-      this.selectSystem = this.menuList[0];
-      this.activeSystem = this.selectSystem._id;
+      this.setDefaultSystem();
     },
     methods: {
       ...mapMutations({
         'setActiveMenu': ACTIVE_MENU,
         'setUserMsg': SET_USER_MSG
       }),
+      // 根据路径设置默认选择系统
+      setDefaultSystem () {
+        const flag = this.menuList.some(system => {
+          if (system.name === this.activeSystem) {
+            this.selectSystem = system;
+          }
+        });
+        // 当浏览器中输入的路径，该用户没有权限时为false
+        if (!flag) {
+        }
+      },
       getSystemMenuItemStatus (system) {
         return !system.menus.length;
       },
-      handleSelect (key) {
-        this.setActiveMenu(key);
-      },
-      handleSystemSelect (systemId) {
+      handleSystemSelect (systemName) {
         this.menuList.forEach(systemItem => {
-          if (systemItem._id === systemId) {
+          if (systemItem.name === systemName) {
             this.selectSystem = systemItem;
             const menuList = this.selectSystem.menus;
             if (menuList && menuList.length) {

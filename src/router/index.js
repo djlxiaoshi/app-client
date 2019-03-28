@@ -21,13 +21,13 @@ import UserLogin from 'pages/users/Login';
 import UserRegister from 'pages/users/Register';
 
 import componentRoutes from './component.js';
-import tagRoutes from './tag.js';
 import blogRoutes from './blog.js';
 import userRoutes from './user.js';
 import adminRoutes from './admin.js';
 
+import NoPermission from '../components/common/exception/NoPermission';
 import http from '../assets/js/http';
-import { SET_USER_MSG, SET_MENU_LIST, ACTIVE_MENU } from '../store/mutation-types';
+import { SET_USER_MSG, SET_MENU_LIST, ACTIVE_MENU, SET_ACTIVE_SYSTEM } from '../store/mutation-types';
 import store from '../store/index';
 
 function userIsLogin (next) {
@@ -41,24 +41,14 @@ let routes = [
   {
     path: 'component/',
     icon: 'icon-36',
-    label: '组件管理',
-    activeKey: '/component/ComponentsList',
+    label: '收藏系统',
     component: Framework,
     children: componentRoutes
   },
   {
-    path: 'tag/',
-    icon: 'icon-36',
-    label: '分类管理',
-    activeKey: '/tag/TagsList',
-    component: Framework,
-    children: tagRoutes
-  },
-  {
     path: 'blog/',
     icon: 'icon-36',
-    label: '文章列表',
-    activeKey: '/blog/ArticleList',
+    label: '博客系统',
     component: Framework,
     children: blogRoutes
   },
@@ -70,7 +60,7 @@ let routes = [
   },
   {
     path: 'admin',
-    hidden: true,
+    label: '管理系统',
     component: Framework,
     children: adminRoutes
   },
@@ -85,6 +75,10 @@ let routes = [
     hidden: true,
     component: UserRegister,
     meta: { NoRequiredLogin: true }
+  },
+  {
+    path: '/NoPermission',
+    component: NoPermission
   },
   {
     path: '',
@@ -111,14 +105,9 @@ const router = new Router({
 });
 
 // 全局拦截
-router.beforeEach( async (to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   const matched = to.matched;
   const finallyMatched = to.matched[matched.length - 1];
-
-  if (finallyMatched.meta.activeMenu) {
-    // debugger;
-    store.commit(ACTIVE_MENU, finallyMatched.meta.activeMenu);
-  }
   if (finallyMatched.meta.NoRequiredLogin) {
     next();
   } else {
@@ -126,19 +115,35 @@ router.beforeEach( async (to, from, next) => {
     if (!store.state.user) {
       const result = await userIsLogin();
       store.commit(SET_USER_MSG, result);
-      store.commit(SET_MENU_LIST, result ? result.menus : null);
+      store.commit(SET_MENU_LIST, result ? result.menus : []);
     }
 
     if (store.state.user) {
+
+      // 同步activeMenu （包括浏览器直接输入地址和点击菜单）
+      if (finallyMatched.meta.activeMenu) {
+        store.commit(ACTIVE_MENU, finallyMatched.meta.activeMenu);
+      }
+
+      // 设置当前选择系统和选择菜单（浏览器直接输入和菜单点击）
+      const result = /(?<=\/).*?(?=\/)/.exec(finallyMatched.path);
+      if (result) {
+        const systemName = result[0];
+        store.commit(SET_ACTIVE_SYSTEM, systemName);
+      }
+
       if (!finallyMatched.meta.permissionList) {
         // 不需要权限
         next();
       } else {
-        if (!!~finallyMatched.meta.permissionList.indexOf(store.state.user.role)) {
-          // 权限通过
+
+        // 权限通过
+        if (finallyMatched.meta.permissionList.indexOf(store.state.user.role) > -1) {
+
           next();
         } else {
           // 到权限不足提示页面，点击返回首页
+          next('/NoPermission');
         }
       }
     }

@@ -7,11 +7,7 @@ import store from '../store/index';
 export default [
   {
     path: 'ArticleList',
-    component: ArticleList,
-    beforeEnter (to, from, next) {
-      store.commit(ACTIVE_MENU, to.fullPath);
-      next();
-    }
+    component: ArticleList
   },
   {
     path: 'NotFound',

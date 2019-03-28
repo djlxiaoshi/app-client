@@ -3,6 +3,7 @@ import ComponentsList from '../pages/collection-system/component-manage/Componen
 import UpdateComponent from '../pages/collection-system/component-manage/UpdateComponent';
 import ViewComponent from '../pages/collection-system/component-manage/ViewComponent';
 import ComponentListByTag from '../pages/collection-system/component-manage/ComponentListByTag';
+import TagManage from '../pages/collection-system/tag-manage/TagManage';
 import NotFoundPage from '../components/common/exception/NotFound';
 
 import routerNameConfig from './config';
@@ -14,9 +15,8 @@ export default [
   {
     path: 'ComponentList',
     component: ComponentsList,
-    beforeEnter (to, from, next) {
-      store.commit(ACTIVE_MENU, to.fullPath);
-      next();
+    meta: {
+      activeMenu: '/component/ComponentList'
     }
   },
   {
@@ -40,13 +40,15 @@ export default [
     component: ComponentListByTag
   },
   {
-    path: 'NotFound',
-    component: NotFoundPage,
-    // 清空选中状态
-    beforeEnter (to, from, next) {
-      store.commit(ACTIVE_MENU, 'hsdfhdsfha');
-      next();
+    path: 'TagList',
+    component: TagManage,
+    meta: {
+      activeMenu: '/component/TagList'
     }
+  },
+  {
+    path: 'NotFound',
+    component: NotFoundPage
   },
   {
     path: '',

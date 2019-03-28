@@ -1,5 +1,5 @@
 import {
-  TOGGLE_SIDE_MENU_VISIBLE, ACTIVE_MENU, TOGGLE_IS_MINI_WIDTH,
+  TOGGLE_SIDE_MENU_VISIBLE, ACTIVE_MENU, SET_ACTIVE_SYSTEM, TOGGLE_IS_MINI_WIDTH,
   SET_USER_MSG, SET_MENU_LIST
 } from './mutation-types';
 
@@ -9,6 +9,9 @@ export default {
   },
   [ACTIVE_MENU] (state, name) {
     state.activeMenu = name;
+  },
+  [SET_ACTIVE_SYSTEM] (state, systenName) {
+    state.activeSystem = systenName;
   },
   [TOGGLE_IS_MINI_WIDTH] (state, status) {
     state.isMiniWidth = status;
