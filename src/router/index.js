@@ -9,8 +9,6 @@
 *
 *   首先管理平台是肯定要做登录拦截的，即在用户处于登录状态才能进入主系统
 *   那么就要在跟路由('/')下做路由拦截，根据路由的meta信息决定是否需要登录等等
-*
-*
 * */
 
 import Router from 'vue-router';
@@ -19,23 +17,14 @@ import App from '../App';
 import Framework from '../pages/Index';
 import UserLogin from 'pages/users/Login';
 import UserRegister from 'pages/users/Register';
+import NoPermission from '../components/common/exception/NoPermission';
 
 import componentRoutes from './component.js';
 import blogRoutes from './blog.js';
 import userRoutes from './user.js';
 import adminRoutes from './admin.js';
 
-import NoPermission from '../components/common/exception/NoPermission';
-import http from '../assets/js/http';
-import { SET_USER_MSG, SET_MENU_LIST, ACTIVE_MENU, SET_ACTIVE_SYSTEM } from '../store/mutation-types';
-import store from '../store/index';
-
-function userIsLogin (next) {
-  const { xhrInstance } = http({
-    url: '/user/isLogin'
-  });
-  return xhrInstance;
-}
+import routerIntercept from './intercept';
 
 let routes = [
   {
@@ -104,50 +93,7 @@ const router = new Router({
   routes: rootRoute
 });
 
-// 全局拦截
-router.beforeEach(async (to, from, next) => {
-  const matched = to.matched;
-  const finallyMatched = to.matched[matched.length - 1];
-  if (finallyMatched.meta.NoRequiredLogin) {
-    next();
-  } else {
-    // 获取用户是否处于登录状态
-    if (!store.state.user) {
-      const result = await userIsLogin();
-      store.commit(SET_USER_MSG, result);
-      store.commit(SET_MENU_LIST, result ? result.menus : []);
-    }
+// 路由拦截
+routerIntercept(router);
 
-    if (store.state.user) {
-
-      // 同步activeMenu （包括浏览器直接输入地址和点击菜单）
-      if (finallyMatched.meta.activeMenu) {
-        store.commit(ACTIVE_MENU, finallyMatched.meta.activeMenu);
-      }
-
-      // 设置当前选择系统和选择菜单（浏览器直接输入和菜单点击）
-      const result = /(?<=\/).*?(?=\/)/.exec(finallyMatched.path);
-      if (result) {
-        const systemName = result[0];
-        store.commit(SET_ACTIVE_SYSTEM, systemName);
-      }
-
-      if (!finallyMatched.meta.permissionList) {
-        // 不需要权限
-        next();
-      } else {
-
-        // 权限通过
-        if (finallyMatched.meta.permissionList.indexOf(store.state.user.role) > -1) {
-
-          next();
-        } else {
-          // 到权限不足提示页面，点击返回首页
-          next('/NoPermission');
-        }
-      }
-    }
-  }
-});
-
-export { router, routes };
+export default router;

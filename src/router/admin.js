@@ -5,6 +5,7 @@ import SystemList from '../pages/admin-system/system-manage/SystemList';
 import CreateSystem from '../pages/admin-system/system-manage/CreateSystem';
 import UpdateSystem from '../pages/admin-system/system-manage/UpdateSystem';
 
+import NoPermission from '../components/common/exception/NoPermission';
 import routerNameConfig from './config';
 
 export default [
@@ -48,6 +49,10 @@ export default [
     meta: {
       permissionList: ['admin']
     }
+  },
+  {
+    path: 'NoPermission',
+    component: NoPermission
   },
   {
     path: '',

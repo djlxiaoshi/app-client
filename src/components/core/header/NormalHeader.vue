@@ -101,6 +101,11 @@
         return !system.menus.length;
       },
       handleSystemSelect (systemName) {
+        // 如果选择是的当前系统
+        if (systemName === this.activeSystem) {
+          return;
+        }
+
         this.menuList.forEach(systemItem => {
           if (systemItem.name === systemName) {
             this.selectSystem = systemItem;
