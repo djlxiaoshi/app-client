@@ -1,14 +1,14 @@
 <template>
-    <div class="view-component-page">
+    <div class="view-collection-page">
       <el-row type="flex" justify="center">
         <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
           <el-card ref="loadingTarget">
             <ul class="fields-list">
               <li class="field-item">
-                <span class="field-label">组件展示：</span>
+                <span class="field-label">收藏详情：</span>
                 <div class="field-value img-field-value">
                   <div class="img-wrap">
-                    <img v-if="component.img" :src="getImgAddress(component.img)" width="100%" height="100%">
+                    <img v-if="data.img" :src="getImgAddress(data.img)" width="100%" height="100%">
                   </div>
                   <el-upload
                     ref="upload"
@@ -26,35 +26,23 @@
                 </div>
               </li>
               <li class="field-item">
-                <span class="field-label">组件中文名称：</span>
-                <span class="field-value">{{ component.chineseName }}</span>
+                <span class="field-label">收藏名称：</span>
+                <span class="field-value">{{ data.name }}</span>
               </li>
               <li class="field-item">
-                <span class="field-label">组件英文名称：</span>
-                <span class="field-value">{{ component.englishName }}</span>
-              </li>
-              <li class="field-item">
-                <span class="field-label">安装依赖说明：</span>
-                <span class="field-value">{{ component.dependencies }}</span>
-              </li>
-              <li class="field-item">
-                <span class="field-label">使用说明：</span>
-                <span class="field-value">{{ component.usage }}</span>
+                <span class="field-label">收藏描述：</span>
+                <span class="field-value">{{ data.desc }}</span>
               </li>
               <li class="field-item tag-field">
                 <span class="field-label">组件类别：</span>
-                <el-tag class="field-value" size="small" v-if="component.tag" @click="goToGetComponentsByTagPage">
-                  {{ component.tag.label }}
+                <el-tag class="field-value" size="small" v-if="data.tag" @click="goToGetCollectionByTagPage">
+                  {{ data.tag.label }}
                 </el-tag>
                 <span class="field-value" v-else>暂无类别</span>
               </li>
               <li class="field-item">
                 <span class="field-label">预览地址：</span>
-                <a class="field-value common-link" :href="component.previewUrl">{{ component.previewUrl }}</a>
-              </li>
-              <li class="field-item">
-                <span class="field-label">Gitlab地址：</span>
-                <a class="field-value common-link" :href="component.gitlab">{{ component.gitlab }}</a>
+                <a class="field-value common-link" :href="data.url">{{ data.url }}</a>
               </li>
               <li class="field-item">
                 <span class="field-label">编辑：</span>
@@ -68,29 +56,28 @@
 </template>
 
 <script>
+  import routerNameConfig from '../../../router/config';
+
   export default {
     data () {
       return {
-        component: {
-          chineseName: 'dsfgsg',
-          englishName: '',
-          dependencies: '',
-          gitlab: '',
-          previewUrl: '',
-          usage: '',
-          img: '',
-          tag: ''
+        data: {
+          name: '',
+          desc: '',
+          url: '',
+          tag: '',
+          img: ''
         }
       };
     },
     mounted () {
-      this.getComponentById();
+      this.getCollectionById();
     },
     methods: {
-      getComponentById () {
-        const componentId = this.$route.params.id;
+      getCollectionById () {
+        const collectionId = this.$route.params.id;
         const { xhrInstance } = this.$http({
-          url: '/component/' + componentId,
+          url: '/collection/' + collectionId,
           method: 'get',
           data: {
             operate: {
@@ -102,7 +89,7 @@
         });
 
         xhrInstance.then(res => {
-          this.component = res;
+          this.data = res;
         });
       },
       // 上传图片前的校验工作
@@ -123,21 +110,24 @@
         return this.$globalConfig.SERVER_ADDRESS + imgPath;
       },
       handleSuccess (res) {
-        this.$set(this.component, 'img', res.data.path);
+        this.$set(this.data, 'img', res.data.path);
         this.$notify.success('上传成功');
       },
       goToEditPage () {
-        this.$router.push('/component/UpdateComponent/' + this.$route.params.id);
+        this.$router.push({ name: routerNameConfig.UpdateCollectionRouterName, params: { id: this.$route.params.id } });
       },
-      goToGetComponentsByTagPage () {
-        this.$router.push('/component/ComponentListByTag?tagId=' + this.component.tag._id + '&tagLabel=' + this.component.tag.label);
+      goToGetCollectionByTagPage () {
+        this.$router.push({
+          name: routerNameConfig.CollectionListByTagRouterName,
+          query: { tagId: this.data.tag._id, tagLabel: this.data.tag.label }
+        });
       }
     }
   };
 </script>
 
 <style scoped lang="less">
-  .view-component-page {
+  .view-collection-page {
     .fields-list {
       .field-item {
         display: flex;

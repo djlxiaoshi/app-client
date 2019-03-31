@@ -1,26 +1,18 @@
 <template>
-  <div class="component-item">
+  <div class="collection-item">
     <div class="item-body">
       <div class="item-left">
         <ul class="fields-list">
           <li class="field-item">
-            <span class="field-label">组件中文名称：</span>
-            <span class="field-value">{{ data.chineseName }}</span>
+            <span class="field-label">收藏名称：</span>
+            <span class="field-value">{{ data.name }}</span>
           </li>
           <li class="field-item">
-            <span class="field-label">组件英文名称：</span>
-            <span class="field-value">{{ data.englishName }}</span>
+            <span class="field-label">收藏描述：</span>
+            <span class="field-value">{{ data.desc }}</span>
           </li>
           <li class="field-item">
-            <span class="field-label">安装依赖说明：</span>
-            <span class="field-value">{{ data.dependencies }}</span>
-          </li>
-          <li class="field-item">
-            <span class="field-label">使用方式：</span>
-            <span class="field-value">{{ data.usage }}</span>
-          </li>
-          <li class="field-item">
-            <span class="field-label">组件类别：</span>
+            <span class="field-label">收藏分类：</span>
             <el-tag
               v-if="data.tag"
               @click="clickTag(data.tag)"
@@ -31,22 +23,19 @@
             <span class="field-value" v-else>暂无类别</span>
           </li>
           <li class="field-item">
-            <span class="field-label">预览地址：</span>
-            <a class="field-value common-link" :href="data.previewUrl">{{ data.previewUrl }}</a>
-          </li>
-          <li class="field-item">
-            <span class="field-label">Git地址：</span>
-            <a class="field-value common-link" :href="data.gitlab">{{ data.gitlab }}</a>
+            <span class="field-label">收藏地址：</span>
+            <a class="field-value common-link" :href="data.url" target="_blank">{{ data.url }}</a>
           </li>
         </ul>
       </div>
       <div class="item-right">
-        <a href="javascript:void(0)" class="component-img" @click="previewImg(data.img)">
-          <img :src="getImgAddress(data.img)" title="点击预览" width="100%" height="100%">
-        </a>
+        <img :src="getImgAddress(data.img)" title="点击预览" width="100%" height="100%" v-if="data.img">
       </div>
     </div>
-    <div class="item-footer operate-wrap">
+    <div class="item-footer">
+      <span class="create-time">
+        添加时间：{{ data.createTime || '未知' }}
+      </span>
       <span class="button-wrap">
           <el-button
           v-if="hasView"
@@ -82,13 +71,12 @@
           type: Object,
           default () {
             return {
-              chineseName: '',
-              englishName: '',
-              dependencies: '',
-              gitlab: '',
-              previewUrl: '',
-              usage: '',
-              tag: ''
+              name: '',
+              desc: '',
+              tag: '',
+              url: '',
+              img: '',
+              createTime: ''
             };
           }
         },
@@ -115,9 +103,6 @@
         editItem (id) {
           this.$emit('edit', id);
         },
-        previewImg (src) {
-          this.$emit('preview', src);
-        },
         clickTag (tag) {
           this.$emit('tagClick', tag);
         },
@@ -129,25 +114,21 @@
 </script>
 
 <style scoped lang="less">
-  .component-item{
+  .collection-item{
     box-sizing: border-box;
     width: 100%;
     margin: 0 0;
     padding: 15px;
     .item-body {
       display: flex;
+      margin-bottom: 10px;
       .item-left {
         flex: 1;
       }
       .item-right {
-        width: 150px;
-        height: 150px;
+        width: 120px;
+        height: 120px;
         border: 1px solid #e5e5e5;
-        .component-img {
-          display: inline-block;
-          width: 100%;
-          height: 100%;
-        }
       }
     }
     .field-item {
@@ -170,6 +151,10 @@
 
     .item-footer {
       display: flex;
+      font-size: 14px;
+      .create-time {
+        color: #999999;
+      }
       .button-wrap {
         margin-left: auto;
         button {

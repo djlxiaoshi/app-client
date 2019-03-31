@@ -30,19 +30,13 @@ function setCurrentSystem (matchedRouter) {
  * @param matchedRouter
  */
 function setCurrentMenu (matchedRouter) {
-  if (matchedRouter.meta.activeMenu) {
-    store.commit(ACTIVE_MENU, matchedRouter.meta.activeMenu);
-  }
+  // if (matchedRouter.meta.activeMenu) {
+  //   store.commit(ACTIVE_MENU, matchedRouter.meta.activeMenu);
+  // }
+  // fixme 有bug
+  store.commit(ACTIVE_MENU, matchedRouter.path);
 }
 
-function goToFirstPage () {
-  const systemList = store.state.menuList;
-  for (const system of systemList) {
-    if (system.menus) {
-
-    }
-  }
-}
 export default function (router) {
   router.beforeEach(async (to, from, next) => {
     const matched = to.matched;
@@ -53,6 +47,7 @@ export default function (router) {
     } else {
       // 获取用户是否处于登录状态
       if (!store.state.user) {
+
         const result = await userIsLogin();
         store.commit(SET_USER_MSG, result);
         store.commit(SET_MENU_LIST, result ? result.menus : []);
@@ -61,8 +56,8 @@ export default function (router) {
       if (store.state.user) {
 
         // 如果需要权限，且权限不通过
-        if (finallyMatched.meta.permissionList
-          && finallyMatched.meta.permissionList.indexOf(store.state.user.role) === -1) {
+        if (finallyMatched.meta.permissionList &&
+          finallyMatched.meta.permissionList.indexOf(store.state.user.role) === -1) {
           next('/NoPermission');
         } else {
           // 权限通过 或者 不需要权限

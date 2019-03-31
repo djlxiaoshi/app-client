@@ -2,7 +2,7 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import Notification from './utils/notification';
 import globalConfig from './config';
-import { router } from '../../router/index';
+import router from '../../router/index';
 
 let xhrCacheList = [];
 const CancelToken = axios.CancelToken;

@@ -1,10 +1,10 @@
 <template>
-  <div class="edit-page">
+  <div class="update-collection-page">
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
         <el-card class="box-card">
           <div slot="header" class="card-header">
-            编辑组件信息
+            编辑收藏
           </div>
           <div class="card-body">
             <el-form
@@ -14,7 +14,7 @@
               label-width="150px"
               label-position="left">
 
-              <el-form-item label="组件图片" prop="url">
+              <el-form-item label="收藏图片" prop="url">
                 <div class="img-field">
                   <div class="img-wrap">
                     <img v-if="formData.img" class="component-img" :src="getImgAddress(formData.img)">
@@ -36,25 +36,12 @@
                 </div>
               </el-form-item>
 
-              <el-form-item label="组件中文名称" prop="chineseName">
-                <el-input v-model="formData.chineseName"></el-input>
+              <el-form-item label="收藏名称" prop="name">
+                <el-input v-model="formData.name"></el-input>
               </el-form-item>
 
-              <el-form-item label="组件英文名称" prop="englishName">
-                <el-input v-model="formData.englishName"></el-input>
-              </el-form-item>
-
-              <el-form-item label="安装依赖说明" prop="dependencies">
-                <el-input
-                  v-model="formData.dependencies"
-                  type="textarea"
-                  :rows="2"
-                  placeholder="请输入内容">
-                </el-input>
-              </el-form-item>
-
-              <el-form-item label="使用说明" prop="usage">
-                <el-input v-model="formData.usage"></el-input>
+              <el-form-item label="收藏描述" prop="desc">
+                <el-input v-model="formData.desc"></el-input>
               </el-form-item>
 
               <el-form-item label="组件类别">
@@ -68,12 +55,8 @@
                 </div>
               </el-form-item>
 
-              <el-form-item label="预览地址" prop="previewUrl">
-                <el-input v-model="formData.previewUrl"></el-input>
-              </el-form-item>
-
-              <el-form-item label="Gitlab地址" prop="gitlab">
-                <el-input v-model="formData.gitlab"></el-input>
+              <el-form-item label="收藏地址" prop="url">
+                <el-input v-model="formData.url"></el-input>
               </el-form-item>
 
               <el-form-item>
@@ -112,36 +95,26 @@
 
       return {
         formData: {
-          chineseName: '',
-          englishName: '',
-          dependencies: '',
-          gitlab: '',
-          previewUrl: '',
-          usage: '',
+          name: '',
+          desc: '',
+          url: '',
           img: '',
           tag: ''
         },
         tagsList: [],
         rules: {
-          chineseName: [
-            { required: true, trigger: 'blur', message: '组件中文名不能为空' }
+          name: [
+            { required: true, trigger: 'blur', message: '收藏名不能为空' }
           ],
-          englishName: [
-            { required: true, trigger: 'blur', message: '组件英文名不能为空' }
+          desc: [
+            { required: true, trigger: 'blur', message: '收藏描述不能为空' }
           ],
-          dependencies: [
-            { required: true, trigger: 'blur', message: '安装依赖说明不能为空' }
-          ],
-          usage: [
-            { required: true, trigger: 'blur', message: '使用说明不能为空' }
-          ],
-          gitlab: [
-            { required: true, trigger: 'blur', message: 'Gitlab地址不能为空' },
+          url: [
+            { required: true, trigger: 'blur', message: '收藏预览地址不能为空' },
             { trigger: 'blur', validator: checkUrl }
           ],
-          previewUrl: [
-            { required: true, trigger: 'blur', message: '预览地址不能为空' },
-            { trigger: 'blur', validator: checkUrl }
+          tag: [
+            { required: true, trigger: 'blur', message: '请选择收藏类别' }
           ]
         },
         prevFormData: '',
@@ -149,7 +122,7 @@
       };
     },
     mounted () {
-      const { xhrInstance } = this.getComponentDetails();
+      const { xhrInstance } = this.getDetails();
 
       xhrInstance.then((res) => {
 
@@ -187,18 +160,18 @@
       ...mapMutations({
         'setActiveMenu': ACTIVE_MENU
       }),
-      // 获取组件详细信息
-      getComponentDetails () {
+      // 获取收藏详细信息
+      getDetails () {
         // todo 这里可以优化，直接通过路由来传递参数就行，不用再发一次请求
         return this.$http({
-          url: '/component/' + this.$route.params.id,
+          url: '/collection/' + this.$route.params.id,
           method: 'get',
           data: {
             operate: {
               $lookup: false // 是否需要连表查询
             }
           },
-          hasWarning: true
+          showErrorMsg: true
         });
       },
       // 获取tag列表
@@ -241,13 +214,13 @@
           showSuccessMsg: true
         });
       },
-      goToComponentDetailsPage (id) {
-        this.$router.push({ name: routerNameConfig.ViewComponentRouterName, params: { id } });
+      goToCollectionDetailsPage (id) {
+        this.$router.push({ name: routerNameConfig.ViewCollectionRouterName, params: { id } });
       },
       update () {
-        const componentId = this.$route.params.id;
+        const collectionId = this.$route.params.id;
         const { xhrInstance } = this.$http({
-          url: '/component/' + componentId,
+          url: '/collection/' + collectionId,
           method: 'put',
           showErrorMsg: true,
           showSuccessMsg: true,
@@ -256,7 +229,7 @@
 
         xhrInstance.then(() => {
           this.prevFormData = this.contentStringify(this.formData);
-          this.goToComponentDetailsPage(componentId);
+          this.goToCollectionDetailsPage(collectionId);
         });
       },
       formValidate () {
@@ -289,10 +262,9 @@
       },
       contentStringify (formData) {
         return JSON.stringify({
-          chineseName: formData.chineseName,
-          englishName: formData.englishName,
-          dependencies: formData.dependencies,
-          gitlab: formData.gitlab,
+          name: formData.name,
+          desc: formData.desc,
+          url: formData.url,
           tag: formData.tag
         });
       }
@@ -302,8 +274,7 @@
 </script>
 
 <style lang="less" scoped>
-  .edit-page {
-    margin: 40px auto;
+  .update-collection-page {
     .box-card {
       /*border-radius: 20px;*/
       .create-btn {

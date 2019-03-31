@@ -1,10 +1,10 @@
 // 路由路径配置
 
 export default {
-  ViewComponentRouterName: 'collectionSystem/collectionManage/ViewComponent',
-  UpdateComponentRouterName: 'collectionSystem/collectionManage/UpdateComponent',
-  CreateComponentRouterName: 'collectionSystem/collectionManage/CreateComponent',
-  ComponentListByTagRouterName: 'collectionSystem/collectionManage/ComponentListByTag',
+  ViewCollectionRouterName: 'collectionSystem/collectionManage/ViewCollection',
+  UpdateCollectionRouterName: 'collectionSystem/collectionManage/UpdateCollection',
+  CreateCollectionRouterName: 'collectionSystem/collectionManage/CreateCollection',
+  CollectionListByTagRouterName: 'collectionSystem/collectionManage/CollectionListByTag',
 
   // admin
   AdminMenuListRouterName: 'admin/MenuList',

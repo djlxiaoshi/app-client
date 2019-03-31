@@ -5,6 +5,7 @@ import SystemList from '../pages/admin-system/system-manage/SystemList';
 import CreateSystem from '../pages/admin-system/system-manage/CreateSystem';
 import UpdateSystem from '../pages/admin-system/system-manage/UpdateSystem';
 
+import NotFoundPage from '../components/common/exception/NotFound';
 import NoPermission from '../components/common/exception/NoPermission';
 import routerNameConfig from './config';
 
@@ -53,6 +54,10 @@ export default [
   {
     path: 'NoPermission',
     component: NoPermission
+  },
+  {
+    path: '**',
+    component: NotFoundPage
   },
   {
     path: '',

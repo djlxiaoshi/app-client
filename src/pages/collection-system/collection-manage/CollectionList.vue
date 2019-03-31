@@ -1,30 +1,28 @@
 <template>
-  <section class="components-tag-page">
+  <section class="collection-list-page">
     <el-row type="flex" justify="center">
       <el-col :xs="24" :sm="20" :md="20" :lg="20" :xl="20" class="main-container">
         <div class="operate-bar">
-          <h2>{{ $route.query.tagLabel }}</h2>
           <div class="btn-wrap">
-            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加组件</el-button>
+            <el-button type="primary" @click="goToAddCollectionPage" size="mini">添加收藏</el-button>
           </div>
         </div>
-        <div class="component-list" ref="loadingTarget">
+        <div class="collection-list" ref="loadingTarget">
           <!-- 空状态 -->
-          <Empty v-if="componentsList.length === 0">
-            <el-button type="primary" @click="goToAddComponentPage" size="mini">添加组件</el-button>
+          <Empty v-if="collectionList.length === 0">
+            <el-button type="primary" @click="goToAddCollectionPage" size="mini">添加收藏</el-button>
           </Empty>
           <!-- 非空状态 -->
           <template v-else>
-            <ComponentItem
-              v-for="(item, index) in componentsList"
+            <CollectionItem
+              v-for="(item, index) in collectionList"
               :key="index"
               :data="item"
               @view="onView(item)"
               @delete="onDelete(item)"
               @edit="onEdit(item)"
-              @preview="previewImg"
               @tagClick="goToGetComponentsByTagPage"
-            ></ComponentItem>
+            ></CollectionItem>
           </template>
         </div>
 
@@ -40,65 +38,59 @@
         </div>
       </el-col>
     </el-row>
-
-    <el-dialog :show-close="false" :visible.sync="previewDialogVisible" class="preview-dialog">
-      <img :src="previewImgSrc" alt="" class="preview-img">
-    </el-dialog>
   </section>
 </template>
 
 <script>
-  import ComponentItem from './ComponentItem';
+  import CollectionItem from './CollectionItem';
   import routerNameConfig from '../../../router/config';
 
   export default {
     components: {
-      ComponentItem
+      CollectionItem
     },
     data () {
       return {
-        componentsList: [],
+        collectionList: [],
         currentPage: 1,
         pageSize: 10,
         totalPages: 10,
-        previewImgSrc: '',
         previewDialogVisible: false
       };
     },
     mounted () {
-      this.getComponentsListByTag();
+      this.getCollectionList();
     },
     methods: {
       /**
-       * 获取收藏的链接列表
+       * 获取收藏列表
        */
-      getComponentsListByTag () {
+      getCollectionList () {
         const { xhrInstance } = this.$http({
-          url: '/components/tag',
+          url: '/collections',
           showErrorMsg: true,
           loading: this.$refs.loadingTarget,
           data: {
             currentPage: parseInt(this.currentPage),
-            pageSize: parseInt(this.pageSize),
-            tagId: this.$route.query.tagId
+            pageSize: parseInt(this.pageSize)
           }
         });
 
         xhrInstance.then(data => {
           this.totalPages = data.total;
-          this.componentsList = data.list;
+          this.collectionList = data.list;
         }, () => {
         });
       },
       onView (item) {
-        this.$router.push({ name: routerNameConfig.ViewComponentRouterName, params: { id: item._id } });
+        this.$router.push({ name: routerNameConfig.ViewCollectionRouterName, params: { id: item._id } });
       },
       onEdit (item) {
-        this.$router.push({ name: routerNameConfig.UpdateComponentRouterName, params: { id: item._id } });
+        this.$router.push({ name: routerNameConfig.UpdateCollectionRouterName, params: { id: item._id } });
       },
       deleteItem (id) {
         return this.$http({
-          url: '/component/' + id,
+          url: '/collection/' + id,
           method: 'delete',
           showErrorMsg: true,
           showSuccessMsg: true
@@ -110,35 +102,27 @@
             const { xhrInstance } = this.deleteItem(item._id);
 
             xhrInstance.then(() => {
-              this.getComponentsListByTag();
+              this.getCollectionList();
             });
           }
         });
       },
-      previewImg (src) {
-        this.previewDialogVisible = true;
-        this.previewImgSrc = src;
-      },
       goToGetComponentsByTagPage (tag) {
-        this.$router.push({ name: routerNameConfig.ComponentListByTagRouterName, query: { tagId: tag._id, tagLabel: tag.label } });
+        this.$router.push({ name: routerNameConfig.CollectionListByTagRouterName, query: { tagId: tag._id, tagLabel: tag.label } });
       },
-      goToAddComponentPage () {
-        this.$router.push({ name: routerNameConfig.CreateComponentRouterName, query: { defaultTag: this.$route.query.tagId } });
+      goToAddCollectionPage () {
+        this.$router.push({ name: routerNameConfig.CreateCollectionRouterName });
       },
       currentChange (currentPage) {
         this.currentPage = currentPage;
-        this.getComponentsListByTag();
+        this.getCollectionList();
       }
     }
   };
 </script>
 
 <style scoped lang="less">
-  .components-tag-page {
-    .main-container {
-      background: #ffffff;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    }
+  .collection-list-page {
     .operate-bar {
       display: flex;
       align-items: center;
@@ -150,7 +134,7 @@
         margin-left: auto;
       }
     }
-    .component-list {
+    .collection-list {
       background: #fff;
     }
     .empty-list {
@@ -162,7 +146,7 @@
         text-align: center;
       }
     }
-    /deep/ .component-item {
+    /deep/ .collection-item {
       border-bottom: 1px solid #f0f0f0;
       &:last-of-type {
         border-bottom: none;
@@ -172,12 +156,6 @@
       padding: 10px 0;
       border-top: 1px solid #e5e5e5;
       text-align: center;
-    }
-    .preview-dialog {
-      text-align: center;
-      .preview-img {
-        width: 100%;
-      }
     }
   }
 </style>

@@ -19,7 +19,7 @@ import UserLogin from 'pages/users/Login';
 import UserRegister from 'pages/users/Register';
 import NoPermission from '../components/common/exception/NoPermission';
 
-import componentRoutes from './component.js';
+import collectionRoutes from './collection.js';
 import blogRoutes from './blog.js';
 import userRoutes from './user.js';
 import adminRoutes from './admin.js';
@@ -28,11 +28,11 @@ import routerIntercept from './intercept';
 
 let routes = [
   {
-    path: 'component/',
+    path: 'collection/',
     icon: 'icon-36',
     label: '收藏系统',
     component: Framework,
-    children: componentRoutes
+    children: collectionRoutes
   },
   {
     path: 'blog/',
