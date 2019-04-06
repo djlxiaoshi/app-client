@@ -4,14 +4,14 @@
       <div class="header-container">
         <div class="header-left">
           <el-menu
-            :default-active="activeSystem"
+            :default-active="activeSystem.name"
             class="system-menu"
             mode="horizontal"
             @select="handleSystemSelect"
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#5a92fd">
-            <el-submenu index="2">
+            <el-submenu :index="selectSystem.name">
               <template slot="title">{{ selectSystem.label }}</template>
               <el-menu-item
                 :disabled="getSystemMenuItemStatus(item)"
@@ -67,7 +67,9 @@
     },
     data () {
       return {
-        selectSystem: {}
+        selectSystem: {
+          name: ''
+        }
       };
     },
     computed: {
@@ -89,7 +91,7 @@
       // 根据路径设置默认选择系统
       setDefaultSystem () {
         const flag = this.menuList.some(system => {
-          if (system.name === this.activeSystem) {
+          if (system.name === this.activeSystem.name) {
             this.selectSystem = system;
           }
         });
@@ -152,6 +154,11 @@
       },
       goToRegisterPage () {
         this.$router.push('/register');
+      }
+    },
+    watch: {
+      $route () {
+        this.setDefaultSystem();
       }
     }
   };

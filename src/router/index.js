@@ -71,12 +71,12 @@ let routes = [
   },
   {
     path: '',
-    redirect: 'component',
+    redirect: 'collection',
     hidden: true
   },
   {
     path: '**',
-    redirect: 'component',
+    redirect: 'collection',
     hidden: true
   }
 ];

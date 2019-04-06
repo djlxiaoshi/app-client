@@ -4,7 +4,7 @@
       <base-menu
         active-text-color="#ffd04b"
         @menuSelect = "menuSelect"
-        :menuConfig="menuConfig">
+        :menuConfig="menuList">
       </base-menu>
     </div>
   </transition>
@@ -12,9 +12,7 @@
 
 <script>
   import BaseMenu from 'components/core/menu/Menu';
-  import { routes as menuConfig } from '../../../router/index';
-
-  import { mapMutations } from 'vuex';
+  import { mapMutations, mapState } from 'vuex';
   import { TOGGLE_SIDE_MENU_VISIBLE } from 'store/mutation-types';
 
   export default {
@@ -23,8 +21,12 @@
     },
     data () {
       return {
-        menuConfig
       };
+    },
+    computed: {
+      ...mapState([
+        'menuList'
+      ])
     },
     methods: {
       ...mapMutations({

@@ -2,7 +2,7 @@ export default {
   sideMenuVisible: false,
   isMiniWidth: false,
   activeMenu: '',
-  activeSystem: '',
+  activeSystem: {},
   user: null,
   menuList: []
 };

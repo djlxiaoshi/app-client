@@ -21,7 +21,11 @@ function setCurrentSystem (matchedRouter) {
   const result = /(?<=\/).*?(?=\/)/.exec(matchedRouter.path);
   if (result) {
     const systemName = result[0];
-    store.commit(SET_ACTIVE_SYSTEM, systemName);
+    const menuList = store.getters.getMenuList;
+    const activeSystem = menuList.find((system) => {
+      return system.name === systemName;
+    });
+    store.commit(SET_ACTIVE_SYSTEM, activeSystem);
   }
 }
 
@@ -38,6 +42,7 @@ function setCurrentMenu (matchedRouter) {
 }
 
 export default function (router) {
+
   router.beforeEach(async (to, from, next) => {
     const matched = to.matched;
     const finallyMatched = to.matched[matched.length - 1];
