@@ -6,12 +6,12 @@ module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: {
     vendor: [
-      'axios',
-      'dayjs',
       'vue/dist/vue.esm.js',
       'vue-router',
       'vuex',
       'element-ui',
+      'axios',
+      'dayjs',
       'izitoast',
       'nprogress',
       'sweetalert'

@@ -10,7 +10,7 @@
               label-width="80px"
               label-position="left">
               <el-form-item label="头像" prop="url">
-                <img class="user-avatar avatar-left" :src="$globalConfig.SERVER_ADDRESS + user.avatar" alt="">
+                <img class="user-avatar avatar-left" :src="user.avatar" alt="">
                 <div class="avatar-right">
                   <el-upload
                     ref="upload"
@@ -65,16 +65,32 @@
 
     export default {
         data () {
+          const checkEmail = (rule, value, callback) => {
+
+            value = value.trim();
+            const regexp = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            if (!regexp.test(value)) {
+              callback(new Error('请输入正确的邮箱地址'));
+            } else {
+              callback();
+            }
+          };
+
           return {
             user: {
-              avatar: '',
               email: '',
               username: '',
               info: ''
             },
             isEditStatus: false,
             rules: {
-
+              username: [
+                { required: true, trigger: 'blur', message: '请输入用户名' }
+              ],
+              email: [
+                { required: true, trigger: 'blur', message: '请输入邮箱' },
+                { trigger: 'blur', validator: checkEmail }
+              ]
             },
             inputStatus: {
               usernameDisabled: true,
@@ -98,7 +114,8 @@
           'setUserMsg': SET_USER_MSG
         }),
         handleSuccess (res) {
-          this.$set(this.user, 'avatar', res.data.path);
+          // 由于七牛云采用的同名覆盖，覆盖上传后，路径不会变化，所以在这里用时间戳进行强制刷新
+          this.$set(this.user, 'avatar', res.data.path + '?v=' + new Date().getTime());
           // 更新vuex 中用户信息
           this.setUserMsg(this.user);
           this.$notify.success('上传成功');
@@ -120,26 +137,34 @@
           this.isEditStatus = true;
         },
         save () {
-          this.updateUserInfo().then(user => {
+          this.$refs['form'].validate((valid) => {
+            if (valid) {
+              this.updateUserInfo().then(user => {
 
-            // 更新vuex store中用户信息
-            this.setUserMsg(user);
-            // 重置状态
-            this.resetStatus();
+                // 更新vuex store中用户信息
+                this.setUserMsg(Object.assign(this.user, user));
+                // 重置状态
+                this.resetStatus();
+              });
+            }
           });
         },
         // 更新用户信息
         updateUserInfo () {
-          return this.$http({
+
+          const { xhrInstance } = this.$http({
             url: '/user',
             method: 'put',
             data: {
               info: this.user.info,
-              username: this.user.username
+              username: this.user.username,
+              email: this.user.email
             },
-            hasWarning: true,
+            showErrorMsg: true,
             showSuccessMsg: true
           });
+
+          return xhrInstance;
         },
         resetStatus () {
           this.isEditStatus = false;

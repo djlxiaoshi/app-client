@@ -7,7 +7,8 @@ const happyThreadPool = HappyPack.ThreadPool({ size: 4 });
 
 module.exports = WebpackMerge(baseConfig, {
   mode: 'development',
-  devtool: 'cheap-module-eval-source-map',
+  // devtool: 'cheap-module-eval-source-map',
+  devtool: 'none',
   devServer: {
     contentBase: path.resolve(__dirname, '../dist'),
     host: '0.0.0.0', // 指定使用一个 host。默认是 localhost。如果你希望服务器外部可访问，指定如下： 所有的都能访问 通过ip或者通过localhost

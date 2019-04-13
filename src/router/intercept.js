@@ -25,7 +25,17 @@ function setCurrentSystem (matchedRouter) {
     const activeSystem = menuList.find((system) => {
       return system.name === systemName;
     });
-    store.commit(SET_ACTIVE_SYSTEM, activeSystem);
+
+    if (activeSystem) {
+      store.commit(SET_ACTIVE_SYSTEM, activeSystem);
+    } else {
+      // 根据路径没有找到对应的系统，则不变 例如用户信息的路径
+      const activeSystem = store.getters.getCurrentSystem;
+      // 如果当前不存在所在系统
+      if (Object.keys(activeSystem).length === 0) {
+        store.commit(SET_ACTIVE_SYSTEM, menuList[0]);
+      }
+    }
   }
 }
 
@@ -34,10 +44,6 @@ function setCurrentSystem (matchedRouter) {
  * @param matchedRouter
  */
 function setCurrentMenu (matchedRouter) {
-  // if (matchedRouter.meta.activeMenu) {
-  //   store.commit(ACTIVE_MENU, matchedRouter.meta.activeMenu);
-  // }
-  // fixme 有bug
   store.commit(ACTIVE_MENU, matchedRouter.path);
 }
 

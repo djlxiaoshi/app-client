@@ -52,13 +52,15 @@
 
         const checkEmailExsit = (rule, value, callback) => {
           value = value.trim();
-          this.$http({
+          const { xhrInstance } = this.$http({
             url: '/getUserBy',
             data: {
               userMsg: value,
               getUserMethod: 'USER_EMAIL'
             }
-          }).then(res => {
+          });
+
+          xhrInstance.then(res => {
             if (res) {
               callback(new Error('邮箱已存在'));
             } else {

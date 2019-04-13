@@ -11,8 +11,8 @@
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#5a92fd">
-            <el-submenu :index="selectSystem.name">
-              <template slot="title">{{ selectSystem.label }}</template>
+            <el-submenu :index="activeSystem.name">
+              <template slot="title">{{ activeSystem.label }}</template>
               <el-menu-item
                 :disabled="getSystemMenuItemStatus(item)"
                 :index="item['name']"
@@ -29,14 +29,14 @@
             active-text-color="#ffd04b"
             :activeMenu="activeMenu"
             mode="horizontal"
-            :menuConfig="selectSystem.menus"></header-menu>
+            :menuConfig="activeSystem.menus"></header-menu>
         </div>
 
         <div class="header-right">
           <div class="avatar-wrap" v-if="user">
             <el-dropdown @command="eventHandler" trigger="click">
               <a class="user-avatar">
-                <img :src="$globalConfig.SERVER_ADDRESS + user.avatar" width="100%">
+                <img :src="user.avatar" width="100%" v-if="user.avatar">
               </a>
 
               <el-dropdown-menu slot="dropdown">
@@ -81,24 +81,12 @@
       ])
     },
     mounted () {
-      this.setDefaultSystem();
     },
     methods: {
       ...mapMutations({
         'setActiveMenu': ACTIVE_MENU,
         'setUserMsg': SET_USER_MSG
       }),
-      // 根据路径设置默认选择系统
-      setDefaultSystem () {
-        const flag = this.menuList.some(system => {
-          if (system.name === this.activeSystem.name) {
-            this.selectSystem = system;
-          }
-        });
-        // 当浏览器中输入的路径，该用户没有权限时为false
-        if (!flag) {
-        }
-      },
       getSystemMenuItemStatus (system) {
         return !system.menus.length;
       },
@@ -110,13 +98,11 @@
 
         this.menuList.forEach(systemItem => {
           if (systemItem.name === systemName) {
-            this.selectSystem = systemItem;
-            const menuList = this.selectSystem.menus;
+            const menuList = systemItem.menus;
             if (menuList && menuList.length) {
               this.$router.push(menuList[0].path);
             } else {
               console.log(404);
-              this.$router.push();
               // todo 404
             }
           }
@@ -157,9 +143,7 @@
       }
     },
     watch: {
-      $route () {
-        this.setDefaultSystem();
-      }
+
     }
   };
 </script>

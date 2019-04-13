@@ -7,7 +7,7 @@ const development = {
 };
 
 const production = {
-  SERVER_ADDRESS: 'http://192.168.159.235:3000' // 正式环境后端接口地址
+  SERVER_ADDRESS: 'http://localhost:3000' // 正式环境后端接口地址
 };
 
 export default process.env.NODE_ENV === 'production' ? production : development;

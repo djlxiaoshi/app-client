@@ -6,7 +6,7 @@ const HappyPack = require('happypack');
 const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
 const env = process.env.NODE_ENV;
 
-const basePath = 'static/'
+const basePath = 'static/';
 module.exports = {
   context: path.resolve(__dirname, '../'), // 设置项目根目录为上下文（影响entry和loader中的路径）
   entry: {
