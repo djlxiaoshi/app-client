@@ -13,6 +13,7 @@ import { Button, Menu, MenuItem, Submenu, Input,
 import Empty from 'components/common/empty/Empty';
 
 import './resize';
+import './sw-register';
 import 'izitoast/dist/css/iziToast.css';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';

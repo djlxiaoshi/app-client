@@ -1,0 +1,39 @@
+{
+  "name"              : "My Favorite",
+  "short_name"        : "MF-2",
+  "description"       : "my favorite app",
+  "start_url"         : "index.html",
+  "display"           : "standalone",
+  "orientation"       : "any",
+  "background_color"  : "#ACE",
+  "theme_color"       : "#ACE",
+  "icon": [
+    {
+      "src"           : "/static/favorite.png",
+      "sizes"         : "96x96",
+      "type"          : "image/png"
+    }
+  ],
+  "icons": [
+    {
+      "src"           : "/static/favorite.png",
+      "sizes"         : "72x72",
+      "type"          : "image/png"
+    },
+    {
+      "src"           : "/static/favorite.png",
+      "sizes"         : "96x96",
+      "type"          : "image/png"
+    },
+    {
+      "src"           : "/static/favorite.png",
+      "sizes"         : "144x144",
+      "type"          : "image/png"
+    },
+    {
+      "src"           : "/static/favorite.png",
+      "sizes"         : "188x188",
+      "type"          : "image/png"
+    }
+  ]
+}

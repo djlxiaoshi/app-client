@@ -65,7 +65,6 @@ export default function (router) {
       }
 
       if (store.state.user) {
-
         // 如果需要权限，且权限不通过
         if (finallyMatched.meta.permissionList &&
           finallyMatched.meta.permissionList.indexOf(store.state.user.role) === -1) {
