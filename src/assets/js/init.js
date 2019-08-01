@@ -13,12 +13,14 @@ import { Button, Menu, MenuItem, Submenu, Input,
 import Empty from 'components/common/empty/Empty';
 
 import './resize';
-import './sw-register';
 import 'izitoast/dist/css/iziToast.css';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import '../css/common.less';
 import 'nprogress/nprogress.css';
+
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+OfflinePluginRuntime.install();
 
 Vue.use(Button);
 Vue.use(Menu);

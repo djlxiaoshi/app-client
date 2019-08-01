@@ -1,6 +1,6 @@
 {
   "name"              : "My Favorite",
-  "short_name"        : "MF-2",
+  "short_name"        : "MF-4",
   "description"       : "my favorite app",
   "start_url"         : "index.html",
   "display"           : "standalone",

@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HappyPack = require('happypack');
 const DllReferencePlugin = require('webpack/lib/DllReferencePlugin');
+var OfflinePlugin = require('offline-plugin');
 const env = process.env.NODE_ENV;
 
 const basePath = 'static/';
@@ -94,12 +95,6 @@ module.exports = {
       to: resolve('dist'),
       ignore: ['.*']
     }]),
-    // 复制sw.js  pwa
-    new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, '../src/sw.js'),
-      to: resolve('dist'),
-      ignore: ['.*']
-    }]),
     new HappyPack({
       // 用唯 的标识符 id ，来代表当前的 HappyPack 是用来处理 类特定的
       id: 'babel',
@@ -109,7 +104,8 @@ module.exports = {
     }),
     new DllReferencePlugin({
       manifest: require('./vendor-manifest.json'),
-    })
+    }),
+    new OfflinePlugin()
   ]
 };
 

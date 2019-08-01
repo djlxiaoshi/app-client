@@ -59,9 +59,14 @@ export default function (router) {
       // 获取用户是否处于登录状态
       if (!store.state.user) {
 
-        const result = await userIsLogin();
-        store.commit(SET_USER_MSG, result);
-        store.commit(SET_MENU_LIST, result ? result.menus : []);
+        try {
+          const result = await userIsLogin();
+          store.commit(SET_USER_MSG, result);
+          store.commit(SET_MENU_LIST, result ? result.menus : []);
+        } catch (e) {
+          console.error('服务器异常', e);
+          next('/NoPermission');
+        }
       }
 
       if (store.state.user) {
