@@ -14,7 +14,7 @@
     "mockdev": "npm run mock | npm run dev"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "dayjs": "^1.7.7",
     "element-ui": "^2.4.7",
     "izitoast": "^1.4.0",
